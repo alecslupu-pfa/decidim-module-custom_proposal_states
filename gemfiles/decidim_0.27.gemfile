@@ -5,7 +5,7 @@ source "https://rubygems.org"
 ruby RUBY_VERSION
 
 gem "decidim", "~> 0.26.0"
-gem "decidim-custom_proposal_states", path: "."
+gem "decidim-custom_proposal_states", path: ".."
 
 gem "bootsnap"
 gem "uglifier", "~> 4.1"
