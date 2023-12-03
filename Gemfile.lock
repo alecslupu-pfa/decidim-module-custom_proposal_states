@@ -1,7 +1,5 @@
-GIT
-  remote: https://github.com/decidim/decidim.git
-  revision: 7ddd2f6643bd1620b2138779f83208527f05cbf5
-  ref: release/0.26-stable
+PATH
+  remote: ../decidim
   specs:
     decidim (0.26.8)
       decidim-accountability (= 0.26.8)
@@ -186,6 +184,7 @@ PATH
     decidim-custom_proposal_states (0.26.8)
       decidim-core (>= 0.26.0, < 0.28.0)
       decidim-proposals (>= 0.26.0, < 0.28.0)
+      deface (>= 1.9)
 
 GEM
   remote: https://rubygems.org/
@@ -343,6 +342,12 @@ GEM
     declarative-builder (0.1.0)
       declarative-option (< 0.2.0)
     declarative-option (0.1.0)
+    deface (1.9.0)
+      actionview (>= 5.2)
+      nokogiri (>= 1.6)
+      polyglot
+      railties (>= 5.2)
+      rainbow (>= 2.1.0)
     descendants_tracker (0.0.4)
       thread_safe (~> 0.3, >= 0.3.1)
     devise (4.9.3)
@@ -587,6 +592,7 @@ GEM
     pg_search (2.3.6)
       activerecord (>= 5.2)
       activesupport (>= 5.2)
+    polyglot (0.3.5)
     premailer (1.21.0)
       addressable
       css_parser (>= 1.12.0)

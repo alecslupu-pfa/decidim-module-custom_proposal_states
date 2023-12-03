@@ -2,9 +2,9 @@
 
 require "spec_helper"
 
-describe "Admin manages proposals states" do
+describe "Admin manages proposals states", type: :system do
   include_context "when managing a component as an admin" do
-    let!(:component) { create(:proposal_component, participatory_space: participatory_space) }
+    let!(:component) { create(:extended_proposal_component, participatory_space: participatory_space) }
   end
 
   context "when visiting the component admin page" do
@@ -19,11 +19,11 @@ describe "Admin manages proposals states" do
     end
 
     it "lists the default proposal states" do
-      expect(page).to have_content("Proposal states")
-      expect(page).to have_link("New proposal state")
+      expect(page).to have_content("States")
+      expect(page).to have_link("New state")
 
       within "table" do
-        expect(page).to have_content("Proposal state")
+        expect(page).to have_content("State")
         expect(page).to have_content("Withdrawn")
         expect(page).to have_content("Accepted")
         expect(page).to have_content("Rejected")
@@ -36,11 +36,11 @@ describe "Admin manages proposals states" do
   context "when creating a proposal state" do
     before do
       click_link "States"
-      click_link "New proposal state"
+      click_link "New state"
     end
 
     it "creates a new proposal state" do
-      expect(Decidim::Proposals::ProposalState.find_by(token: "custom")).to be_nil
+      expect(Decidim::CustomProposalStates::ProposalState.find_by(token: "custom")).to be_nil
       within ".new_proposal_state" do
         fill_in_i18n(
           :proposal_state_title,
@@ -83,7 +83,7 @@ describe "Admin manages proposals states" do
         expect(page).to have_content("Custom state")
       end
 
-      state = Decidim::Proposals::ProposalState.find_by(token: "custom")
+      state = Decidim::CustomProposalStates::ProposalState.find_by(token: "custom")
       expect(state).to be_present
       expect(state).to be_default
       expect(state).to be_answerable
@@ -164,7 +164,7 @@ describe "Admin manages proposals states" do
         expect(page).to have_content("Custom state")
       end
 
-      state = Decidim::Proposals::ProposalState.find_by(token: "editable")
+      state = Decidim::CustomProposalStates::ProposalState.find_by(token: "editable")
 
       expect(state).to be_default
       expect(state).to be_answerable
@@ -200,11 +200,11 @@ describe "Admin manages proposals states" do
 
     it "deletes the proposal state" do
       within find("tr", text: translated(state.title)) do
-        accept_confirm { click_link "Delete" }
+        accept_confirm { click_link "Destroy" }
       end
       expect(page).to have_admin_callout("successfully")
 
-      state = Decidim::Proposals::ProposalState.find_by(token: "editable")
+      state = Decidim::CustomProposalStates::ProposalState.find_by(token: "editable")
 
       expect(state).to be_nil
     end
@@ -219,7 +219,7 @@ describe "Admin manages proposals states" do
     end
 
     it "does not delete the proposal state if there are proposals attached" do
-      proposal = create(:proposal, component: current_component, state: state.token)
+      proposal = create(:extended_proposal, component: current_component, state: state.token)
 
       visit current_path
       expect(state.reload.proposals).to include(proposal)

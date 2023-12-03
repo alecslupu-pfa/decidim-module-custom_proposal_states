@@ -1,0 +1,8 @@
+<% add_decidim_page_title(t(".title")) %>
+<%= decidim_form_for(@form, html: { class: "form edit_proposal_state" }) do |f| %>
+  <%= render partial: "form", object: f, locals: { title: t(".title") } %>
+
+  <div class="button--double form-general-submit">
+    <%= f.submit t(".save") %>
+  </div>
+<% end %>

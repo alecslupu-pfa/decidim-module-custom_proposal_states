@@ -1,0 +1,64 @@
+<% add_decidim_page_title(t(".title")) %>
+<div class="card">
+  <div class="card-divider">
+    <h2 class="card-title">
+      <%= t(".title") %>
+      <%= link_to t("actions.new_proposal_state", scope: "decidim.proposals"), new_proposal_state_path, class: "button tiny button--title" if allowed_to? :create, :proposal_state %>
+    </h2>
+  </div>
+
+  <div class="card-section">
+    <div class="table-scroll">
+      <table class="table-list">
+        <thead>
+        <tr>
+          <th>
+            <%= t("models.proposal_state.title", scope: "decidim.proposals") %>
+          </th>
+          <th>
+            <%= t("models.proposal_state.token", scope: "decidim.proposals") %>
+          </th>
+          <th>
+            <%= t("models.proposal_state.system", scope: "decidim.proposals") %>
+          </th>
+          <th>
+            <%= t("models.proposal_state.default", scope: "decidim.proposals") %>
+          </th>
+          <th>
+            <%= t("models.proposal_state.css_class", scope: "decidim.proposals") %>
+          </th>
+          <th class="actions"><%= t("actions.title", scope: "decidim.proposals") %></th>
+        </tr>
+        </thead>
+        <tbody>
+          <% proposal_states.each do |state| %>
+          <tr data-id="<%= state.id %>">
+            <td>
+              <%= translated_attribute(state.title) %>
+            </td>
+            <td><%= state.token %></td>
+            <td><%= state.system? %></td>
+            <td><%= state.default? %></td>
+            <td>
+              <strong class="label <%= state.css_class %>">
+                <%= state.css_class %>
+              </strong>
+            </td>
+
+            <td class="table-list__actions">
+              <% if allowed_to? :update, :proposal_state, proposal_state: state %>
+                <%= icon_link_to "pencil", edit_proposal_state_path(state), t("actions.edit_proposal_state", scope: "decidim.proposals"), class: "action-icon--edit" %>
+              <% else %>
+                <span class="action-space icon"></span>
+              <% end %>
+              <% if allowed_to?(:destroy, :proposal_state, proposal_state: state) %>
+                <%= icon_link_to "circle-x", proposal_state_path(state), t("actions.destroy", scope: "decidim.proposals"), method: :delete, data: { confirm: t("actions.delete_proposal_state_confirm", scope: "decidim.proposals") }, class: "action-icon--remove" %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -3,12 +3,12 @@
 require "spec_helper"
 
 module Decidim
-  module Proposals
+  module CustomProposalStates
     module Admin
       describe UpdateProposalState do
-        let(:form_klass) { Decidim::Proposals::Admin::ProposalStateForm }
+        let(:form_klass) { Decidim::CustomProposalStates::Admin::ProposalStateForm }
 
-        let(:component) { create(:proposal_component) }
+        let(:component) { create(:extended_proposal_component) }
         let(:organization) { component.organization }
         let(:user) { create(:user, :admin, :confirmed, organization: organization) }
         let(:state_params) do
@@ -89,8 +89,8 @@ module Decidim
             it "traces the update", versioning: true do
               expect(Decidim.traceability)
                 .to receive(:update!)
-                      .with(state, user, a_kind_of(Hash))
-                      .and_call_original
+                .with(state, user, a_kind_of(Hash))
+                .and_call_original
 
               expect { command.call }.to change(Decidim::ActionLog, :count)
 

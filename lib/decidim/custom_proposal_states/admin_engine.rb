@@ -10,13 +10,15 @@ module Decidim
       paths["lib/tasks"] = nil
 
       routes do
-        # Add admin engine routes here
-        # resources :custom_proposal_states do
-        #   collection do
-        #     resources :exports, only: [:create]
-        #   end
-        # end
-        # root to: "custom_proposal_states#index"
+        resources :proposal_states
+
+        root to: "proposal_states#index"
+      end
+
+      initializer "decidim_custom_proposal_states_admin.mount_routes" do |_app|
+        Decidim::Proposals::AdminEngine.routes do
+          mount Decidim::CustomProposalStates::AdminEngine => "/proposal_states", as: "custom_proposal_states"
+        end
       end
 
       def load_seed

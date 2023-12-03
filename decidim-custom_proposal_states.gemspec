@@ -20,6 +20,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency "decidim-core", ">= 0.26.0", "< 0.28.0"
   s.add_dependency "decidim-proposals", ">= 0.26.0", "< 0.28.0"
+  s.add_dependency "deface", ">= 1.9"
   s.add_development_dependency "decidim-accountability", ">= 0.26.0", "< 0.28.0"
   s.add_development_dependency "decidim-budgets", ">= 0.26.0", "< 0.28.0"
   s.add_development_dependency "decidim-dev", ">= 0.26.0", "< 0.28.0"

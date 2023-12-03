@@ -6,8 +6,10 @@ module Decidim
   module CustomProposalStates
     module Admin
       describe CreateProposalState do
+        subject { described_class.new(form, component) }
+
         let(:form_klass) { ProposalStateForm }
-        let!(:component) { create(:proposal_component) }
+        let!(:component) { create(:extended_proposal_component) }
         let(:current_organization) { component.organization }
         let(:current_user) { create(:user, :admin, :confirmed, organization: current_organization) }
 
@@ -21,8 +23,6 @@ module Decidim
             current_component: component
           )
         end
-
-        subject { described_class.new(form, component) }
 
         describe "call" do
           let(:form_params) do
@@ -49,7 +49,7 @@ module Decidim
             it "does not create a proposal state" do
               expect do
                 subject.call
-              end.not_to change(Decidim::Proposals::ProposalState, :count)
+              end.not_to change(Decidim::CustomProposalStates::ProposalState, :count)
             end
           end
 
@@ -61,15 +61,15 @@ module Decidim
             it "creates a new proposal" do
               expect do
                 subject.call
-              end.to change(Decidim::Proposals::ProposalState, :count).by(1)
+              end.to change(Decidim::CustomProposalStates::ProposalState, :count).by(1)
             end
           end
 
           it "traces the action", versioning: true do
             expect(Decidim.traceability)
               .to receive(:perform_action!)
-                    .with(:create, Decidim::Proposals::ProposalState, kind_of(Decidim::User), {})
-                    .and_call_original
+              .with(:create, Decidim::CustomProposalStates::ProposalState, kind_of(Decidim::User), {})
+              .and_call_original
 
             expect { subject.call }.to change(Decidim::ActionLog, :count)
             action_log = Decidim::ActionLog.last
