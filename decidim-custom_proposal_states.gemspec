@@ -18,6 +18,11 @@ Gem::Specification.new do |s|
 
   s.files = Dir["{app,config,lib}/**/*", "LICENSE-AGPLv3.txt", "Rakefile", "README.md"]
 
-  s.add_dependency "decidim-core", "~> 0.26.0"
-  s.add_dependency "decidim-proposals", "~> 0.26.0"
+  s.add_dependency "decidim-core", ">= 0.26.0", "< 0.28.0"
+  s.add_dependency "decidim-proposals", ">= 0.26.0", "< 0.28.0"
+  s.add_development_dependency "decidim-accountability", ">= 0.26.0", "< 0.28.0"
+  s.add_development_dependency "decidim-budgets", ">= 0.26.0", "< 0.28.0"
+  s.add_development_dependency "decidim-dev", ">= 0.26.0", "< 0.28.0"
+  s.add_development_dependency "decidim-elections", ">= 0.26.0", "< 0.28.0"
+  s.add_development_dependency "decidim-sortitions", ">= 0.26.0", "< 0.28.0"
 end
