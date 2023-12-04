@@ -21,6 +21,7 @@ en:
         destroy: Destroy
         edit_proposal_state: Edit state
         new_proposal_state: New state
+        title: Actions
       admin:
         proposal_states:
           create:
