@@ -27,9 +27,9 @@ describe "Orders", type: :system do
 
     context "with linked proposals" do
       let(:proposal_component) do
-        create(:component, manifest_name: :proposals, participatory_space: project.component.participatory_space)
+        create(:extended_proposal_component, participatory_space: project.component.participatory_space)
       end
-      let(:proposals) { create_list(:proposal, 3, component: proposal_component) }
+      let(:proposals) { create_list(:extended_proposal, 3, component: proposal_component) }
 
       before do
         project.link_resources(proposals, "included_proposals")
@@ -37,10 +37,10 @@ describe "Orders", type: :system do
 
       context "with supports enabled" do
         let(:proposal_component) do
-          create(:proposal_component, :with_votes_enabled, participatory_space: project.component.participatory_space)
+          create(:extended_proposal_component, :with_votes_enabled, participatory_space: project.component.participatory_space)
         end
 
-        let(:proposals) { create_list(:proposal, 1, :with_votes, component: proposal_component) }
+        let(:proposals) { create_list(:extended_proposal, 1, :with_votes, component: proposal_component) }
 
         it "shows the amount of supports" do
           visit_budget
@@ -52,10 +52,10 @@ describe "Orders", type: :system do
 
       context "with supports disabled" do
         let(:proposal_component) do
-          create(:proposal_component, participatory_space: project.component.participatory_space)
+          create(:extended_proposal_component, participatory_space: project.component.participatory_space)
         end
 
-        let(:proposals) { create_list(:proposal, 1, :with_votes, component: proposal_component) }
+        let(:proposals) { create_list(:extended_proposal, 1, :with_votes, component: proposal_component) }
 
         it "does not show supports" do
           visit_budget

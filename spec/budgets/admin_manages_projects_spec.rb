@@ -22,9 +22,9 @@ describe "Admin manages projects", type: :system do
   end
 
   context "when importing proposals to projects" do
-    let!(:proposals) { create_list :proposal, 3, :accepted, component: origin_component }
-    let!(:rejected_proposals) { create_list :proposal, 3, :rejected, component: origin_component }
-    let!(:origin_component) { create :proposal_component, participatory_space: current_component.participatory_space }
+    let!(:proposals) { create_list :extended_proposal, 3, :accepted, component: origin_component }
+    let!(:rejected_proposals) { create_list :extended_proposal, 3, :rejected, component: origin_component }
+    let!(:origin_component) { create :extended_proposal_component, participatory_space: current_component.participatory_space }
     let!(:default_budget) { 2333 }
 
     include Decidim::ComponentPathHelper
@@ -191,8 +191,8 @@ describe "Admin manages projects", type: :system do
   end
 
   context "when having existing proposals" do
-    let!(:proposal_component) { create(:proposal_component, participatory_space: participatory_space) }
-    let!(:proposals) { create_list :proposal, 5, component: proposal_component, skip_injection: true }
+    let!(:proposal_component) { create(:extended_proposal_component, participatory_space: participatory_space) }
+    let!(:proposals) { create_list :extended_proposal, 5, component: proposal_component, skip_injection: true }
 
     it "updates a project" do
       within find("tr", text: translated(project.title)) do

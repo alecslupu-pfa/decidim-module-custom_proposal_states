@@ -8,9 +8,9 @@ module Decidim
       describe ParticipatorySpaceProposals do
         let(:organization) { create(:organization) }
         let(:participatory_process) { create(:participatory_process, organization: organization) }
-        let(:proposal_component) { create(:proposal_component, participatory_space: participatory_process) }
-        let(:another_proposal_component) { create(:proposal_component, participatory_space: participatory_process) }
-        let(:proposals) { create_list(:proposal, 10, component: proposal_component, created_at: request_timestamp - 10.days) }
+        let(:proposal_component) { create(:extended_proposal_component, participatory_space: participatory_process) }
+        let(:another_proposal_component) { create(:extended_proposal_component, participatory_space: participatory_process) }
+        let(:proposals) { create_list(:extended_proposal, 10, component: proposal_component, created_at: request_timestamp - 10.days) }
         let(:request_timestamp) { Time.now.utc }
         let(:category) { nil }
         let(:decidim_proposals_component) { proposal_component }
@@ -23,7 +23,7 @@ module Decidim
         end
 
         context "when filtering by component" do
-          let(:other_component_proposals) { create_list(:proposal, 10, component: another_proposal_component) }
+          let(:other_component_proposals) { create_list(:extended_proposal, 10, component: another_proposal_component) }
 
           it "Includes only proposals in this component" do
             expect(described_class.for(sortition)).to include(*proposals)
@@ -35,7 +35,7 @@ module Decidim
         end
 
         context "when filtering by creation date" do
-          let(:recent_proposals) { create_list(:proposal, 10, component: proposal_component, created_at: Time.now.utc) }
+          let(:recent_proposals) { create_list(:extended_proposal, 10, component: proposal_component, created_at: Time.now.utc) }
           let(:request_timestamp) { Time.now.utc - 1.day }
 
           it "Includes proposals created before the sortition date" do
@@ -50,7 +50,7 @@ module Decidim
         context "when filtering by category" do
           let(:proposal_category) { create(:category, participatory_space: participatory_process) }
           let(:proposals_with_category) do
-            create_list(:proposal, 10,
+            create_list(:extended_proposal, 10,
                         component: proposal_component,
                         category: proposal_category,
                         created_at: request_timestamp - 10.days)
@@ -78,7 +78,7 @@ module Decidim
 
         context "when filtering withdrawn proposals" do
           let(:proposals) do
-            create_list(:proposal, 10, :withdrawn, component: proposal_component, created_at: request_timestamp - 10.days)
+            create_list(:extended_proposal, 10, :withdrawn, component: proposal_component, created_at: request_timestamp - 10.days)
           end
 
           it "do not return withdrawn proposals" do
@@ -88,7 +88,7 @@ module Decidim
 
         context "when filtering drafts proposals" do
           let(:proposals) do
-            create_list(:proposal, 10, :draft, component: proposal_component, created_at: request_timestamp - 10.days)
+            create_list(:extended_proposal, 10, :draft, component: proposal_component, created_at: request_timestamp - 10.days)
           end
 
           it "do not return draft proposals" do

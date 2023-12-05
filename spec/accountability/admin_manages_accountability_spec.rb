@@ -42,8 +42,8 @@ describe "Admin manages accountability", type: :system do
     end
 
     context "when having existing proposals" do
-      let!(:proposal_component) { create(:proposal_component, participatory_space: participatory_space) }
-      let!(:proposals) { create_list :proposal, 5, component: proposal_component, skip_injection: true }
+      let!(:proposal_component) { create(:extended_proposal_component, participatory_space: participatory_space) }
+      let!(:proposals) { create_list :extended_proposal, 5, component: proposal_component, skip_injection: true }
 
       it "updates a result" do
         within find("tr", text: translated(result.title)) do

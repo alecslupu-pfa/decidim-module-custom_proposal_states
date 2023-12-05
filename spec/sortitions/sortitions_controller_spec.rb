@@ -50,7 +50,7 @@ module Decidim
           end
 
           context "with valid params" do
-            let(:proposal_component) { create(:proposal_component, participatory_space: component.participatory_space) }
+            let(:proposal_component) { create(:extended_proposal_component, participatory_space: component.participatory_space) }
             let(:decidim_proposals_component_id) { proposal_component.id }
 
             it "redirects to show newly created sortition" do

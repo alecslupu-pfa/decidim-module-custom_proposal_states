@@ -28,9 +28,9 @@ describe "Explore results", versioning: true, type: :system do
 
     context "with linked proposals" do
       let(:proposal_component) do
-        create(:component, manifest_name: :proposals, participatory_space: result.component.participatory_space)
+        create(:extended_proposal_component, manifest_name: :proposals, participatory_space: result.component.participatory_space)
       end
-      let(:proposals) { create_list(:proposal, 3, component: proposal_component) }
+      let(:proposals) { create_list(:extended_proposal, 3, component: proposal_component) }
       let(:proposal) { proposals.first }
 
       before do

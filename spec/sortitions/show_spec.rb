@@ -7,7 +7,8 @@ describe "show", type: :system do
   let(:manifest_name) { "sortitions" }
 
   context "when shows the sortition component" do
-    let!(:sortition) { create(:sortition, component: component) }
+    let!(:decidim_proposals_component) { create(:extended_proposal_component, participatory_space: component.participatory_space) }
+    let!(:sortition) { create(:sortition, component: component, decidim_proposals_component: decidim_proposals_component) }
 
     before do
       visit_component
@@ -28,7 +29,7 @@ describe "show", type: :system do
   context "when sortition result" do
     let(:sortition) { create(:sortition, component: component) }
     let!(:proposals) do
-      create_list(:proposal, 10,
+      create_list(:extended_proposal, 10,
                   component: sortition.decidim_proposals_component,
                   created_at: sortition.request_timestamp - 1.day)
     end

@@ -9,7 +9,7 @@ describe "Admin manages sortitions", type: :system do
 
   describe "creation" do
     let!(:proposal_component) do
-      create(:proposal_component, :published, participatory_space: current_component.participatory_space)
+      create(:extended_proposal_component, :published, participatory_space: current_component.participatory_space)
     end
 
     before do
@@ -61,7 +61,7 @@ describe "Admin manages sortitions", type: :system do
     context "when creates a sortition" do
       let(:sortition_dice) { ::Faker::Number.between(from: 1, to: 6) }
       let(:sortition_target_items) { ::Faker::Number.between(from: 1, to: 10) }
-      let!(:proposal) { create :proposal, component: proposal_component }
+      let!(:proposal) { create :extended_proposal, component: proposal_component }
 
       it_behaves_like "having a rich text editor for field", ".tabs-content[data-tabs-content='sortition-additional_info-tabs']", "full"
       it_behaves_like "having a rich text editor for field", ".tabs-content[data-tabs-content='sortition-witnesses-tabs']", "content"

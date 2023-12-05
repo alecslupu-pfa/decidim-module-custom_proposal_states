@@ -3,8 +3,8 @@
 require "spec_helper"
 
 describe "Admin manages answers", type: :system do
-  let!(:proposals) { create_list :proposal, 3, :accepted, component: origin_component }
-  let!(:origin_component) { create :proposal_component, participatory_space: current_component.participatory_space }
+  let!(:proposals) { create_list :extended_proposal, 3, :accepted, component: origin_component }
+  let!(:origin_component) { create :extended_proposal_component, participatory_space: current_component.participatory_space }
   let(:election) { create :election, component: current_component }
   let(:question) { create :question, election: election }
   let(:answer) { create :election_answer, question: question }
