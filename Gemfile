@@ -4,9 +4,9 @@ source "https://rubygems.org"
 
 ruby RUBY_VERSION
 
-gem "decidim", path: "../decidim" # github: "decidim/decidim", ref: "release/0.26-stable"
+gem "decidim", github: "decidim/decidim", ref: "release/0.26-stable"
 gem "decidim-custom_proposal_states", path: "."
-gem "decidim-elections", path: "../decidim" # , github: "decidim/decidim", ref: "release/0.26-stable"
+gem "decidim-elections", github: "decidim/decidim", ref: "release/0.26-stable"
 
 gem "bootsnap"
 gem "uglifier", "~> 4.1"
@@ -14,7 +14,7 @@ gem "uglifier", "~> 4.1"
 group :development, :test do
   gem "faker"
 
-  gem "decidim-dev", path: "../decidim" # , github: "decidim/decidim", ref: "release/0.26-stable"
+  gem "decidim-dev", github: "decidim/decidim", ref: "release/0.26-stable"
 
   gem "rubocop-performance"
   gem "simplecov", require: false
