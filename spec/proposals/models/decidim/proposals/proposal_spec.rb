@@ -122,12 +122,12 @@ module Decidim
         let(:author) { create(:user, organization: organization) }
 
         context "when user is author" do
-          let(:proposal) { create :proposal, component: component, users: [author], updated_at: Time.current }
+          let(:proposal) { create :extended_proposal, component: component, users: [author], updated_at: Time.current }
 
           it { is_expected.to be_editable_by(author) }
 
           context "when the proposal has been linked to another one" do
-            let(:proposal) { create :proposal, component: component, users: [author], updated_at: Time.current }
+            let(:proposal) { create :extended_proposal, component: component, users: [author], updated_at: Time.current }
             let(:original_proposal) do
               original_component = create(:extended_proposal_component, organization: organization, participatory_space: component.participatory_space)
               create(:extended_proposal, component: original_component)
@@ -143,25 +143,25 @@ module Decidim
 
         context "when proposal is from user group and user is admin" do
           let(:user_group) { create :user_group, :verified, users: [author], organization: author.organization }
-          let(:proposal) { create :proposal, component: component, updated_at: Time.current, users: [author], user_groups: [user_group] }
+          let(:proposal) { create :extended_proposal, component: component, updated_at: Time.current, users: [author], user_groups: [user_group] }
 
           it { is_expected.to be_editable_by(author) }
         end
 
         context "when user is not the author" do
-          let(:proposal) { create :proposal, component: component, updated_at: Time.current }
+          let(:proposal) { create :extended_proposal, component: component, updated_at: Time.current }
 
           it { is_expected.not_to be_editable_by(author) }
         end
 
         context "when proposal is answered" do
-          let(:proposal) { build :proposal, :with_answer, component: component, updated_at: Time.current, users: [author] }
+          let(:proposal) { build :extended_proposal, :with_answer, component: component, updated_at: Time.current, users: [author] }
 
           it { is_expected.not_to be_editable_by(author) }
         end
 
         context "when proposal editing time has run out" do
-          let(:proposal) { build :proposal, updated_at: 10.minutes.ago, component: component, users: [author] }
+          let(:proposal) { build :extended_proposal, updated_at: 10.minutes.ago, component: component, users: [author] }
 
           it { is_expected.not_to be_editable_by(author) }
         end
@@ -172,7 +172,7 @@ module Decidim
             component.save!
           end
 
-          let(:proposal) { build :proposal, updated_at: 10.years.ago, component: component, users: [author] }
+          let(:proposal) { build :extended_proposal, updated_at: 10.years.ago, component: component, users: [author] }
 
           it do
             proposal.add_coauthor(author)
@@ -184,13 +184,13 @@ module Decidim
 
       describe "#withdrawn?" do
         context "when proposal is withdrawn" do
-          let(:proposal) { build :proposal, :withdrawn }
+          let(:proposal) { build :extended_proposal, :withdrawn }
 
           it { is_expected.to be_withdrawn }
         end
 
         context "when proposal is not withdrawn" do
-          let(:proposal) { build :proposal }
+          let(:proposal) { build :extended_proposal }
 
           it { is_expected.not_to be_withdrawn }
         end
@@ -200,33 +200,33 @@ module Decidim
         let(:author) { create(:user, organization: organization) }
 
         context "when user is author" do
-          let(:proposal) { create :proposal, component: component, users: [author], created_at: Time.current }
+          let(:proposal) { create :extended_proposal, component: component, users: [author], created_at: Time.current }
 
           it { is_expected.to be_withdrawable_by(author) }
         end
 
         context "when user is admin" do
           let(:admin) { build(:user, :admin, organization: organization) }
-          let(:proposal) { build :proposal, component: component, users: [author], created_at: Time.current }
+          let(:proposal) { build :extended_proposal, component: component, users: [author], created_at: Time.current }
 
           it { is_expected.not_to be_withdrawable_by(admin) }
         end
 
         context "when user is not the author" do
           let(:someone_else) { build(:user, organization: organization) }
-          let(:proposal) { build :proposal, component: component, users: [author], created_at: Time.current }
+          let(:proposal) { build :extended_proposal, component: component, users: [author], created_at: Time.current }
 
           it { is_expected.not_to be_withdrawable_by(someone_else) }
         end
 
         context "when proposal is already withdrawn" do
-          let(:proposal) { build :proposal, :withdrawn, component: component, users: [author], created_at: Time.current }
+          let(:proposal) { build :extended_proposal, :withdrawn, component: component, users: [author], created_at: Time.current }
 
           it { is_expected.not_to be_withdrawable_by(author) }
         end
 
         context "when the proposal has been linked to another one" do
-          let(:proposal) { create :proposal, component: component, users: [author], created_at: Time.current }
+          let(:proposal) { create :extended_proposal, component: component, users: [author], created_at: Time.current }
           let(:original_proposal) do
             original_component = create(:extended_proposal_component, organization: organization, participatory_space: component.participatory_space)
             create(:extended_proposal, component: original_component)
@@ -260,7 +260,7 @@ module Decidim
         let(:user) { create :user, organization: organization }
         let(:space) { component.participatory_space }
         let!(:valuator_role) { create :participatory_process_user_role, role: :valuator, user: user, participatory_process: space }
-        let(:assigned_proposal) { create :proposal, component: component }
+        let(:assigned_proposal) { create :extended_proposal, component: component }
         let!(:assignment) { create :valuation_assignment, proposal: assigned_proposal, valuator_role: valuator_role }
 
         it "only returns the assigned proposals for the given space" do
