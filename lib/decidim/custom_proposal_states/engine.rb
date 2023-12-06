@@ -42,6 +42,14 @@ module Decidim
       initializer "decidim_custom_proposal_states.action_controller" do |_app|
         Rails.application.reloader.to_prepare do
           Decidim::Proposals::Proposal.prepend Decidim::CustomProposalStates::Overrides::Proposal
+
+          if Decidim.module_installed?("budgets")
+            Decidim::Budgets::Admin::ImportProposalsToBudgets.prepend Decidim::CustomProposalStates::Overrides::ImportProposalsToBudgets
+          end
+
+          if Decidim.module_installed?("elections")
+            Decidim::Elections::Admin::ImportProposalsToElections.prepend Decidim::CustomProposalStates::Overrides::ImportProposalsToElections
+          end
         end
       end
     end

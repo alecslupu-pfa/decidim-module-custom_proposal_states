@@ -10,6 +10,8 @@ module Decidim
   module CustomProposalStates
     module Overrides
       autoload :Proposal, "decidim/custom_proposal_states/overrides/proposal"
+      autoload :ImportProposalsToBudgets, "decidim/custom_proposal_states/overrides/import_proposals_to_budgets"
+      autoload :ImportProposalsToElections, "decidim/custom_proposal_states/overrides/import_proposals_to_elections"
     end
 
     def self.create_default_states!(component, admin_user, with_traceability: true)

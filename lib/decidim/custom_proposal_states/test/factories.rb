@@ -32,18 +32,34 @@ FactoryBot.define do
 
     trait :evaluating do
       state { :evaluating }
+      answered_at { Time.current }
+      state_published_at { Time.current }
     end
     trait :accepted do
       state { :accepted }
+      answered_at { Time.current }
+      state_published_at { Time.current }
     end
     trait :rejected do
       state { :rejected }
+      answered_at { Time.current }
+      state_published_at { Time.current }
     end
     trait :withdrawn do
       state { :withdrawn }
     end
     trait :with_answer do
       state { :accepted }
+      answer { generate_localized_title }
+      answered_at { Time.current }
+      state_published_at { Time.current }
+    end
+
+    trait :accepted_not_published do
+      state { :accepted }
+      answered_at { Time.current }
+      state_published_at { nil }
+      answer { generate_localized_title }
     end
   end
 
