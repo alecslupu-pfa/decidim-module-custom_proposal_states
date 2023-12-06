@@ -9,8 +9,8 @@ module Decidim
         subject { command.call }
 
         let(:command) { described_class.new(proposal, initial_state) }
-        let(:proposal) { create(:extended_proposal, :accepted) }
-        let(:initial_state) { nil }
+        let!(:proposal) { create(:extended_proposal, :accepted) }
+        let(:initial_state) { Decidim::CustomProposalStates::ProposalState.where(token: "not_answered", component: proposal.component).first! }
         let(:current_user) { create(:user, :admin) }
         let(:follow) { create(:follow, followable: proposal, user: follower) }
         let(:follower) { create(:user, organization: proposal.organization) }
@@ -30,8 +30,8 @@ module Decidim
           expect(Decidim::EventsManager)
             .to receive(:publish)
             .with(
-              event: "decidim.events.proposals.proposal_accepted",
-              event_class: Decidim::Proposals::AcceptedProposalEvent,
+              event: "decidim.events.proposals.proposal_state_changed",
+              event_class: Decidim::CustomProposalStates::ProposalStateChangedEvent,
               resource: proposal,
               affected_users: match_array([proposal.creator_author]),
               followers: match_array([follower])
@@ -46,7 +46,7 @@ module Decidim
 
         context "when the proposal is rejected after being accepted" do
           let(:proposal) { create(:extended_proposal, :rejected) }
-          let(:initial_state) { "accepted" }
+          let(:initial_state) { Decidim::CustomProposalStates::ProposalState.where(token: "accepted", component: proposal.component).first }
 
           it "broadcasts ok" do
             expect { subject }.to broadcast(:ok)
@@ -56,8 +56,8 @@ module Decidim
             expect(Decidim::EventsManager)
               .to receive(:publish)
               .with(
-                event: "decidim.events.proposals.proposal_rejected",
-                event_class: Decidim::Proposals::RejectedProposalEvent,
+                event: "decidim.events.proposals.proposal_state_changed",
+                event_class: Decidim::CustomProposalStates::ProposalStateChangedEvent,
                 resource: proposal,
                 affected_users: match_array([proposal.creator_author]),
                 followers: match_array([follower])
@@ -72,8 +72,8 @@ module Decidim
         end
 
         context "when the proposal is not answered after being accepted" do
-          let(:proposal) { create(:extended_proposal, state: nil, answered_at: Time.current, state_published_at: Time.current) }
-          let(:initial_state) { "accepted" }
+          let(:proposal) { create(:extended_proposal, answered_at: Time.current, state_published_at: Time.current) }
+          let(:initial_state) { Decidim::CustomProposalStates::ProposalState.where(token: "accepted", component: proposal.component).first }
 
           it "broadcasts ok" do
             expect { subject }.to broadcast(:ok)
@@ -92,7 +92,7 @@ module Decidim
         end
 
         context "when the proposal published state has not changed" do
-          let(:initial_state) { "accepted" }
+          let(:initial_state) { Decidim::CustomProposalStates::ProposalState.where(token: "accepted", component: proposal.component).first }
 
           it "broadcasts ok" do
             expect { command.call }.to broadcast(:ok)

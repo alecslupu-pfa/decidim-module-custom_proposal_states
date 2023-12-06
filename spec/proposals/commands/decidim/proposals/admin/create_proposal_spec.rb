@@ -99,7 +99,7 @@ module Decidim
               end
 
               context "when the meeting is already linked to other proposals" do
-                let(:another_proposal) { create :proposal, component: component }
+                let(:another_proposal) { create :extended_proposal, component: component }
 
                 it "keeps the old proposals linked" do
                   another_proposal.link_resources(meeting_as_author, "proposals_from_meeting")
@@ -157,7 +157,7 @@ module Decidim
               end
 
               context "when active record is slow" do
-                let(:proposal) { build :proposal, component: component }
+                let(:proposal) { build :extended_proposal, component: component }
 
                 before do
                   allow(command).to receive(:proposal).and_return(nil)

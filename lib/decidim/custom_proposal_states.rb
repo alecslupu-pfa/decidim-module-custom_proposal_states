@@ -12,6 +12,10 @@ module Decidim
       autoload :Proposal, "decidim/custom_proposal_states/overrides/proposal"
       autoload :ImportProposalsToBudgets, "decidim/custom_proposal_states/overrides/import_proposals_to_budgets"
       autoload :ImportProposalsToElections, "decidim/custom_proposal_states/overrides/import_proposals_to_elections"
+      autoload :WithdrawProposal, "decidim/custom_proposal_states/overrides/withdraw_proposal"
+      autoload :ImportProposals, "decidim/custom_proposal_states/overrides/import_proposals"
+      autoload :AnswerProposal, "decidim/custom_proposal_states/overrides/answer_proposal"
+      autoload :NotifyProposalAnswer, "decidim/custom_proposal_states/overrides/notify_proposal_answer"
     end
 
     def self.create_default_states!(component, admin_user, with_traceability: true)

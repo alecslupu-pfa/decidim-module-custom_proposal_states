@@ -58,6 +58,10 @@ module Decidim
       initializer "decidim_custom_proposal_states.overrides.proposal" do
         Rails.application.reloader.to_prepare do
           Decidim::Proposals::Proposal.prepend Decidim::CustomProposalStates::Overrides::Proposal
+          Decidim::Proposals::WithdrawProposal.prepend Decidim::CustomProposalStates::Overrides::WithdrawProposal
+          Decidim::Proposals::Admin::ImportProposals.prepend Decidim::CustomProposalStates::Overrides::ImportProposals
+          Decidim::Proposals::Admin::AnswerProposal.prepend Decidim::CustomProposalStates::Overrides::AnswerProposal
+          Decidim::Proposals::Admin::NotifyProposalAnswer.prepend Decidim::CustomProposalStates::Overrides::NotifyProposalAnswer
         end
       end
     end
