@@ -56,13 +56,11 @@ module Decidim
               return amendment.state if emendation?
               return nil unless published_state? || withdrawn?
 
-              raise "aaaa"
               proposal_state&.token
             end
 
             def internal_state
               return amendment.state if emendation?
-              raise "aaaa"
 
               proposal_state&.token
             end
@@ -70,7 +68,6 @@ module Decidim
             def process_amendment_state_change!
               return unless %w(accepted rejected evaluating withdrawn).member?(amendment.state)
 
-              raise "aaaa"
               PaperTrail.request(enabled: false) do
                 assign_state(amendment.state)
                 update!(state_published_at: Time.current)

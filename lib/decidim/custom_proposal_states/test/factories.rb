@@ -26,7 +26,6 @@ FactoryBot.define do
         Decidim::CustomProposalStates.create_default_states!(proposal.component, nil, with_traceability: false) unless existing_states.any?
       end
 
-
       proposal_state = Decidim::CustomProposalStates::ProposalState.where(component: proposal.component, token: evaluator.state).first!
       proposal.proposal_state = proposal_state
     end

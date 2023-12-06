@@ -17,6 +17,7 @@ RSpec.configure do |config|
   config.backtrace_exclusion_patterns = [
     /actionpack/,
     /activerecord/,
+    /activemodel/,
     /activesupport/,
     /actionview/,
     /railties/,
