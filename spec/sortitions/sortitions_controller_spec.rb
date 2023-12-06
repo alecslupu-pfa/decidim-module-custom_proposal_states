@@ -8,8 +8,10 @@ module Decidim
       describe SortitionsController, type: :controller do
         routes { Decidim::Sortitions::AdminEngine.routes }
 
-        let(:component) { sortition.component }
-        let(:sortition) { create(:sortition) }
+        let(:proposals_component) { create(:extended_proposal_component, organization: component.organization) }
+
+        let(:component) { create(:sortition_component) }
+        let(:sortition) { create(:sortition, component: component, decidim_proposals_component: proposals_component) }
         let(:user) { create(:user, :confirmed, :admin, organization: component.organization) }
 
         before do

@@ -1,9 +1,9 @@
 # frozen_string_literal: true
+
 module Decidim
   module CustomProposalStates
     module Overrides
       module ImportProposalsToElections
-
         def self.prepended(base)
           base.class_eval do
             def proposals

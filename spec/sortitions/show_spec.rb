@@ -27,7 +27,9 @@ describe "show", type: :system do
   end
 
   context "when sortition result" do
-    let(:sortition) { create(:sortition, component: component) }
+    let(:proposals_component) { create(:extended_proposal_component, organization: component.organization) }
+
+    let(:sortition) { create(:sortition, decidim_proposals_component: proposals_component, component: component) }
     let!(:proposals) do
       create_list(:extended_proposal, 10,
                   component: sortition.decidim_proposals_component,
@@ -55,7 +57,9 @@ describe "show", type: :system do
     let(:witnesses) { Decidim::Faker::Localized.wrapped("<p>", "</p>") { generate_localized_title } }
     let(:additional_info) { Decidim::Faker::Localized.wrapped("<p>", "</p>") { generate_localized_title } }
     let(:cancel_reason) { Decidim::Faker::Localized.wrapped("<p>", "</p>") { generate_localized_title } }
-    let!(:sortition) { create(:sortition, :cancelled, component: component, witnesses: witnesses, additional_info: additional_info, cancel_reason: cancel_reason) }
+    let(:proposals_component) { create(:extended_proposal_component, organization: component.organization) }
+
+    let!(:sortition) { create(:sortition, :cancelled, decidim_proposals_component: proposals_component, component: component, witnesses: witnesses, additional_info: additional_info, cancel_reason: cancel_reason) }
 
     before do
       page.visit "#{main_component_path(component)}?filter[state]=cancelled"
