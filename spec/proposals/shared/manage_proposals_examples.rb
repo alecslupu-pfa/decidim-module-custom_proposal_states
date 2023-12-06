@@ -473,8 +473,8 @@ shared_examples "manage proposals" do
     end
 
     context "when the proposal is an emendation" do
-      let!(:amendable) { create(:proposal, component: current_component) }
-      let!(:emendation) { create(:proposal, component: current_component) }
+      let!(:amendable) { create(:extended_proposal, component: current_component) }
+      let!(:emendation) { create(:extended_proposal, component: current_component) }
       let!(:amendment) { create :amendment, amendable: amendable, emendation: emendation, state: "evaluating" }
 
       it "cannot answer a proposal" do

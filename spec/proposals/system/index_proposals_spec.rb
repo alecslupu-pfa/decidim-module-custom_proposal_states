@@ -7,7 +7,7 @@ describe "Index proposals", type: :system do
   let(:manifest_name) { "proposals" }
 
   context "when there are proposals" do
-    let!(:proposals) { create_list(:proposal, 3, component: component) }
+    let!(:proposals) { create_list(:extended_proposal, 3, component: component) }
 
     it "doesn't display empty message" do
       visit_component
@@ -26,7 +26,7 @@ describe "Index proposals", type: :system do
     end
 
     context "when there are filters" do
-      let!(:proposals) { create(:proposal, :with_answer, :accepted, component: component) }
+      let!(:proposals) { create(:extended_proposal, :with_answer, :accepted, component: component) }
 
       it "shows filters empty message" do
         visit_component

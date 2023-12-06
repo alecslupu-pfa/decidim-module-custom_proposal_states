@@ -5,10 +5,10 @@ require "spec_helper"
 describe Decidim::Proposals::Metrics::AcceptedProposalsMetricManage do
   let(:organization) { create(:organization) }
   let(:participatory_space) { create(:participatory_process, :with_steps, organization: organization) }
-  let(:component) { create(:proposal_component, :published, participatory_space: participatory_space) }
+  let(:component) { create(:extended_proposal_component, :published, participatory_space: participatory_space) }
   let(:day) { Time.zone.yesterday }
-  let!(:accepted_proposals) { create_list(:proposal, 3, :accepted, created_at: day, component: component) }
-  let!(:not_accepted_proposals) { create_list(:proposal, 3, created_at: day, component: component) }
+  let!(:accepted_proposals) { create_list(:extended_proposal, 3, :accepted, created_at: day, component: component) }
+  let!(:not_accepted_proposals) { create_list(:extended_proposal, 3, created_at: day, component: component) }
 
   include_context "when managing metrics"
 

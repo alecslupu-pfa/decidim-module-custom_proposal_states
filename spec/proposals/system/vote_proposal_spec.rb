@@ -6,7 +6,7 @@ describe "Support Proposal", type: :system, slow: true do
   include_context "with a component"
   let(:manifest_name) { "proposals" }
 
-  let!(:proposals) { create_list(:proposal, 3, component: component) }
+  let!(:proposals) { create_list(:extended_proposal, 3, component: component) }
   let!(:proposal) { Decidim::Proposals::Proposal.find_by(component: component) }
   let(:proposal_title) { translated(proposal.title) }
   let!(:user) { create :user, :confirmed, organization: organization }
@@ -44,7 +44,7 @@ describe "Support Proposal", type: :system, slow: true do
 
   context "when votes are blocked" do
     let!(:component) do
-      create(:proposal_component,
+      create(:extended_proposal_component,
              :with_votes_blocked,
              manifest: manifest,
              participatory_space: participatory_process)
@@ -58,7 +58,7 @@ describe "Support Proposal", type: :system, slow: true do
 
   context "when votes are enabled" do
     let!(:component) do
-      create(:proposal_component,
+      create(:extended_proposal_component,
              :with_votes_enabled,
              manifest: manifest,
              participatory_space: participatory_process)
@@ -131,7 +131,7 @@ describe "Support Proposal", type: :system, slow: true do
         let(:vote_limit) { 10 }
 
         let!(:component) do
-          create(:proposal_component,
+          create(:extended_proposal_component,
                  :with_votes_enabled,
                  :with_vote_limit,
                  vote_limit: vote_limit,
@@ -142,7 +142,7 @@ describe "Support Proposal", type: :system, slow: true do
         describe "vote counter" do
           context "when votes are blocked" do
             let!(:component) do
-              create(:proposal_component,
+              create(:extended_proposal_component,
                      :with_votes_blocked,
                      :with_vote_limit,
                      vote_limit: vote_limit,
@@ -160,7 +160,7 @@ describe "Support Proposal", type: :system, slow: true do
 
           context "when votes are enabled" do
             let!(:component) do
-              create(:proposal_component,
+              create(:extended_proposal_component,
                      :with_votes_enabled,
                      :with_vote_limit,
                      vote_limit: vote_limit,
@@ -256,7 +256,7 @@ describe "Support Proposal", type: :system, slow: true do
 
           context "when votes are blocked" do
             let!(:component) do
-              create(:proposal_component,
+              create(:extended_proposal_component,
                      :with_votes_blocked,
                      manifest: manifest,
                      participatory_space: participatory_process)
@@ -275,7 +275,7 @@ describe "Support Proposal", type: :system, slow: true do
     end
 
     context "when the proposal is rejected", :slow do
-      let!(:rejected_proposal) { create(:proposal, :rejected, component: component) }
+      let!(:rejected_proposal) { create(:extended_proposal, :rejected, component: component) }
       let!(:rejected_proposal_title) { translated(rejected_proposal.title) }
 
       before do
@@ -301,7 +301,7 @@ describe "Support Proposal", type: :system, slow: true do
 
     context "when proposals have a voting limit" do
       let!(:component) do
-        create(:proposal_component,
+        create(:extended_proposal_component,
                :with_votes_enabled,
                :with_threshold_per_proposal,
                manifest: manifest,
@@ -341,7 +341,7 @@ describe "Support Proposal", type: :system, slow: true do
 
     context "when proposals have vote limit but can accumulate more votes" do
       let!(:component) do
-        create(:proposal_component,
+        create(:extended_proposal_component,
                :with_votes_enabled,
                :with_threshold_per_proposal,
                :with_can_accumulate_supports_beyond_threshold,
@@ -369,7 +369,7 @@ describe "Support Proposal", type: :system, slow: true do
 
     context "when proposals have a minimum amount of votes" do
       let!(:component) do
-        create(:proposal_component,
+        create(:extended_proposal_component,
                :with_votes_enabled,
                :with_minimum_votes_per_user,
                minimum_votes_per_user: 3,

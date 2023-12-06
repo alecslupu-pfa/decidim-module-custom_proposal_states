@@ -9,7 +9,7 @@ module Decidim
         routes { Decidim::Proposals::AdminEngine.routes }
 
         let(:user) { create(:user, :confirmed, :admin, organization: component.organization) }
-        let(:component) { create :proposal_component, :with_participatory_texts_enabled }
+        let(:component) { create :extended_proposal_component, :with_participatory_texts_enabled }
         let(:document_file) { fixture_file_upload(Decidim::Dev.asset("participatory_text.md"), "text/markdown") }
         let(:title) { { en: ::Faker::Book.title } }
         let(:params) do

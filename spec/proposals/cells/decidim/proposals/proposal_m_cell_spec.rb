@@ -12,11 +12,11 @@ module Decidim::Proposals
     let(:cell_html) { my_cell.call }
     let(:created_at) { Time.current - 1.month }
     let(:published_at) { Time.current }
-    let(:component) { create(:proposal_component, :with_attachments_allowed) }
-    let!(:proposal) { create(:proposal, component: component, created_at: created_at, published_at: published_at) }
+    let(:component) { create(:extended_proposal_component, :with_attachments_allowed) }
+    let!(:proposal) { create(:extended_proposal, component: component, created_at: created_at, published_at: published_at) }
     let(:model) { proposal }
     let(:user) { create :user, organization: proposal.participatory_space.organization }
-    let!(:emendation) { create(:proposal) }
+    let!(:emendation) { create(:extended_proposal) }
     let!(:amendment) { create :amendment, amendable: proposal, emendation: emendation }
 
     before do
@@ -209,7 +209,7 @@ module Decidim::Proposals
       end
 
       context "when caching multiple proposals" do
-        let!(:proposals) { create_list(:proposal, 5, component: component, created_at: created_at, published_at: published_at) }
+        let!(:proposals) { create_list(:extended_proposal, 5, component: component, created_at: created_at, published_at: published_at) }
 
         let(:cached_proposals) do
           proposals.map { |proposal| cell("decidim/proposals/proposal_m", proposal).send(:cache_hash) }
@@ -237,7 +237,7 @@ module Decidim::Proposals
         let(:step_3) { create(:participatory_process_step, participatory_process: participatory_process, active: step_3_active) }
         let(:step_3_active) { false }
         let(:component) do
-          create(:proposal_component,
+          create(:extended_proposal_component,
                  participatory_space: participatory_process,
                  step_settings: {
                    step_1.id => { votes_enabled: false },

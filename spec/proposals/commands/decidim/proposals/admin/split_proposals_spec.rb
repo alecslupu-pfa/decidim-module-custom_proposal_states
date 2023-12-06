@@ -7,9 +7,9 @@ module Decidim
     module Admin
       describe SplitProposals do
         describe "call" do
-          let!(:proposals) { Array(create(:proposal, component: current_component)) }
-          let!(:current_component) { create(:proposal_component) }
-          let!(:target_component) { create(:proposal_component, participatory_space: current_component.participatory_space) }
+          let!(:proposals) { Array(create(:extended_proposal, component: current_component)) }
+          let!(:current_component) { create(:extended_proposal_component) }
+          let!(:target_component) { create(:extended_proposal_component, participatory_space: current_component.participatory_space) }
           let(:form) do
             instance_double(
               ProposalsSplitForm,
@@ -80,7 +80,7 @@ module Decidim
             context "when spliting to the same component" do
               let(:same_component) { true }
               let!(:target_component) { current_component }
-              let!(:proposals) { create_list(:proposal, 2, component: current_component) }
+              let!(:proposals) { create_list(:extended_proposal, 2, component: current_component) }
 
               it "only creates one copy for each proposal" do
                 expect do
@@ -89,8 +89,8 @@ module Decidim
               end
 
               context "when the original proposal has links to other proposals" do
-                let(:previous_component) { create(:proposal_component, participatory_space: current_component.participatory_space) }
-                let(:previous_proposals) { create(:proposal, component: previous_component) }
+                let(:previous_component) { create(:extended_proposal_component, participatory_space: current_component.participatory_space) }
+                let(:previous_proposals) { create(:extended_proposal, component: previous_component) }
 
                 before do
                   proposals.each do |proposal|

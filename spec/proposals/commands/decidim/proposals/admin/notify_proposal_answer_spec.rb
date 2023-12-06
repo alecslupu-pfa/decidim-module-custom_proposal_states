@@ -9,7 +9,7 @@ module Decidim
         subject { command.call }
 
         let(:command) { described_class.new(proposal, initial_state) }
-        let(:proposal) { create(:proposal, :accepted) }
+        let(:proposal) { create(:extended_proposal, :accepted) }
         let(:initial_state) { nil }
         let(:current_user) { create(:user, :admin) }
         let(:follow) { create(:follow, followable: proposal, user: follower) }
@@ -45,7 +45,7 @@ module Decidim
         end
 
         context "when the proposal is rejected after being accepted" do
-          let(:proposal) { create(:proposal, :rejected) }
+          let(:proposal) { create(:extended_proposal, :rejected) }
           let(:initial_state) { "accepted" }
 
           it "broadcasts ok" do
@@ -72,7 +72,7 @@ module Decidim
         end
 
         context "when the proposal is not answered after being accepted" do
-          let(:proposal) { create(:proposal, state: nil, answered_at: Time.current, state_published_at: Time.current) }
+          let(:proposal) { create(:extended_proposal, state: nil, answered_at: Time.current, state_published_at: Time.current) }
           let(:initial_state) { "accepted" }
 
           it "broadcasts ok" do

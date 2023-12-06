@@ -19,16 +19,16 @@ module Decidim
       it_behaves_like "a resource search with origin", :proposal
 
       describe "results" do
-        let!(:proposal) { create(:proposal, component: component) }
+        let!(:proposal) { create(:extended_proposal, component: component) }
 
         describe "search_text filter" do
           let(:params) { default_params.merge(search_text: search_text) }
           let(:search_text) { "dog" }
 
           it "returns the proposals containing the search in the title or the body" do
-            create_list(:proposal, 3, component: component)
-            create(:proposal, title: "A dog", component: component)
-            create(:proposal, body: "There is a dog in the office", component: component)
+            create_list(:extended_proposal, 3, component: component)
+            create(:extended_proposal, title: "A dog", component: component)
+            create(:extended_proposal, body: "There is a dog in the office", component: component)
 
             expect(subject.size).to eq(2)
           end
@@ -41,7 +41,7 @@ module Decidim
             let(:activity) { "voted" }
 
             it "returns the proposals voted by the user" do
-              create_list(:proposal, 3, component: component)
+              create_list(:extended_proposal, 3, component: component)
               create(:proposal_vote, proposal: Proposal.first, author: user)
 
               expect(subject.size).to eq(1)
@@ -52,8 +52,8 @@ module Decidim
             let(:activity) { "my_proposals" }
 
             it "returns the proposals created by the user" do
-              create_list(:proposal, 3, component: component)
-              create(:proposal, component: component, users: [user])
+              create_list(:extended_proposal, 3, component: component)
+              create(:extended_proposal, component: component, users: [user])
 
               expect(subject.size).to eq(1)
             end
@@ -67,8 +67,8 @@ module Decidim
             let(:states) { [] }
 
             it "returns all except withdrawn proposals" do
-              create_list(:proposal, 3, :withdrawn, component: component)
-              other_proposals = create_list(:proposal, 3, component: component)
+              create_list(:extended_proposal, 3, :withdrawn, component: component)
+              other_proposals = create_list(:extended_proposal, 3, component: component)
               other_proposals << proposal
 
               expect(subject.size).to eq(4)
@@ -80,9 +80,9 @@ module Decidim
             let(:states) { %w(accepted evaluating state_not_published) }
 
             it "hides withdrawn and rejected proposals" do
-              create(:proposal, :withdrawn, component: component)
-              create(:proposal, :rejected, component: component)
-              accepted_proposal = create(:proposal, :accepted, component: component)
+              create(:extended_proposal, :withdrawn, component: component)
+              create(:extended_proposal, :rejected, component: component)
+              accepted_proposal = create(:extended_proposal, :accepted, component: component)
 
               expect(subject.size).to eq(2)
               expect(subject).to match_array([accepted_proposal, proposal])
@@ -93,8 +93,8 @@ module Decidim
             let(:states) { %w(accepted) }
 
             it "returns only accepted proposals" do
-              accepted_proposals = create_list(:proposal, 3, :accepted, component: component)
-              create_list(:proposal, 3, component: component)
+              accepted_proposals = create_list(:extended_proposal, 3, :accepted, component: component)
+              create_list(:extended_proposal, 3, component: component)
 
               expect(subject.size).to eq(3)
               expect(subject).to match_array(accepted_proposals)
@@ -105,8 +105,8 @@ module Decidim
             let(:states) { %w(rejected) }
 
             it "returns only rejected proposals" do
-              create_list(:proposal, 3, component: component)
-              rejected_proposals = create_list(:proposal, 3, :rejected, component: component)
+              create_list(:extended_proposal, 3, component: component)
+              rejected_proposals = create_list(:extended_proposal, 3, :rejected, component: component)
 
               expect(subject.size).to eq(3)
               expect(subject).to match_array(rejected_proposals)
@@ -118,8 +118,8 @@ module Decidim
             let(:state_withdraw) { "withdrawn" }
 
             it "returns only withdrawn proposals" do
-              create_list(:proposal, 3, component: component)
-              withdrawn_proposals = create_list(:proposal, 3, :withdrawn, component: component)
+              create_list(:extended_proposal, 3, component: component)
+              withdrawn_proposals = create_list(:extended_proposal, 3, :withdrawn, component: component)
 
               expect(subject.size).to eq(3)
               expect(subject).to match_array(withdrawn_proposals)
@@ -136,9 +136,9 @@ module Decidim
             let(:meeting) { create :meeting, component: meetings_component }
 
             it "returns only proposals related to meetings" do
-              related_proposal = create(:proposal, :accepted, component: component)
-              related_proposal2 = create(:proposal, :accepted, component: component)
-              create_list(:proposal, 3, component: component)
+              related_proposal = create(:extended_proposal, :accepted, component: component)
+              related_proposal2 = create(:extended_proposal, :accepted, component: component)
+              create_list(:extended_proposal, 3, component: component)
               meeting.link_resources([related_proposal], "proposals_from_meeting")
               related_proposal2.link_resources([meeting], "proposals_from_meeting")
 
@@ -152,9 +152,9 @@ module Decidim
             let(:dummy_resource) { create :dummy_resource, component: dummy_component }
 
             it "returns only proposals related to results" do
-              related_proposal = create(:proposal, :accepted, component: component)
-              related_proposal2 = create(:proposal, :accepted, component: component)
-              create_list(:proposal, 3, component: component)
+              related_proposal = create(:extended_proposal, :accepted, component: component)
+              related_proposal2 = create(:extended_proposal, :accepted, component: component)
+              create_list(:extended_proposal, 3, component: component)
               dummy_resource.link_resources([related_proposal], "included_proposals")
               related_proposal2.link_resources([dummy_resource], "included_proposals")
 

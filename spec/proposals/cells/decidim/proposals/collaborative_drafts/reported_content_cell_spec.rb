@@ -14,5 +14,5 @@ module Decidim::Proposals::CollaborativeDrafts
         expect(html).to have_content("a nice body")
       end
     end
-  end
+  end./spec/proposals/system/admin/filter_proposals_spec.rb
 end

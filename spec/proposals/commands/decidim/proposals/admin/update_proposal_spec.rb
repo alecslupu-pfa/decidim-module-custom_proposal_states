@@ -5,7 +5,7 @@ require "spec_helper"
 describe Decidim::Proposals::Admin::UpdateProposal do
   let(:form_klass) { Decidim::Proposals::Admin::ProposalForm }
 
-  let(:component) { create(:proposal_component) }
+  let(:component) { create(:extended_proposal_component) }
   let(:organization) { component.organization }
   let(:user) { create :user, :admin, :confirmed, organization: organization }
   let(:form) do
@@ -87,7 +87,7 @@ describe Decidim::Proposals::Admin::UpdateProposal do
       end
 
       context "when geocoding is enabled" do
-        let(:component) { create(:proposal_component, :with_geocoding_enabled) }
+        let(:component) { create(:extended_proposal_component, :with_geocoding_enabled) }
 
         context "when the has address checkbox is checked" do
           let(:has_address) { true }
@@ -111,7 +111,7 @@ describe Decidim::Proposals::Admin::UpdateProposal do
       end
 
       context "when attachments are allowed" do
-        let(:component) { create(:proposal_component, :with_attachments_allowed) }
+        let(:component) { create(:extended_proposal_component, :with_attachments_allowed) }
         let(:attachment_params) do
           {
             title: "My attachment",
@@ -140,7 +140,7 @@ describe Decidim::Proposals::Admin::UpdateProposal do
       end
 
       it_behaves_like "admin manages resource gallery" do
-        let(:component) { create(:proposal_component, :with_attachments_allowed) }
+        let(:component) { create(:extended_proposal_component, :with_attachments_allowed) }
         let!(:resource) { proposal }
         let(:command) { described_class.new(form, resource) }
         let(:resource_class) { Decidim::Proposals::Proposal }

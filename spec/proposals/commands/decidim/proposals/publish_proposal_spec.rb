@@ -6,11 +6,11 @@ module Decidim
   module Proposals
     describe PublishProposal do
       describe "call" do
-        let(:component) { create(:proposal_component) }
+        let(:component) { create(:extended_proposal_component) }
         let(:organization) { component.organization }
         let!(:current_user) { create(:user, organization: organization) }
         let(:follower) { create(:user, organization: organization) }
-        let(:proposal_draft) { create(:proposal, :draft, component: component, users: [current_user]) }
+        let(:proposal_draft) { create(:extended_proposal, :draft, component: component, users: [current_user]) }
         let!(:follow) { create :follow, followable: current_user, user: follower }
 
         it "broadcasts ok" do

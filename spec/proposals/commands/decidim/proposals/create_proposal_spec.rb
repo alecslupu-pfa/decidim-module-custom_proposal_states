@@ -6,7 +6,7 @@ module Decidim
   module Proposals
     describe CreateProposal do
       let(:form_klass) { ProposalWizardCreateStepForm }
-      let(:component) { create(:proposal_component) }
+      let(:component) { create(:extended_proposal_component) }
       let(:organization) { component.organization }
       let(:user) { create :user, :admin, :confirmed, organization: organization }
       let(:form) do
@@ -116,7 +116,7 @@ module Decidim
 
             context "with a proposal limit" do
               let(:component) do
-                create(:proposal_component, settings: { "proposal_limit" => 2 })
+                create(:extended_proposal_component, settings: { "proposal_limit" => 2 })
               end
 
               it "checks the author doesn't exceed the amount of proposals" do
@@ -139,11 +139,11 @@ module Decidim
 
             context "with a proposal limit" do
               let(:component) do
-                create(:proposal_component, settings: { "proposal_limit" => 2 })
+                create(:extended_proposal_component, settings: { "proposal_limit" => 2 })
               end
 
               before do
-                create_list(:proposal, 2, component: component, users: [author])
+                create_list(:extended_proposal, 2, component: component, users: [author])
               end
 
               it "checks the user group doesn't exceed the amount of proposals independently of the author" do
@@ -156,14 +156,14 @@ module Decidim
 
           describe "the proposal limit excludes withdrawn proposals" do
             let(:component) do
-              create(:proposal_component, settings: { "proposal_limit" => 1 })
+              create(:extended_proposal_component, settings: { "proposal_limit" => 1 })
             end
 
             describe "when the author is a user" do
               let(:user_group) { nil }
 
               before do
-                create(:proposal, :withdrawn, users: [author], component: component)
+                create(:extended_proposal, :withdrawn, users: [author], component: component)
               end
 
               it "checks the user doesn't exceed the amount of proposals" do
@@ -177,7 +177,7 @@ module Decidim
 
             describe "when the author is a user_group" do
               before do
-                create(:proposal, :withdrawn, users: [author], user_groups: [user_group], component: component)
+                create(:extended_proposal, :withdrawn, users: [author], user_groups: [user_group], component: component)
               end
 
               it "checks the user_group doesn't exceed the amount of proposals" do

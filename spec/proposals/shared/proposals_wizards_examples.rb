@@ -18,7 +18,7 @@ shared_examples "proposals wizards" do |options|
   let(:proposal_body) { "Cities need more people, not more cars" }
 
   let!(:component) do
-    create(:proposal_component,
+    create(:extended_proposal_component,
            :with_creation_enabled,
            manifest: manifest,
            participatory_space: participatory_process)
@@ -58,8 +58,8 @@ shared_examples "proposals wizards" do |options|
     context "when in step_2: Compare" do
       context "with similar results" do
         before do
-          create(:proposal, title: "More sidewalks and less roads", body: "Cities need more people, not more cars", component: component)
-          create(:proposal, title: "More sidewalks and less roadways", body: "Green is always better", component: component)
+          create(:extended_proposal, title: "More sidewalks and less roads", body: "Cities need more people, not more cars", component: component)
+          create(:extended_proposal, title: "More sidewalks and less roadways", body: "Green is always better", component: component)
           visit_component
           click_link "New proposal"
           within ".new_proposal" do
@@ -148,7 +148,7 @@ shared_examples "proposals wizards" do |options|
 
       context "when the back button is clicked" do
         before do
-          create(:proposal, title: proposal_title, component: component)
+          create(:extended_proposal, title: proposal_title, component: component)
           click_link "Back"
         end
 
@@ -159,7 +159,7 @@ shared_examples "proposals wizards" do |options|
     end
 
     context "when in step_4: Publish" do
-      let!(:proposal_draft) { create(:proposal, :draft, users: [user], component: component, title: proposal_title, body: proposal_body) }
+      let!(:proposal_draft) { create(:extended_proposal, :draft, users: [user], component: component, title: proposal_title, body: proposal_body) }
 
       before do
         visit component_path.preview_proposal_path(proposal_draft)
@@ -205,7 +205,7 @@ shared_examples "proposals wizards" do |options|
 
     context "when editing a proposal draft" do
       context "when in step_4: edit proposal draft" do
-        let!(:proposal_draft) { create(:proposal, :draft, users: [user], component: component, title: proposal_title, body: proposal_body) }
+        let!(:proposal_draft) { create(:extended_proposal, :draft, users: [user], component: component, title: proposal_title, body: proposal_body) }
         let!(:edit_draft_proposal_path) do
           "#{Decidim::EngineRouter.main_proxy(component).proposal_path(proposal_draft)}/edit_draft"
         end
@@ -246,7 +246,7 @@ shared_examples "proposals wizards" do |options|
   end
   shared_examples_for "with address" do
     let!(:component) do
-      create(:proposal_component,
+      create(:extended_proposal_component,
              :with_creation_enabled,
              :with_geocoding_enabled,
              manifest: manifest,
@@ -254,7 +254,7 @@ shared_examples "proposals wizards" do |options|
     end
 
     context "when in step_4: edit proposal draft" do
-      let!(:proposal_draft) { create(:proposal, :draft, users: [user], address: address, component: component, title: proposal_title, body: proposal_body) }
+      let!(:proposal_draft) { create(:extended_proposal, :draft, users: [user], address: address, component: component, title: proposal_title, body: proposal_body) }
 
       before do
         proposal_draft.update!(latitude: latitude, longitude: longitude)
@@ -277,7 +277,7 @@ shared_examples "proposals wizards" do |options|
     end
 
     context "when in step_4: Publish" do
-      let!(:proposal_draft) { create(:proposal, :draft, users: [user], address: address, component: component, title: proposal_title, body: proposal_body) }
+      let!(:proposal_draft) { create(:extended_proposal, :draft, users: [user], address: address, component: component, title: proposal_title, body: proposal_body) }
 
       before do
         stub_geocoding(address, [latitude, longitude])
@@ -322,7 +322,7 @@ shared_examples "proposals wizards" do |options|
       end
 
       context "when there is no address" do
-        let!(:proposal_draft) { create(:proposal, :draft, users: [user], address: nil, component: component, title: proposal_title, body: proposal_body) }
+        let!(:proposal_draft) { create(:extended_proposal, :draft, users: [user], address: nil, component: component, title: proposal_title, body: proposal_body) }
 
         it "doesn't shows a preview" do
           expect(page).to have_content(proposal_title)

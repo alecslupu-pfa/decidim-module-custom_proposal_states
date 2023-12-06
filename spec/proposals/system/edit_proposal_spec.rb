@@ -47,7 +47,7 @@ describe "Edit proposals", type: :system do
     end
 
     context "with attachments allowed" do
-      let(:component) { create(:proposal_component, :with_attachments_allowed, participatory_space: participatory_process) }
+      let(:component) { create(:extended_proposal_component, :with_attachments_allowed, participatory_space: participatory_process) }
       let!(:file) { create(:attachment, :with_pdf, attached_to: proposal) }
       let!(:photo) { create(:attachment, :with_image, attached_to: proposal) }
 
@@ -74,7 +74,7 @@ describe "Edit proposals", type: :system do
     end
 
     context "with geocoding enabled" do
-      let(:component) { create(:proposal_component, :with_geocoding_enabled, participatory_space: participatory_process) }
+      let(:component) { create(:extended_proposal_component, :with_geocoding_enabled, participatory_space: participatory_process) }
       let(:address) { "6 Villa des Nymphéas 75020 Paris" }
       let(:new_address) { "6 rue Sorbier 75020 Paris" }
       let!(:proposal) { create :proposal, address: address, users: [user], component: component }
@@ -139,7 +139,7 @@ describe "Edit proposals", type: :system do
     end
 
     context "when updating with wrong data" do
-      let(:component) { create(:proposal_component, :with_creation_enabled, :with_attachments_allowed, participatory_space: participatory_process) }
+      let(:component) { create(:extended_proposal_component, :with_creation_enabled, :with_attachments_allowed, participatory_space: participatory_process) }
 
       it "returns an error message" do
         visit_component

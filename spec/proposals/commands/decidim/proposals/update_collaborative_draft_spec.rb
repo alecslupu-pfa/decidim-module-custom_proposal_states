@@ -7,7 +7,7 @@ module Decidim
     describe UpdateCollaborativeDraft do
       let(:form_klass) { CollaborativeDraftForm }
 
-      let(:component) { create(:proposal_component, :with_extra_hashtags, suggested_hashtags: suggested_hashtags.join(" ")) }
+      let(:component) { create(:extended_proposal_component, :with_extra_hashtags, suggested_hashtags: suggested_hashtags.join(" ")) }
       let(:organization) { component.organization }
       let(:form) do
         form_klass.from_params(
@@ -123,7 +123,7 @@ module Decidim
           end
 
           context "when geocoding is enabled" do
-            let(:component) { create(:proposal_component, :with_geocoding_enabled) }
+            let(:component) { create(:extended_proposal_component, :with_geocoding_enabled) }
 
             context "when the has address checkbox is checked" do
               let(:has_address) { true }

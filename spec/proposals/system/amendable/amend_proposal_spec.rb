@@ -4,9 +4,9 @@ require "spec_helper"
 
 describe "Amend Proposal", versioning: true, type: :system do
   let!(:participatory_space) { create(:participatory_process, :with_steps) }
-  let!(:component) { create(:proposal_component, participatory_space: participatory_space) }
-  let!(:proposal) { create(:proposal, title: { en: "Long enough title" }, component: component) }
-  let!(:emendation) { create(:proposal, title: { en: "Amended Long enough title" }, component: component) }
+  let!(:component) { create(:extended_proposal_component, participatory_space: participatory_space) }
+  let!(:proposal) { create(:extended_proposal, title: { en: "Long enough title" }, component: component) }
+  let!(:emendation) { create(:extended_proposal, title: { en: "Amended Long enough title" }, component: component) }
   let!(:amendment) { create :amendment, amendable: proposal, emendation: emendation }
   let(:proposal_title) { translated(proposal.title) }
   let(:emendation_title) { translated(emendation.title) }

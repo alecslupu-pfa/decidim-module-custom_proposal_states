@@ -6,7 +6,7 @@ module Decidim::Proposals
   describe ReportedContentCell, type: :cell do
     controller Decidim::Proposals::ProposalsController
 
-    let!(:proposal) { create(:proposal, title: { "en" => "a nice title" }, body: { "en" => "let's do this!" }) }
+    let!(:proposal) { create(:extended_proposal, title: { "en" => "a nice title" }, body: { "en" => "let's do this!" }) }
 
     context "when rendering" do
       it "renders the proposal's title and body" do

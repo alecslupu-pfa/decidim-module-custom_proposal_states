@@ -6,7 +6,7 @@ module Decidim
   module Proposals
     describe WithdrawCollaborativeDraft do
       describe "call" do
-        let(:component) { create(:proposal_component) }
+        let(:component) { create(:extended_proposal_component) }
         let(:organization) { component.organization }
         let!(:current_user) { create(:user, organization: organization) }
         let(:follower) { create(:user, organization: organization) }

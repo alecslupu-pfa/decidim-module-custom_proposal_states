@@ -7,9 +7,9 @@ module Decidim
     describe Proposal do
       subject { proposal }
 
-      let(:component) { build :proposal_component }
+      let(:component) { build :extended_proposal_component }
       let(:organization) { component.participatory_space.organization }
-      let(:proposal) { create(:proposal, component: component) }
+      let(:proposal) { create(:extended_proposal, component: component) }
       let(:coauthorable) { proposal }
 
       include_examples "coauthorable"
@@ -27,9 +27,9 @@ module Decidim
       describe "newsletter participants" do
         subject { Decidim::Proposals::Proposal.newsletter_participant_ids(proposal.component) }
 
-        let!(:component_out_of_newsletter) { create(:proposal_component, organization: organization) }
-        let!(:resource_out_of_newsletter) { create(:proposal, component: component_out_of_newsletter) }
-        let!(:resource_in_newsletter) { create(:proposal, component: proposal.component) }
+        let!(:component_out_of_newsletter) { create(:extended_proposal_component, organization: organization) }
+        let!(:resource_out_of_newsletter) { create(:extended_proposal, component: component_out_of_newsletter) }
+        let!(:resource_in_newsletter) { create(:extended_proposal, component: proposal.component) }
         let(:author_ids) { proposal.notifiable_identities.pluck(:id) + resource_in_newsletter.notifiable_identities.pluck(:id) }
 
         include_examples "counts commentators as newsletter participants"
@@ -53,7 +53,7 @@ module Decidim
       end
 
       context "when it has been accepted" do
-        let(:proposal) { build(:proposal, :accepted) }
+        let(:proposal) { build(:extended_proposal, :accepted) }
 
         it { is_expected.to be_answered }
         it { is_expected.to be_published_state }
@@ -61,7 +61,7 @@ module Decidim
       end
 
       context "when it has been rejected" do
-        let(:proposal) { build(:proposal, :rejected) }
+        let(:proposal) { build(:extended_proposal, :rejected) }
 
         it { is_expected.to be_answered }
         it { is_expected.to be_published_state }
@@ -78,7 +78,7 @@ module Decidim
         end
 
         context "when the proposal is official" do
-          let(:proposal) { build(:proposal, :official) }
+          let(:proposal) { build(:extended_proposal, :official) }
 
           it "returns the followers and the component's participatory space admins" do
             expect(subject.users_to_notify_on_comment_created).to match_array(followers.concat([participatory_process_admin]))
@@ -129,8 +129,8 @@ module Decidim
           context "when the proposal has been linked to another one" do
             let(:proposal) { create :proposal, component: component, users: [author], updated_at: Time.current }
             let(:original_proposal) do
-              original_component = create(:proposal_component, organization: organization, participatory_space: component.participatory_space)
-              create(:proposal, component: original_component)
+              original_component = create(:extended_proposal_component, organization: organization, participatory_space: component.participatory_space)
+              create(:extended_proposal, component: original_component)
             end
 
             before do
@@ -228,8 +228,8 @@ module Decidim
         context "when the proposal has been linked to another one" do
           let(:proposal) { create :proposal, component: component, users: [author], created_at: Time.current }
           let(:original_proposal) do
-            original_component = create(:proposal_component, organization: organization, participatory_space: component.participatory_space)
-            create(:proposal, component: original_component)
+            original_component = create(:extended_proposal_component, organization: organization, participatory_space: component.participatory_space)
+            create(:extended_proposal, component: original_component)
           end
 
           before do
@@ -241,7 +241,7 @@ module Decidim
       end
 
       context "when answer is not published" do
-        let(:proposal) { create(:proposal, :accepted_not_published, component: component) }
+        let(:proposal) { create(:extended_proposal, :accepted_not_published, component: component) }
 
         it "has accepted as the internal state" do
           expect(proposal.internal_state).to eq("accepted")

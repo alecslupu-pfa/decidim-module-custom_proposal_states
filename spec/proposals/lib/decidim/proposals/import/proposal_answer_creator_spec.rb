@@ -5,7 +5,7 @@ require "spec_helper"
 describe Decidim::Proposals::Import::ProposalAnswerCreator do
   subject { described_class.new(data, context) }
 
-  let(:proposal) { create(:proposal, state: state, component: component) }
+  let(:proposal) { create(:extended_proposal, state: state, component: component) }
   let!(:moment) { Time.current }
   let(:data) do
     {
@@ -56,7 +56,7 @@ describe Decidim::Proposals::Import::ProposalAnswerCreator do
     end
 
     context "with an emendation" do
-      let!(:amendable) { create(:proposal, component: component) }
+      let!(:amendable) { create(:extended_proposal, component: component) }
       let!(:amendment) { create(:amendment, amendable: amendable, emendation: proposal, state: "evaluating") }
 
       it "does not produce a record" do
@@ -84,7 +84,7 @@ describe Decidim::Proposals::Import::ProposalAnswerCreator do
     end
 
     context "when proposal state changes" do
-      let!(:proposal) { create(:proposal, :evaluating, component: component) }
+      let!(:proposal) { create(:extended_proposal, :evaluating, component: component) }
       let(:state) { "accepted" }
 
       it "returns broadcast :ok" do

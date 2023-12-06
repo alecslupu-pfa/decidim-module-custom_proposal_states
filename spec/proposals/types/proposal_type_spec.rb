@@ -18,8 +18,8 @@ module Decidim
   module Proposals
     describe ProposalType, type: :graphql do
       include_context "with a graphql class type"
-      let(:component) { create(:proposal_component) }
-      let(:model) { create(:proposal, :with_votes, :with_endorsements, :with_amendments, component: component) }
+      let(:component) { create(:extended_proposal_component) }
+      let(:model) { create(:extended_proposal, :with_votes, :with_endorsements, :with_amendments, component: component) }
 
       include_examples "categorizable interface"
       include_examples "scopable interface"
@@ -50,7 +50,7 @@ module Decidim
         end
 
         context "when votes are hidden" do
-          let(:component) { create(:proposal_component, :with_votes_hidden) }
+          let(:component) { create(:extended_proposal_component, :with_votes_hidden) }
 
           it "returns nil" do
             expect(response["voteCount"]).to eq(nil)
@@ -165,7 +165,7 @@ module Decidim
 
       describe "meeting" do
         let(:query) { '{ meeting { title { translation(locale:"en") } } }' }
-        let(:model) { create(:proposal, :official_meeting, component: component) }
+        let(:model) { create(:extended_proposal, :official_meeting, component: component) }
 
         it "returns the meeting of this proposal" do
           expect(response["meeting"]["title"]["translation"]).to eq(model.authors.first.title["en"])

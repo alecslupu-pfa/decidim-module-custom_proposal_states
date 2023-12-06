@@ -7,7 +7,7 @@ module Decidim
     module Admin
       describe CreateProposal do
         let(:form_klass) { ProposalForm }
-        let(:component) { create(:proposal_component) }
+        let(:component) { create(:extended_proposal_component) }
         let(:organization) { component.organization }
         let(:meeting_component) { create(:meeting_component, participatory_space: component.participatory_space) }
         let(:meetings) { create_list(:meeting, 3, :published, component: meeting_component) }
@@ -105,7 +105,7 @@ module Decidim
                   another_proposal.link_resources(meeting_as_author, "proposals_from_meeting")
                   command.call
                   proposal = Decidim::Proposals::Proposal.last
-                  linked_proposals = meeting_as_author.linked_resources(:proposal, "proposals_from_meeting")
+                  linked_proposals = meeting_as_author.linked_resources(:extended_proposal, "proposals_from_meeting")
 
                   expect(linked_proposals).to match_array([proposal, another_proposal])
                 end
@@ -172,7 +172,7 @@ module Decidim
             end
 
             context "when geocoding is enabled" do
-              let(:component) { create(:proposal_component, :with_geocoding_enabled) }
+              let(:component) { create(:extended_proposal_component, :with_geocoding_enabled) }
 
               context "when the has address checkbox is checked" do
                 let(:has_address) { true }
@@ -196,7 +196,7 @@ module Decidim
             end
 
             context "when attachments are allowed" do
-              let(:component) { create(:proposal_component, :with_attachments_allowed) }
+              let(:component) { create(:extended_proposal_component, :with_attachments_allowed) }
               let(:attachment_params) do
                 {
                   title: "My attachment",
@@ -226,7 +226,7 @@ module Decidim
 
             context "when galleries are allowed" do
               it_behaves_like "admin creates resource gallery" do
-                let(:component) { create(:proposal_component, :with_attachments_allowed) }
+                let(:component) { create(:extended_proposal_component, :with_attachments_allowed) }
                 let(:command) { described_class.new(form) }
                 let(:resource_class) { Decidim::Proposals::Proposal }
                 let(:attachment_params) { { title: "" } }

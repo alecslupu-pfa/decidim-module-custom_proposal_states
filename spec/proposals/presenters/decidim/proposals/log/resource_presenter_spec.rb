@@ -4,7 +4,7 @@ require "spec_helper"
 
 describe Decidim::Proposals::Log::ResourcePresenter, type: :helper do
   let(:presenter) { described_class.new(resource, helper, extra) }
-  let(:resource) { create(:proposal, title: Faker::Book.unique.title) }
+  let(:resource) { create(:extended_proposal, title: Faker::Book.unique.title) }
   let(:extra) do
     {
       "title" => Faker::Book.unique.title

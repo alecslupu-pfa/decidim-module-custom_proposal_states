@@ -5,7 +5,7 @@ require "spec_helper"
 module Decidim
   module Proposals
     describe PublishCollaborativeDraft do
-      let(:component) { create(:proposal_component) }
+      let(:component) { create(:extended_proposal_component) }
       let(:state) { :open }
       let!(:collaborative_draft) { create(:collaborative_draft, component: component, state: state) }
       let!(:attachment) { Decidim::Attachment.create(attachment_params) }

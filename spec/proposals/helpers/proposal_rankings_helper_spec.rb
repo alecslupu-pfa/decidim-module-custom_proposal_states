@@ -6,7 +6,7 @@ module Decidim
   module Proposals
     module Admin
       describe ProposalRankingsHelper do
-        let(:component) { create(:proposal_component) }
+        let(:component) { create(:extended_proposal_component) }
 
         let!(:proposal1) { create :proposal, component: component, proposal_votes_count: 4 }
         let!(:proposal2) { create :proposal, component: component, proposal_votes_count: 2 }

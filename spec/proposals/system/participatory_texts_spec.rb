@@ -92,7 +92,7 @@ describe "Participatory texts", type: :system do
   context "when listing proposals in a participatory process as participatory texts" do
     context "when admin has not yet published a participatory text" do
       let!(:component) do
-        create(:proposal_component,
+        create(:extended_proposal_component,
                :with_participatory_texts_enabled,
                manifest: manifest,
                participatory_space: participatory_process)
@@ -109,9 +109,9 @@ describe "Participatory texts", type: :system do
 
     context "when admin has published a participatory text" do
       let!(:participatory_text) { create :participatory_text, component: component }
-      let!(:proposals) { create_list(:proposal, 3, :published, component: component) }
+      let!(:proposals) { create_list(:extended_proposal, 3, :published, component: component) }
       let!(:component) do
-        create(:proposal_component,
+        create(:extended_proposal_component,
                :with_participatory_texts_enabled,
                manifest: manifest,
                participatory_space: participatory_process)
@@ -143,9 +143,9 @@ describe "Participatory texts", type: :system do
       end
 
       context "with existing amendments" do
-        let!(:emendation_1) { create(:proposal, :published, component: component) }
+        let!(:emendation_1) { create(:extended_proposal, :published, component: component) }
         let!(:amendment_1) { create :amendment, amendable: proposals.first, emendation: emendation_1 }
-        let!(:emendation_2) { create(:proposal, component: component) }
+        let!(:emendation_2) { create(:extended_proposal, component: component) }
         let!(:amendment_2) { create(:amendment, amendable: proposals.first, emendation: emendation_2) }
         let(:user) { amendment_1.amender }
 
@@ -241,7 +241,7 @@ describe "Participatory texts", type: :system do
 
       context "when comments are enabled" do
         let!(:component) do
-          create(:proposal_component,
+          create(:extended_proposal_component,
                  :with_participatory_texts_enabled,
                  :with_votes_enabled,
                  manifest: manifest,
@@ -253,7 +253,7 @@ describe "Participatory texts", type: :system do
 
       context "when comments are disabled" do
         let(:component) do
-          create(:proposal_component,
+          create(:extended_proposal_component,
                  :with_comments_disabled,
                  :with_participatory_texts_enabled,
                  manifest: manifest,

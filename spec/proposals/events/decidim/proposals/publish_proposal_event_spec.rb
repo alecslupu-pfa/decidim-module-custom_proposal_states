@@ -7,7 +7,7 @@ module Decidim
     describe PublishProposalEvent do
       let(:resource) { create :proposal, title: "A nice proposal" }
       let(:participatory_process) { create :participatory_process, organization: organization }
-      let(:proposal_component) { create(:proposal_component, participatory_space: participatory_process) }
+      let(:proposal_component) { create(:extended_proposal_component, participatory_space: participatory_process) }
       let(:resource_title) { translated(resource.title) }
       let(:event_name) { "decidim.events.proposals.proposal_published" }
 

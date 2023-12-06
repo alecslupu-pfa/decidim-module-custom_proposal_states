@@ -12,8 +12,8 @@ module Decidim
 
       let(:type_class) { Decidim::Proposals::ProposalsType }
 
-      let(:model) { create(:proposal_component) }
-      let!(:models) { create_list(:proposal, 3, :published, component: model) }
+      let(:model) { create(:extended_proposal_component) }
+      let!(:models) { create_list(:extended_proposal, 3, :published, component: model) }
 
       context "when sorting by proposals id" do
         include_examples "connection has input sort", "proposals", "id"
@@ -24,7 +24,7 @@ module Decidim
       end
 
       context "when sorting by endorsement_count" do
-        let!(:most_endorsed) { create(:proposal, :published, :with_endorsements, component: model) }
+        let!(:most_endorsed) { create(:extended_proposal, :published, :with_endorsements, component: model) }
 
         include_examples "connection has endorsement_count sort", "proposals"
       end

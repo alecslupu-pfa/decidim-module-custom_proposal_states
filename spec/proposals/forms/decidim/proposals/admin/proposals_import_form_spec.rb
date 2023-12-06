@@ -8,9 +8,9 @@ module Decidim
       describe ProposalsImportForm do
         subject { form }
 
-        let(:proposal) { create(:proposal) }
+        let(:proposal) { create(:extended_proposal) }
         let(:component) { proposal.component }
-        let(:origin_component) { create(:proposal_component, participatory_space: component.participatory_space) }
+        let(:origin_component) { create(:extended_proposal_component, participatory_space: component.participatory_space) }
         let(:states) { %w(accepted) }
         let(:import_proposals) { true }
         let(:params) do
@@ -66,7 +66,7 @@ module Decidim
         end
 
         describe "origin_component" do
-          let(:origin_component) { create(:proposal_component) }
+          let(:origin_component) { create(:extended_proposal_component) }
 
           it "ignores components from other participatory spaces" do
             expect(form.origin_component).to be_nil

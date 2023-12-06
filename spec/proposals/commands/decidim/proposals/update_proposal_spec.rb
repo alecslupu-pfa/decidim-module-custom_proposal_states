@@ -7,7 +7,7 @@ module Decidim
     describe UpdateProposal do
       let(:form_klass) { ProposalForm }
 
-      let(:component) { create(:proposal_component, :with_extra_hashtags, suggested_hashtags: suggested_hashtags.join(" ")) }
+      let(:component) { create(:extended_proposal_component, :with_extra_hashtags, suggested_hashtags: suggested_hashtags.join(" ")) }
       let(:organization) { component.organization }
       let(:form) do
         form_klass.from_params(
@@ -96,7 +96,7 @@ module Decidim
 
         context "when the author changing the author to one that has reached the proposal limit" do
           let!(:other_proposal) { create :proposal, component: component, users: [author], user_groups: [user_group] }
-          let(:component) { create(:proposal_component, :with_proposal_limit) }
+          let(:component) { create(:extended_proposal_component, :with_proposal_limit) }
 
           it "broadcasts invalid" do
             expect { command.call }.to broadcast(:invalid)
@@ -151,7 +151,7 @@ module Decidim
           end
 
           context "when geocoding is enabled" do
-            let(:component) { create(:proposal_component, :with_geocoding_enabled) }
+            let(:component) { create(:extended_proposal_component, :with_geocoding_enabled) }
 
             context "when the has address checkbox is checked" do
               let(:has_address) { true }
@@ -175,7 +175,7 @@ module Decidim
           end
 
           context "when attachments are allowed" do
-            let(:component) { create(:proposal_component, :with_attachments_allowed) }
+            let(:component) { create(:extended_proposal_component, :with_attachments_allowed) }
             let(:uploaded_files) do
               [
                 Decidim::Dev.test_file("Exampledocument.pdf", "application/pdf")
@@ -206,7 +206,7 @@ module Decidim
           end
 
           context "when attachments are allowed and file is invalid" do
-            let(:component) { create(:proposal_component, :with_attachments_allowed) }
+            let(:component) { create(:extended_proposal_component, :with_attachments_allowed) }
             let(:uploaded_files) do
               [
                 Decidim::Dev.test_file("city.jpeg", "image/jpeg"),
@@ -224,7 +224,7 @@ module Decidim
           end
 
           context "when documents and gallery are allowed" do
-            let(:component) { create(:proposal_component, :with_attachments_allowed) }
+            let(:component) { create(:extended_proposal_component, :with_attachments_allowed) }
             let(:uploaded_photos) { [Decidim::Dev.test_file("city.jpeg", "image/jpeg")] }
             let(:uploaded_files) do
               [
@@ -238,7 +238,7 @@ module Decidim
           end
 
           context "when gallery are allowed" do
-            let(:component) { create(:proposal_component, :with_attachments_allowed) }
+            let(:component) { create(:extended_proposal_component, :with_attachments_allowed) }
             let(:uploaded_photos) { [Decidim::Dev.test_file("city.jpeg", "image/jpeg")] }
 
             it "creates an image attachment for the proposal" do

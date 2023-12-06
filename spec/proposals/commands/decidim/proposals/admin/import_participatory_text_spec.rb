@@ -10,7 +10,7 @@ module Decidim
           let!(:document_file) { IO.read(Decidim::Dev.asset(document_name)) }
           let(:current_component) do
             create(
-              :proposal_component,
+              :extended_proposal_component,
               participatory_space: create(:participatory_process)
             )
           end

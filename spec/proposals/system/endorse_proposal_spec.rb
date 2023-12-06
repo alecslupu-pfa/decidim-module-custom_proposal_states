@@ -6,11 +6,11 @@ describe "Endorse Proposal", type: :system do
   include_context "with resources to be endorsed or not"
 
   let(:manifest_name) { "proposals" }
-  let!(:resources) { create_list(:proposal, 3, component: component, skip_injection: true) }
+  let!(:resources) { create_list(:extended_proposal, 3, component: component, skip_injection: true) }
   let!(:resource) { resources.first }
   let!(:resource_name) { translated(resource.title) }
   let!(:component) do
-    create(:proposal_component,
+    create(:extended_proposal_component,
            *component_traits,
            manifest: manifest,
            participatory_space: participatory_process)

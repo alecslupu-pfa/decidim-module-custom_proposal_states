@@ -5,7 +5,7 @@ require "spec_helper"
 module Decidim
   module Proposals
     describe WithdrawProposal do
-      let(:proposal) { create(:proposal) }
+      let(:proposal) { create(:extended_proposal) }
 
       before do
         proposal.save!

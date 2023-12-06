@@ -5,9 +5,9 @@ require "spec_helper"
 describe Decidim::Proposals::Metrics::ProposalsMetricManage do
   let(:organization) { create(:organization) }
   let(:participatory_space) { create(:participatory_process, :with_steps, organization: organization) }
-  let(:component) { create(:proposal_component, :published, participatory_space: participatory_space) }
+  let(:component) { create(:extended_proposal_component, :published, participatory_space: participatory_space) }
   let(:day) { Time.zone.yesterday }
-  let!(:proposals) { create_list(:proposal, 3, published_at: day, component: component) }
+  let!(:proposals) { create_list(:extended_proposal, 3, published_at: day, component: component) }
 
   include_context "when managing metrics"
 

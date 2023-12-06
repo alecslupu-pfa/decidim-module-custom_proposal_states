@@ -8,13 +8,13 @@ describe "Search proposals", type: :system do
     create(:participatory_process, :published, :with_steps, organization: organization)
   end
   let(:manifest_name) { "proposals" }
-  let!(:searchables) { create_list(:proposal, 3, component: component) }
+  let!(:searchables) { create_list(:extended_proposal, 3, component: component) }
   let!(:term) { translated(searchables.first.title).split(" ").last }
-  let(:component) { create(:proposal_component, participatory_space: participatory_process) }
+  let(:component) { create(:extended_proposal_component, participatory_space: participatory_process) }
   let(:hashtag) { "#decidim" }
 
   before do
-    hashtag_proposal = create(:proposal, component: component, title: "A proposal with a hashtag #{hashtag}")
+    hashtag_proposal = create(:extended_proposal, component: component, title: "A proposal with a hashtag #{hashtag}")
     searchables << hashtag_proposal
     searchables.each { |s| s.update(published_at: Time.current) }
   end

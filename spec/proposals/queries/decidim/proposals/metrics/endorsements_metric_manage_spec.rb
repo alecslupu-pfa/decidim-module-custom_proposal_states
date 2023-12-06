@@ -5,8 +5,8 @@ require "spec_helper"
 describe Decidim::Proposals::Metrics::EndorsementsMetricManage do
   let(:organization) { create(:organization) }
   let(:participatory_space) { create(:participatory_process, :with_steps, organization: organization) }
-  let(:component) { create(:proposal_component, :published, participatory_space: participatory_space) }
-  let(:proposal) { create(:proposal, component: component) }
+  let(:component) { create(:extended_proposal_component, :published, participatory_space: participatory_space) }
+  let(:proposal) { create(:extended_proposal, component: component) }
   let(:day) { Time.zone.today - 1.day }
   let!(:endorsements) do
     5.times.collect do

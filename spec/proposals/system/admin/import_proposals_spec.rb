@@ -3,7 +3,7 @@
 require "spec_helper"
 
 describe "Import proposals", type: :system do
-  let(:component) { create(:proposal_component) }
+  let(:component) { create(:extended_proposal_component) }
   let(:organization) { component.organization }
 
   let(:manifest_name) { "proposals" }

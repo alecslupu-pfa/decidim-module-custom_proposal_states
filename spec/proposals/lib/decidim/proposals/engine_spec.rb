@@ -4,9 +4,9 @@ require "spec_helper"
 
 describe Decidim::Proposals::Engine do
   describe "decidim_proposals.remove_space_admins" do
-    let(:component) { create(:proposal_component, participatory_space: space) }
+    let(:component) { create(:extended_proposal_component, participatory_space: space) }
     let(:valuator) { create :user, organization: organization }
-    let(:proposal) { create(:proposal, component: component) }
+    let(:proposal) { create(:extended_proposal, component: component) }
 
     context "when removing participatory_space admin" do
       let(:space) { valuator_role.participatory_process }

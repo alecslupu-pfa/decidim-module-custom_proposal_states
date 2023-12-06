@@ -7,7 +7,7 @@ module Decidim
     describe ProposalActivityCell, type: :cell do
       controller Decidim::LastActivitiesController
 
-      let!(:proposal) { create(:proposal) }
+      let!(:proposal) { create(:extended_proposal) }
       let(:hashtag) { create(:hashtag, name: "myhashtag") }
       let(:action) { :publish }
       let(:action_log) do

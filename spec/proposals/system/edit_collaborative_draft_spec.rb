@@ -4,7 +4,7 @@ require "spec_helper"
 
 describe "Edit collaborative_drafts", type: :system do
   include_context "with a component"
-  let!(:component) { create(:proposal_component, :with_collaborative_drafts_enabled, organization: organization) }
+  let!(:component) { create(:extended_proposal_component, :with_collaborative_drafts_enabled, organization: organization) }
   let(:manifest_name) { "proposals" }
 
   let!(:user) { create :user, :confirmed, organization: participatory_process.organization }
@@ -45,7 +45,7 @@ describe "Edit collaborative_drafts", type: :system do
     context "when attachment is enabled" do
       context "and after collaborative draft creation" do
         let!(:component) do
-          create(:proposal_component,
+          create(:extended_proposal_component,
                  :with_attachments_allowed_and_collaborative_drafts_enabled,
                  manifest: manifest,
                  participatory_space: participatory_process)

@@ -7,9 +7,9 @@ module Decidim
     module Admin
       describe MergeProposals do
         describe "call" do
-          let!(:proposals) { create_list(:proposal, 3, component: current_component) }
-          let!(:current_component) { create(:proposal_component) }
-          let!(:target_component) { create(:proposal_component, participatory_space: current_component.participatory_space) }
+          let!(:proposals) { create_list(:extended_proposal, 3, component: current_component) }
+          let!(:current_component) { create(:extended_proposal_component) }
+          let!(:target_component) { create(:extended_proposal_component, participatory_space: current_component.participatory_space) }
           let(:form) do
             instance_double(
               ProposalsMergeForm,
@@ -89,8 +89,8 @@ module Decidim
               end
 
               it "links the merged proposal to the links the other proposals had" do
-                other_component = create(:proposal_component, participatory_space: current_component.participatory_space)
-                other_proposals = create_list(:proposal, 3, component: other_component)
+                other_component = create(:extended_proposal_component, participatory_space: current_component.participatory_space)
+                other_proposals = create_list(:extended_proposal, 3, component: other_component)
 
                 proposals.each_with_index do |proposal, index|
                   proposal.link_resources(other_proposals[index], "copied_from_component")

@@ -8,14 +8,14 @@ module Decidim
   module Proposals
     describe ProposalsType, type: :graphql do
       include_context "with a graphql class type"
-      let(:model) { create(:proposal_component) }
+      let(:model) { create(:extended_proposal_component) }
 
       it_behaves_like "a component query type"
 
       describe "proposals" do
-        let!(:draft_proposals) { create_list(:proposal, 2, :draft, component: model) }
-        let!(:published_proposals) { create_list(:proposal, 2, component: model) }
-        let!(:other_proposals) { create_list(:proposal, 2) }
+        let!(:draft_proposals) { create_list(:extended_proposal, 2, :draft, component: model) }
+        let!(:published_proposals) { create_list(:extended_proposal, 2, component: model) }
+        let!(:other_proposals) { create_list(:extended_proposal, 2) }
 
         let(:query) { "{ proposals { edges { node { id } } } }" }
 
@@ -30,7 +30,7 @@ module Decidim
 
         context "when querying proposals with categories" do
           let(:category) { create(:category, participatory_space: model.participatory_space) }
-          let!(:proposal_with_category) { create(:proposal, component: model, category: category) }
+          let!(:proposal_with_category) { create(:extended_proposal, component: model, category: category) }
           let(:all_proposals) { published_proposals + [proposal_with_category] }
 
           let(:query) { "{ proposals { edges { node { id, category { id } } } } }" }
@@ -48,7 +48,7 @@ module Decidim
         let(:variables) { { id: proposal.id.to_s } }
 
         context "when the proposal belongs to the component" do
-          let!(:proposal) { create(:proposal, component: model) }
+          let!(:proposal) { create(:extended_proposal, component: model) }
 
           it "finds the proposal" do
             expect(response["proposal"]["id"]).to eq(proposal.id.to_s)
@@ -56,7 +56,7 @@ module Decidim
         end
 
         context "when the proposal doesn't belong to the component" do
-          let!(:proposal) { create(:proposal, component: create(:proposal_component)) }
+          let!(:proposal) { create(:extended_proposal, component: create(:extended_proposal_component)) }
 
           it "returns null" do
             expect(response["proposal"]).to be_nil
@@ -64,7 +64,7 @@ module Decidim
         end
 
         context "when the proposal is not published" do
-          let!(:proposal) { create(:proposal, :draft, component: model) }
+          let!(:proposal) { create(:extended_proposal, :draft, component: model) }
 
           it "returns null" do
             expect(response["proposal"]).to be_nil

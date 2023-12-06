@@ -10,8 +10,8 @@ module Decidim
 
         let(:command) { described_class.new(component, user, proposal_ids) }
         let(:proposal_ids) { proposals.map(&:id) }
-        let(:proposals) { create_list(:proposal, 5, :accepted_not_published, component: component) }
-        let(:component) { create(:proposal_component) }
+        let(:proposals) { create_list(:extended_proposal, 5, :accepted_not_published, component: component) }
+        let(:component) { create(:extended_proposal_component) }
         let(:user) { create(:user, :admin) }
 
         it "broadcasts ok" do
@@ -51,7 +51,7 @@ module Decidim
         end
 
         context "when proposal ids belong to other component" do
-          let(:proposals) { create_list(:proposal, 5, :accepted) }
+          let(:proposals) { create_list(:extended_proposal, 5, :accepted) }
 
           it "broadcasts invalid" do
             expect { subject }.to broadcast(:invalid)

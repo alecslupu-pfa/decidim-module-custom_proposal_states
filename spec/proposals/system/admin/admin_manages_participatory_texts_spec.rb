@@ -132,7 +132,7 @@ describe "Admin manages participatory texts", type: :system do
   end
 
   describe "discarding participatory texts in draft mode" do
-    let!(:proposals) { create_list(:proposal, 5, :draft, component: current_component, participatory_text_level: "article") }
+    let!(:proposals) { create_list(:extended_proposal, 5, :draft, component: current_component, participatory_text_level: "article") }
 
     it "removes all proposals in draft mode" do
       visit_participatory_texts

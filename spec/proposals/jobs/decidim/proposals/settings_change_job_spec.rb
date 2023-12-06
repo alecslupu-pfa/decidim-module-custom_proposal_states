@@ -7,7 +7,7 @@ module Decidim
     describe SettingsChangeJob do
       subject { described_class }
 
-      let(:component) { create(:proposal_component) }
+      let(:component) { create(:extended_proposal_component) }
       let(:user) { create :user, organization: component.organization }
       let!(:follow) { create :follow, followable: component.participatory_space, user: user }
 

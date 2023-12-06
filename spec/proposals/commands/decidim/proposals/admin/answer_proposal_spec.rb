@@ -9,7 +9,7 @@ module Decidim
         subject { command.call }
 
         let(:command) { described_class.new(form, proposal) }
-        let(:proposal) { create(:proposal) }
+        let(:proposal) { create(:extended_proposal) }
         let(:current_user) { create(:user, :admin) }
         let(:form) do
           ProposalAnswerForm.from_params(form_params).with_context(
@@ -76,7 +76,7 @@ module Decidim
         end
 
         context "when applying over an already answered proposal" do
-          let(:proposal) { create(:proposal, :accepted) }
+          let(:proposal) { create(:extended_proposal, :accepted) }
 
           it "broadcasts ok" do
             expect { subject }.to broadcast(:ok)
@@ -96,8 +96,8 @@ module Decidim
         end
 
         context "when proposal answer should not be published immediately" do
-          let(:proposal) { create(:proposal, component: component) }
-          let(:component) { create(:proposal_component, :without_publish_answers_immediately) }
+          let(:proposal) { create(:extended_proposal, component: component) }
+          let(:component) { create(:extended_proposal_component, :without_publish_answers_immediately) }
 
           it "broadcasts ok" do
             expect { subject }.to broadcast(:ok)

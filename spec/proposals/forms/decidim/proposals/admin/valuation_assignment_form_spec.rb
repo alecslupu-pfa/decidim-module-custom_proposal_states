@@ -9,8 +9,8 @@ module Decidim
         subject { form }
 
         let(:organization) { component.participatory_space.organization }
-        let(:proposals) { create_list(:proposal, 2, component: component) }
-        let(:component) { create(:proposal_component) }
+        let(:proposals) { create_list(:extended_proposal, 2, component: component) }
+        let(:component) { create(:extended_proposal_component) }
         let(:valuator_process) { component.participatory_space }
         let(:valuator) { create :user, organization: organization }
         let(:valuator_role) { create(:participatory_process_user_role, role: :valuator, user: valuator, participatory_process: valuator_process) }

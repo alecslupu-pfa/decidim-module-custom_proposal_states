@@ -5,11 +5,11 @@ require "spec_helper"
 module Decidim
   module Amendable
     describe UpdateDraft do
-      let!(:component) { create(:proposal_component) }
+      let!(:component) { create(:extended_proposal_component) }
       let!(:other_user) { create(:user, :confirmed, organization: component.organization) }
 
-      let!(:amendable) { create(:proposal, component: component) }
-      let!(:emendation) { create(:proposal, :unpublished, component: component) }
+      let!(:amendable) { create(:extended_proposal, component: component) }
+      let!(:emendation) { create(:extended_proposal, :unpublished, component: component) }
       let!(:amendment) { create(:amendment, :draft, amendable: amendable, emendation: emendation) }
 
       let(:title) { "More sidewalks and less roads!" }

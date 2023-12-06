@@ -61,7 +61,7 @@ describe "Admin edits proposals", type: :system do
 
     context "when the proposal has attachment" do
       let!(:component) do
-        create(:proposal_component,
+        create(:extended_proposal_component,
                :with_creation_enabled,
                :with_attachments_allowed,
                manifest: manifest,
@@ -69,7 +69,7 @@ describe "Admin edits proposals", type: :system do
       end
 
       let!(:proposal) do
-        create(:proposal,
+        create(:extended_proposal,
                :official,
                component: component,
                title: "Proposal with attachments",

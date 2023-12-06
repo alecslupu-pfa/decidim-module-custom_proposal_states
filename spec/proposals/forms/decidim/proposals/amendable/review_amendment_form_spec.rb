@@ -7,9 +7,9 @@ module Decidim
     describe ReviewForm do
       subject { form }
 
-      let(:component) { create(:proposal_component) }
-      let(:amendable) { create(:proposal, component: component) }
-      let(:emendation) { create(:proposal, component: component) }
+      let(:component) { create(:extended_proposal_component) }
+      let(:amendable) { create(:extended_proposal, component: component) }
+      let(:emendation) { create(:extended_proposal, component: component) }
       let(:amendment) { create(:amendment, amendable: amendable, emendation: emendation) }
 
       let(:form) do

@@ -6,7 +6,7 @@ module Decidim
   module Proposals
     describe CreateCollaborativeDraft do
       let(:form_klass) { CollaborativeDraftForm }
-      let(:component) { create(:proposal_component, :with_collaborative_drafts_enabled, :with_extra_hashtags, suggested_hashtags: suggested_hashtags.join(" ")) }
+      let(:component) { create(:extended_proposal_component, :with_collaborative_drafts_enabled, :with_extra_hashtags, suggested_hashtags: suggested_hashtags.join(" ")) }
       let(:organization) { component.organization }
       let(:user) { create :user, :confirmed, organization: organization }
       let(:form) do
@@ -153,7 +153,7 @@ module Decidim
           end
 
           context "when attachments are allowed" do
-            let(:component) { create(:proposal_component, :with_attachments_allowed) }
+            let(:component) { create(:extended_proposal_component, :with_attachments_allowed) }
             let(:attachment_params) do
               {
                 title: "My attachment",

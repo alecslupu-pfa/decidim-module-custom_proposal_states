@@ -8,16 +8,16 @@ module Decidim
       describe ImportProposals do
         describe "call" do
           let!(:organization) { create(:organization) }
-          let!(:proposal) { create(:proposal, :accepted, component: proposal_component) }
+          let!(:proposal) { create(:extended_proposal, :accepted, component: proposal_component) }
           let!(:proposal_component) do
             create(
-              :proposal_component,
+              :extended_proposal_component,
               organization: organization
             )
           end
           let!(:current_component) do
             create(
-              :proposal_component,
+              :extended_proposal_component,
               participatory_space: proposal_component.participatory_space,
               organization: organization
             )
@@ -73,7 +73,7 @@ module Decidim
             end
 
             context "when a proposal was already imported" do
-              let(:second_proposal) { create(:proposal, :accepted, component: proposal_component) }
+              let(:second_proposal) { create(:extended_proposal, :accepted, component: proposal_component) }
 
               before do
                 command.call
@@ -163,8 +163,8 @@ module Decidim
               let(:states) { %w(not_answered rejected) }
 
               before do
-                create(:proposal, :rejected, component: proposal_component)
-                create(:proposal, component: proposal_component)
+                create(:extended_proposal, :rejected, component: proposal_component)
+                create(:extended_proposal, component: proposal_component)
               end
 
               it "only imports proposals from the selected states" do
@@ -186,8 +186,8 @@ module Decidim
 
               let!(:proposals) do
                 [
-                  create(:proposal, component: proposal_component, scope: scope),
-                  create(:proposal, component: proposal_component, scope: other_scope)
+                  create(:extended_proposal, component: proposal_component, scope: scope),
+                  create(:extended_proposal, component: proposal_component, scope: other_scope)
                 ]
               end
 

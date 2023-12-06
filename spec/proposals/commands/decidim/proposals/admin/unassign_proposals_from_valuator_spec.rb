@@ -7,9 +7,9 @@ module Decidim
     module Admin
       describe UnassignProposalsFromValuator do
         describe "call" do
-          let!(:assigned_proposal) { create(:proposal, component: current_component) }
-          let!(:unassigned_proposal) { create(:proposal, component: current_component) }
-          let!(:current_component) { create(:proposal_component) }
+          let!(:assigned_proposal) { create(:extended_proposal, component: current_component) }
+          let!(:unassigned_proposal) { create(:extended_proposal, component: current_component) }
+          let!(:current_component) { create(:extended_proposal_component) }
           let(:space) { current_component.participatory_space }
           let(:organization) { space.organization }
           let(:user) { create :user, organization: organization }

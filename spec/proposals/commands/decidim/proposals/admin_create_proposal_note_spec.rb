@@ -7,7 +7,7 @@ module Decidim
     module Admin
       describe CreateProposalNote do
         describe "call" do
-          let(:proposal) { create(:proposal) }
+          let(:proposal) { create(:extended_proposal) }
           let(:organization) { proposal.component.organization }
           let(:current_user) { create(:user, :admin, organization: organization) }
           let!(:another_admin) { create(:user, :admin, organization: organization) }

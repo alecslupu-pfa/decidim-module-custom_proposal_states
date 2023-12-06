@@ -23,7 +23,7 @@ module Decidim
         expect(translated(proposal.body)).to eq(body)
       end
 
-      let!(:component) { create(:proposal_component) }
+      let!(:component) { create(:extended_proposal_component) }
       let(:parser) { MarkdownToProposals.new(component, create(:user)) }
       let(:items) { [] }
       let(:document) do

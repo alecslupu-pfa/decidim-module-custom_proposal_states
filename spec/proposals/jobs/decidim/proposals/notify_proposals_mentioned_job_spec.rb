@@ -10,11 +10,11 @@ module Decidim
       include_context "when creating a comment"
 
       let(:comment) { create(:comment, commentable: commentable) }
-      let(:proposal_component) { create(:proposal_component, organization: organization) }
+      let(:extended_proposal_component) { create(:extended_proposal_component, organization: organization) }
       let(:proposal_metadata) { Decidim::ContentParsers::ProposalParser::Metadata.new([]) }
       let(:users) { [create(:user, :confirmed, organization: organization)] }
-      let(:linked_proposal) { create(:proposal, component: proposal_component, users: users) }
-      let(:linked_proposal_official) { create(:proposal, :official, component: proposal_component) }
+      let(:linked_proposal) { create(:extended_proposal, component: proposal_component, users: users) }
+      let(:linked_proposal_official) { create(:extended_proposal, :official, component: proposal_component) }
       let(:author) { create(:user, organization: commentable.organization) }
 
       describe "integration" do

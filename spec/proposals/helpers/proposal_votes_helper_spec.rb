@@ -8,7 +8,7 @@ module Decidim
       let(:organization) { create(:organization) }
       let(:limit) { 10 }
       let(:votes_enabled) { true }
-      let(:proposal_component) { create(:proposal_component, organization: organization) }
+      let(:extended_proposal_component) { create(:extended_proposal_component, organization: organization) }
       let(:user) { create(:user, organization: organization) }
 
       before do
@@ -56,7 +56,7 @@ module Decidim
 
       describe "#remaining_votes_count_for" do
         it "returns the remaining votes for a user based on the component votes limit" do
-          proposal = create(:proposal, component: proposal_component)
+          proposal = create(:extended_proposal, component: proposal_component)
           create(:proposal_vote, author: user, proposal: proposal)
 
           expect(helper.remaining_votes_count_for(user)).to eq(9)

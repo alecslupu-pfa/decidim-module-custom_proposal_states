@@ -10,7 +10,7 @@ module Decidim
       include_context "when a simple event"
 
       let(:event_name) { "decidim.events.proposals.creation_enabled" }
-      let(:resource) { create(:proposal_component) }
+      let(:resource) { create(:extended_proposal_component) }
       let(:participatory_space) { resource.participatory_space }
       let(:resource_path) { main_component_path(resource) }
 

@@ -7,8 +7,8 @@ module Decidim
     module Admin
       describe AssignProposalsToValuator do
         describe "call" do
-          let!(:proposal) { create(:proposal, component: current_component) }
-          let!(:current_component) { create(:proposal_component) }
+          let!(:proposal) { create(:extended_proposal, component: current_component) }
+          let!(:current_component) { create(:extended_proposal_component) }
           let(:space) { current_component.participatory_space }
           let(:organization) { space.organization }
           let(:user) { create :user, organization: organization }

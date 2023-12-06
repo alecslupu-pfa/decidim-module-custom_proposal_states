@@ -9,7 +9,7 @@ module Decidim
     include_context "when a resource is ready for global search"
 
     let(:participatory_space) { create(:participatory_process, :published, :with_steps, organization: organization) }
-    let(:current_component) { create :proposal_component, organization: organization, participatory_space: participatory_space }
+    let(:current_component) { create :extended_proposal_component, organization: organization, participatory_space: participatory_space }
     let!(:proposal) do
       create(
         :proposal,
@@ -27,7 +27,7 @@ module Decidim
         context "when on create" do
           context "when proposals are NOT official" do
             let(:proposal2) do
-              create(:proposal, skip_injection: true, component: current_component)
+              create(:extended_proposal, skip_injection: true, component: current_component)
             end
 
             it "does not index a SearchableResource after Proposal creation when it is not official" do

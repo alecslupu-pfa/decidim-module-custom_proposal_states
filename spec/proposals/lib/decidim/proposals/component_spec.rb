@@ -3,7 +3,7 @@
 require "spec_helper"
 
 describe "Proposals component" do # rubocop:disable RSpec/DescribeClass
-  let!(:component) { create(:proposal_component) }
+  let!(:component) { create(:extended_proposal_component) }
   let(:organization) { component.organization }
   let!(:current_user) { create(:user, :confirmed, :admin, organization: organization) }
 
@@ -20,7 +20,7 @@ describe "Proposals component" do # rubocop:disable RSpec/DescribeClass
 
     context "when there are proposals for the component" do
       before do
-        create(:proposal, component: component)
+        create(:extended_proposal, component: component)
       end
 
       it "raises an error" do
@@ -195,7 +195,7 @@ describe "Proposals component" do # rubocop:disable RSpec/DescribeClass
       context "when there are proposals for the component" do
         before do
           component.update(settings: { participatory_texts_enabled: true }) # Testing from true to false
-          create(:proposal, component: component)
+          create(:extended_proposal, component: component)
           visit edit_component_path
         end
 

@@ -37,7 +37,7 @@ describe "Collaborative drafts", type: :system do
 
       context "with creation enabled" do
         let!(:component) do
-          create(:proposal_component,
+          create(:extended_proposal_component,
                  :with_creation_enabled,
                  manifest: manifest,
                  participatory_space: participatory_process,
@@ -117,7 +117,7 @@ describe "Collaborative drafts", type: :system do
 
         context "when geocoding is enabled", :serves_map, :serves_geocoding_autocomplete do
           let!(:component) do
-            create(:proposal_component,
+            create(:extended_proposal_component,
                    :with_creation_enabled,
                    manifest: manifest,
                    participatory_space: participatory_process)
@@ -179,7 +179,7 @@ describe "Collaborative drafts", type: :system do
 
         context "when component has extra hashtags defined" do
           let(:component) do
-            create(:proposal_component,
+            create(:extended_proposal_component,
                    :with_collaborative_drafts_enabled,
                    :with_extra_hashtags,
                    suggested_hashtags: component_suggested_hashtags,
@@ -249,7 +249,7 @@ describe "Collaborative drafts", type: :system do
 
           context "when geocoding is enabled", :serves_map, :serves_geocoding_autocomplete do
             let!(:component) do
-              create(:proposal_component,
+              create(:extended_proposal_component,
                      :with_creation_enabled,
                      manifest: manifest,
                      participatory_space: participatory_process,
@@ -310,7 +310,7 @@ describe "Collaborative drafts", type: :system do
 
         context "when attachments are allowed" do
           let!(:component) do
-            create(:proposal_component,
+            create(:extended_proposal_component,
                    :with_creation_enabled,
                    :with_attachments_allowed_and_collaborative_drafts_enabled,
                    manifest: manifest,
@@ -339,7 +339,7 @@ describe "Collaborative drafts", type: :system do
 
       context "when creation is not enabled" do
         let!(:component) do
-          create(:proposal_component,
+          create(:extended_proposal_component,
                  :with_collaborative_drafts_enabled,
                  manifest: manifest,
                  participatory_space: participatory_process)

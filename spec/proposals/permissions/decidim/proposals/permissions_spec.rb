@@ -14,7 +14,7 @@ describe Decidim::Proposals::Permissions do
       component_settings: component_settings
     }
   end
-  let(:proposal_component) { create :proposal_component }
+  let(:extended_proposal_component) { create :extended_proposal_component }
   let(:proposal) { create :proposal, component: proposal_component }
   let(:component_settings) do
     double(vote_limit: 2)

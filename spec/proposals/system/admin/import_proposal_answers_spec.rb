@@ -4,8 +4,8 @@ require "spec_helper"
 
 describe "Import proposal answers", type: :system do
   let(:organization) { create(:organization, available_locales: [:en, :ca, :es]) }
-  let(:component) { create(:proposal_component, organization: organization) }
-  let(:proposals) { create_list(:proposal, amount, component: component) }
+  let(:component) { create(:extended_proposal_component, organization: organization) }
+  let(:proposals) { create_list(:extended_proposal, amount, component: component) }
 
   let(:manifest_name) { "proposals" }
   let(:participatory_space) { component.participatory_space }
@@ -43,7 +43,7 @@ describe "Import proposal answers", type: :system do
 
   context "with the votings space" do
     let(:participatory_space) { create(:voting, organization: organization) }
-    let(:component) { create(:proposal_component, participatory_space: participatory_space, organization: organization) }
+    let(:component) { create(:extended_proposal_component, participatory_space: participatory_space, organization: organization) }
 
     it_behaves_like "admin manages proposal answer imports"
   end

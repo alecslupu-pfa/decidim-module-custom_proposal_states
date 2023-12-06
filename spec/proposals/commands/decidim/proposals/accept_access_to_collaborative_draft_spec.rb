@@ -5,7 +5,7 @@ require "spec_helper"
 module Decidim
   module Proposals
     describe AcceptAccessToCollaborativeDraft do
-      let(:component) { create(:proposal_component) }
+      let(:component) { create(:extended_proposal_component) }
       let(:state) { :open }
       let(:collaborative_draft) { create(:collaborative_draft, state, component: component, users: [author1, author2]) }
       let(:id) { collaborative_draft.id }

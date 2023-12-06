@@ -37,14 +37,14 @@ describe "Proposals", type: :system do
 
       context "with creation enabled" do
         let!(:component) do
-          create(:proposal_component,
+          create(:extended_proposal_component,
                  :with_creation_enabled,
                  manifest: manifest,
                  participatory_space: participatory_process,
                  settings: { scopes_enabled: true, scope_id: participatory_process.scope&.id })
         end
 
-        let(:proposal_draft) { create(:proposal, :draft, component: component, users: [user]) }
+        let(:proposal_draft) { create(:extended_proposal, :draft, component: component, users: [user]) }
 
         context "when process is not related to any scope" do
           it "can be related to a scope" do
@@ -95,7 +95,7 @@ describe "Proposals", type: :system do
 
         context "when geocoding is enabled", :serves_map, :serves_geocoding_autocomplete do
           let!(:component) do
-            create(:proposal_component,
+            create(:extended_proposal_component,
                    :with_creation_enabled,
                    manifest: manifest,
                    participatory_space: participatory_process,
@@ -106,7 +106,7 @@ describe "Proposals", type: :system do
                    })
           end
 
-          let(:proposal_draft) { create(:proposal, :draft, users: [user], component: component, title: "More sidewalks and less roads", body: "He will not solve everything") }
+          let(:proposal_draft) { create(:extended_proposal, :draft, users: [user], component: component, title: "More sidewalks and less roads", body: "He will not solve everything") }
 
           it "creates a new proposal", :slow do
             visit complete_proposal_path(component, proposal_draft)
@@ -166,7 +166,7 @@ describe "Proposals", type: :system do
 
         context "when component has extra hashtags defined" do
           let(:component) do
-            create(:proposal_component,
+            create(:extended_proposal_component,
                    :with_extra_hashtags,
                    suggested_hashtags: component_suggested_hashtags,
                    automatic_hashtags: component_automatic_hashtags,
@@ -174,7 +174,7 @@ describe "Proposals", type: :system do
                    participatory_space: participatory_process)
           end
 
-          let(:proposal_draft) { create(:proposal, :draft, users: [user], component: component, title: "More sidewalks and less roads", body: "He will not solve everything") }
+          let(:proposal_draft) { create(:extended_proposal, :draft, users: [user], component: component, title: "More sidewalks and less roads", body: "He will not solve everything") }
           let(:component_automatic_hashtags) { "AutoHashtag1 AutoHashtag2" }
           let(:component_suggested_hashtags) { "SuggestedHashtag1 SuggestedHashtag2" }
 
@@ -199,7 +199,7 @@ describe "Proposals", type: :system do
 
         context "when the user has verified organizations" do
           let(:user_group) { create(:user_group, :verified, organization: organization) }
-          let(:user_group_proposal_draft) { create(:proposal, :draft, users: [user], component: component, title: "More sidewalks and less roads", body: "Cities need more people, not more cars") }
+          let(:user_group_proposal_draft) { create(:extended_proposal, :draft, users: [user], component: component, title: "More sidewalks and less roads", body: "Cities need more people, not more cars") }
 
           before do
             create(:user_group_membership, user: user, user_group: user_group)
@@ -230,7 +230,7 @@ describe "Proposals", type: :system do
 
           context "when geocoding is enabled", :serves_map, :serves_geocoding_autocomplete do
             let!(:component) do
-              create(:proposal_component,
+              create(:extended_proposal_component,
                      :with_creation_enabled,
                      manifest: manifest,
                      participatory_space: participatory_process,
@@ -241,7 +241,7 @@ describe "Proposals", type: :system do
                      })
             end
 
-            let(:proposal_draft) { create(:proposal, :draft, users: [user], component: component, title: "More sidewalks and less roads", body: "He will not solve everything") }
+            let(:proposal_draft) { create(:extended_proposal, :draft, users: [user], component: component, title: "More sidewalks and less roads", body: "He will not solve everything") }
 
             it "creates a new proposal as a user group", :slow do
               visit complete_proposal_path(component, proposal_draft)
@@ -293,14 +293,14 @@ describe "Proposals", type: :system do
 
         context "when attachments are allowed" do
           let!(:component) do
-            create(:proposal_component,
+            create(:extended_proposal_component,
                    :with_creation_enabled,
                    :with_attachments_allowed,
                    manifest: manifest,
                    participatory_space: participatory_process)
           end
 
-          let(:proposal_draft) { create(:proposal, :draft, users: [user], component: component, title: "Proposal with attachments", body: "This is my proposal and I want to upload attachments.") }
+          let(:proposal_draft) { create(:extended_proposal, :draft, users: [user], component: component, title: "Proposal with attachments", body: "This is my proposal and I want to upload attachments.") }
 
           it "creates a new proposal with attachments" do
             visit complete_proposal_path(component, proposal_draft)
@@ -332,14 +332,14 @@ describe "Proposals", type: :system do
 
       context "when the proposal limit is 1" do
         let!(:component) do
-          create(:proposal_component,
+          create(:extended_proposal_component,
                  :with_creation_enabled,
                  :with_proposal_limit,
                  manifest: manifest,
                  participatory_space: participatory_process)
         end
 
-        let!(:proposal_first) { create(:proposal, users: [user], component: component, title: "Creating my first and only proposal", body: "This is my only proposal's body and I'm using it unwisely.") }
+        let!(:proposal_first) { create(:extended_proposal, users: [user], component: component, title: "Creating my first and only proposal", body: "This is my only proposal's body and I'm using it unwisely.") }
 
         before do
           visit_component

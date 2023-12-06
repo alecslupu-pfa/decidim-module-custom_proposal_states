@@ -8,7 +8,7 @@ module Decidim
       describe UpdateProposalScope do
         describe "call" do
           let!(:proposal) { create :proposal }
-          let!(:proposals) { create_list(:proposal, 3, component: proposal.component) }
+          let!(:proposals) { create_list(:extended_proposal, 3, component: proposal.component) }
           let!(:scope_one) { create :scope, organization: proposal.organization }
           let!(:scope) { create :scope, organization: proposal.organization }
 

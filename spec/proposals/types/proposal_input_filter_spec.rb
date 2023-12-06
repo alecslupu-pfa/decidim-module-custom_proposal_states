@@ -11,8 +11,8 @@ module Decidim
       include_context "with a graphql class type"
       let(:type_class) { Decidim::Proposals::ProposalsType }
 
-      let(:model) { create(:proposal_component) }
-      let!(:models) { create_list(:proposal, 3, :published, component: model) }
+      let(:model) { create(:extended_proposal_component) }
+      let!(:models) { create_list(:extended_proposal, 3, :published, component: model) }
 
       context "when filtered by published_at" do
         include_examples "connection has before/since input filter", "proposals", "published"

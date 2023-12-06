@@ -7,7 +7,7 @@ module Decidim
     describe VersionsController, versioning: true, type: :controller do
       routes { Decidim::Proposals::Engine.routes }
 
-      let(:resource) { create(:proposal) }
+      let(:resource) { create(:extended_proposal) }
 
       it_behaves_like "versions controller"
     end

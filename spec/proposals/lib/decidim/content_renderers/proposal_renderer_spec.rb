@@ -29,7 +29,7 @@ module Decidim
         end
 
         context "when content has one gid" do
-          let(:proposal) { create(:proposal) }
+          let(:proposal) { create(:extended_proposal) }
           let(:content) do
             "This content references proposal #{proposal.to_global_id}."
           end
@@ -38,9 +38,9 @@ module Decidim
         end
 
         context "when content has many links" do
-          let(:proposal_1) { create(:proposal) }
-          let(:proposal_2) { create(:proposal) }
-          let(:proposal_3) { create(:proposal) }
+          let(:proposal_1) { create(:extended_proposal) }
+          let(:proposal_2) { create(:extended_proposal) }
+          let(:proposal_3) { create(:extended_proposal) }
           let(:content) do
             gid1 = proposal_1.to_global_id
             gid2 = proposal_2.to_global_id

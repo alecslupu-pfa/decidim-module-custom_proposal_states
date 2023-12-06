@@ -8,8 +8,8 @@ describe Decidim::Proposals::ProposalCell, type: :cell do
   subject { my_cell.call }
 
   let(:my_cell) { cell("decidim/proposals/proposal", model) }
-  let!(:official_proposal) { create(:proposal, :official) }
-  let!(:user_proposal) { create(:proposal) }
+  let!(:official_proposal) { create(:extended_proposal, :official) }
+  let!(:user_proposal) { create(:extended_proposal) }
   let!(:current_user) { create(:user, :confirmed, organization: model.participatory_space.organization) }
 
   before do

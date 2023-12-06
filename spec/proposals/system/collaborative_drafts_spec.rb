@@ -14,7 +14,7 @@ describe "Explore Collaborative Drafts", versioning: true, type: :system do
   let!(:user) { create :user, :confirmed, organization: organization }
   let(:participatory_process) { create(:participatory_process, :with_steps, organization: organization) }
   let!(:component) do
-    create(:proposal_component,
+    create(:extended_proposal_component,
            :with_creation_enabled,
            manifest: manifest,
            participatory_space: participatory_process,
@@ -107,7 +107,7 @@ describe "Explore Collaborative Drafts", versioning: true, type: :system do
 
       context "when geocoding is enabled" do
         let!(:component) do
-          create(:proposal_component,
+          create(:extended_proposal_component,
                  :with_creation_enabled,
                  manifest: manifest,
                  participatory_space: participatory_process,
@@ -378,7 +378,7 @@ describe "Explore Collaborative Drafts", versioning: true, type: :system do
   end
 
   context "with collaborative drafts disabled" do
-    let(:component) { create(:proposal_component, manifest: manifest, participatory_space: participatory_process) }
+    let(:component) { create(:extended_proposal_component, manifest: manifest, participatory_space: participatory_process) }
 
     before do
       visit main_component_path(component)

@@ -4,7 +4,7 @@ require "spec_helper"
 
 describe "Explore versions", versioning: true, type: :system do
   include_context "with a component"
-  let(:component) { create(:proposal_component, :with_creation_enabled, :with_collaborative_drafts_enabled, organization: organization) }
+  let(:component) { create(:extended_proposal_component, :with_creation_enabled, :with_collaborative_drafts_enabled, organization: organization) }
 
   let(:manifest_name) { "proposals" }
   let!(:author) { create :user, :confirmed, organization: organization }

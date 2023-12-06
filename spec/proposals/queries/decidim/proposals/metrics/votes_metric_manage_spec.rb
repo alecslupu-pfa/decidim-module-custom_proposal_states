@@ -5,8 +5,8 @@ require "spec_helper"
 describe Decidim::Proposals::Metrics::VotesMetricManage do
   let(:organization) { create(:organization) }
   let(:participatory_space) { create(:participatory_process, :with_steps, organization: organization) }
-  let(:component) { create(:proposal_component, :published, participatory_space: participatory_space) }
-  let(:proposal) { create(:proposal, component: component) }
+  let(:component) { create(:extended_proposal_component, :published, participatory_space: participatory_space) }
+  let(:proposal) { create(:extended_proposal, component: component) }
   let(:day) { Time.zone.yesterday }
   let!(:votes) { create_list(:proposal_vote, 5, proposal: proposal, created_at: day) }
 
@@ -38,7 +38,7 @@ describe Decidim::Proposals::Metrics::VotesMetricManage do
     end
 
     context "when calculating the metrics" do
-      let(:withdrawn_proposal) { create(:proposal, state: "withdrawn", component: component) }
+      let(:withdrawn_proposal) { create(:extended_proposal, state: "withdrawn", component: component) }
       let!(:invalid_votes) { create_list(:proposal_vote, 5, proposal: withdrawn_proposal, created_at: day) }
       let(:moderation) { create(:moderation, reportable: proposal, report_count: 1, participatory_space: participatory_space) }
       let!(:report) { create(:report, moderation: moderation) }

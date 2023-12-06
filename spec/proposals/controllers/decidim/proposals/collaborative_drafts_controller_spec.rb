@@ -7,7 +7,7 @@ module Decidim
     describe CollaborativeDraftsController, type: :controller do
       routes { Decidim::Proposals::Engine.routes }
 
-      let(:component) { create(:proposal_component, :with_creation_enabled, :with_collaborative_drafts_enabled) }
+      let(:component) { create(:extended_proposal_component, :with_creation_enabled, :with_collaborative_drafts_enabled) }
       let(:params) { { component_id: component.id } }
       let(:user) { create(:user, :confirmed, organization: component.organization) }
       let(:author) { create(:user, :confirmed, organization: component.organization) }
@@ -47,7 +47,7 @@ module Decidim
           sign_in user, scope: :user
         end
 
-        let(:component) { create(:proposal_component, :with_creation_enabled, :with_collaborative_drafts_enabled) }
+        let(:component) { create(:extended_proposal_component, :with_creation_enabled, :with_collaborative_drafts_enabled) }
 
         describe "GET new" do
           it "renders the empty form" do
@@ -70,7 +70,7 @@ module Decidim
         end
 
         context "when creation is not enabled" do
-          let(:component) { create(:proposal_component, :with_collaborative_drafts_enabled) }
+          let(:component) { create(:extended_proposal_component, :with_collaborative_drafts_enabled) }
 
           it "redirects" do
             post :create, params: params
@@ -119,7 +119,7 @@ module Decidim
       end
 
       context "with collaborative drafts disabled" do
-        let(:component) { create(:proposal_component) }
+        let(:component) { create(:extended_proposal_component) }
 
         describe "GET index" do
           it "renders not found page" do

@@ -7,7 +7,7 @@ module Decidim
     describe CreateForm do
       subject { form }
 
-      let(:amendable) { create(:proposal) }
+      let(:amendable) { create(:extended_proposal) }
       let(:amender) { create :user, :confirmed, organization: amendable.organization }
 
       let(:form) do
@@ -39,21 +39,21 @@ module Decidim
       end
 
       context "when amendable title is not etiquette-compliant" do
-        let(:amendable) { create(:proposal, title: "A") }
+        let(:amendable) { create(:extended_proposal, title: "A") }
         let(:emendation_params) { { title: amendable.title, body: "A new body which is long enough" } }
 
         it { is_expected.to be_valid }
       end
 
       context "when amendable body is not etiquette-compliant" do
-        let(:amendable) { create(:proposal, body: "A") }
+        let(:amendable) { create(:extended_proposal, body: "A") }
         let(:emendation_params) { { title: "A title which is long enough", body: amendable.body } }
 
         it { is_expected.to be_valid }
       end
 
       context "when emendation adds more errors than original" do
-        let(:amendable) { create(:proposal, title: "AAAAAAAAAAAAAAAAAAAAAAAAAA") }
+        let(:amendable) { create(:extended_proposal, title: "AAAAAAAAAAAAAAAAAAAAAAAAAA") }
         let(:emendation_params) { { title: "AA", body: amendable.body } }
 
         it "is invalid" do
@@ -63,7 +63,7 @@ module Decidim
       end
 
       context "when emendation adds less errors than original" do
-        let(:amendable) { create(:proposal, title: "1 A!!#?", body: "#$^^ABC") }
+        let(:amendable) { create(:extended_proposal, title: "1 A!!#?", body: "#$^^ABC") }
         let(:emendation_params) { { title: "A title which is long enough", body: "A new body which is long enough" } }
 
         it { is_expected.to be_valid }

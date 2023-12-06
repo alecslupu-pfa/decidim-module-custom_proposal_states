@@ -3,11 +3,11 @@
 require "spec_helper"
 
 describe "Index Proposal Notes", type: :system do
-  let(:component) { create(:proposal_component) }
+  let(:component) { create(:extended_proposal_component) }
   let(:organization) { component.organization }
 
   let(:manifest_name) { "proposals" }
-  let(:proposal) { create(:proposal, component: component) }
+  let(:proposal) { create(:extended_proposal, component: component) }
   let(:participatory_space) { component.participatory_space }
 
   let(:body) { "New awesome body" }

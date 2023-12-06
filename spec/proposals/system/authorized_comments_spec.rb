@@ -3,9 +3,9 @@
 require "spec_helper"
 
 describe "Authorized comments", type: :system do
-  let!(:commentable) { create(:proposal, component: component, users: [author]) }
+  let!(:commentable) { create(:extended_proposal, component: component, users: [author]) }
   let!(:author) { create(:user, :confirmed, organization: organization) }
-  let!(:component) { create(:proposal_component, organization: organization) }
+  let!(:component) { create(:extended_proposal_component, organization: organization) }
   let!(:user) { create(:user, :confirmed, organization: organization) }
   let!(:comments) { create_list(:comment, 3, commentable: commentable) }
   let!(:authorization_handler_name) { "dummy_authorization_handler" }

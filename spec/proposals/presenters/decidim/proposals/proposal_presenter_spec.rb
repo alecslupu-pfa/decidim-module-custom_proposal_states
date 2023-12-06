@@ -7,7 +7,7 @@ module Decidim
     describe ProposalPresenter, type: :helper do
       subject(:presenter) { described_class.new(proposal) }
 
-      let(:proposal) { build(:proposal, body: content) }
+      let(:proposal) { build(:extended_proposal, body: content) }
 
       describe "when content contains urls" do
         let(:content) { <<~EOCONTENT }
@@ -134,7 +134,7 @@ module Decidim
       describe "#versions", versioning: true do
         subject { presenter.versions }
 
-        let(:proposal) { create(:proposal) }
+        let(:proposal) { create(:extended_proposal) }
 
         it { is_expected.to eq(proposal.versions) }
 
@@ -153,7 +153,7 @@ module Decidim
         end
 
         context "when a proposal's answer gets published" do
-          let(:proposal) { create(:proposal) }
+          let(:proposal) { create(:extended_proposal) }
 
           before do
             proposal.update!(answer: "an answer", state: "accepted", answered_at: Time.current)

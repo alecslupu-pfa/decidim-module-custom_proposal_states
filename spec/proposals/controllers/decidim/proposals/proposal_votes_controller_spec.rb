@@ -7,7 +7,7 @@ module Decidim
     describe ProposalVotesController, type: :controller do
       routes { Decidim::Proposals::Engine.routes }
 
-      let(:proposal) { create(:proposal, component: component) }
+      let(:proposal) { create(:extended_proposal, component: component) }
       let(:user) { create(:user, :confirmed, organization: component.organization) }
 
       let(:params) do
@@ -27,7 +27,7 @@ module Decidim
       describe "POST create" do
         context "with votes enabled" do
           let(:component) do
-            create(:proposal_component, :with_votes_enabled)
+            create(:extended_proposal_component, :with_votes_enabled)
           end
 
           it "allows voting" do
@@ -42,7 +42,7 @@ module Decidim
 
         context "with votes disabled" do
           let(:component) do
-            create(:proposal_component)
+            create(:extended_proposal_component)
           end
 
           it "doesn't allow voting" do
@@ -57,7 +57,7 @@ module Decidim
 
         context "with votes enabled but votes blocked" do
           let(:component) do
-            create(:proposal_component, :with_votes_blocked)
+            create(:extended_proposal_component, :with_votes_blocked)
           end
 
           it "doesn't allow voting" do
@@ -78,7 +78,7 @@ module Decidim
 
         context "with vote limit enabled" do
           let(:component) do
-            create(:proposal_component, :with_votes_enabled, :with_vote_limit)
+            create(:extended_proposal_component, :with_votes_enabled, :with_vote_limit)
           end
 
           it "deletes the vote" do
@@ -92,7 +92,7 @@ module Decidim
 
         context "with vote limit disabled" do
           let(:component) do
-            create(:proposal_component, :with_votes_enabled)
+            create(:extended_proposal_component, :with_votes_enabled)
           end
 
           it "deletes the vote" do

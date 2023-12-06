@@ -8,9 +8,9 @@ module Decidim
       describe ProposalsSplitForm do
         subject { form }
 
-        let(:proposals) { create_list(:proposal, 2, component: component) }
-        let(:component) { create(:proposal_component) }
-        let(:target_component) { create(:proposal_component, participatory_space: component.participatory_space) }
+        let(:proposals) { create_list(:extended_proposal, 2, component: component) }
+        let(:component) { create(:extended_proposal_component) }
+        let(:target_component) { create(:extended_proposal_component, participatory_space: component.participatory_space) }
         let(:params) do
           {
             target_component_id: [target_component.try(:id).to_s],
@@ -42,17 +42,17 @@ module Decidim
         end
 
         context "when given a target component from another space" do
-          let(:target_component) { create(:proposal_component) }
+          let(:target_component) { create(:extended_proposal_component) }
 
           it { is_expected.to be_invalid }
         end
 
         context "when merging to the same component" do
           let(:target_component) { component }
-          let(:proposals) { create_list(:proposal, 3, :official, component: component) }
+          let(:proposals) { create_list(:extended_proposal, 3, :official, component: component) }
 
           context "when the proposal is not official" do
-            let(:proposals) { create_list(:proposal, 3, component: component) }
+            let(:proposals) { create_list(:extended_proposal, 3, component: component) }
 
             it { is_expected.to be_invalid }
           end

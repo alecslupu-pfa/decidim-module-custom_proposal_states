@@ -3,8 +3,8 @@
 require "spec_helper"
 
 describe "Amendment Wizard", type: :system do
-  let!(:component) { create(:proposal_component, :with_amendments_enabled) }
-  let!(:proposal) { create(:proposal, title: { en: "More roads and less sidewalks" }, component: component) }
+  let!(:component) { create(:extended_proposal_component, :with_amendments_enabled) }
+  let!(:proposal) { create(:extended_proposal, title: { en: "More roads and less sidewalks" }, component: component) }
   let!(:user) { create :user, :confirmed, organization: component.organization }
   let(:proposal_path) { Decidim::ResourceLocatorPresenter.new(proposal).path }
 
@@ -58,7 +58,7 @@ describe "Amendment Wizard", type: :system do
 
     context "and in step_2: Compare your amendment" do
       context "with similar results" do
-        let!(:emendation) { create(:proposal, title: { en: title }, body: { en: body }, component: component) }
+        let!(:emendation) { create(:extended_proposal, title: { en: title }, body: { en: body }, component: component) }
         let!(:amendment) { create :amendment, amendable: proposal, emendation: emendation }
 
         before do
@@ -185,7 +185,7 @@ describe "Amendment Wizard", type: :system do
 
       context "when the back button is clicked" do
         context "with similar results" do
-          let!(:emendation) { create(:proposal, title: { en: title }, body: { en: body }, component: component) }
+          let!(:emendation) { create(:extended_proposal, title: { en: title }, body: { en: body }, component: component) }
           let!(:amendment) { create :amendment, amendable: proposal, emendation: emendation }
 
           before do
@@ -294,9 +294,9 @@ describe "Amendment Wizard", type: :system do
   end
 
   context "with existing amendment drafts" do
-    let!(:emendation) { create(:proposal, component: component) }
+    let!(:emendation) { create(:extended_proposal, component: component) }
     let!(:amendment) { create :amendment, amendable: proposal, emendation: emendation }
-    let!(:emendation_draft) { create(:proposal, :unpublished, component: component) }
+    let!(:emendation_draft) { create(:extended_proposal, :unpublished, component: component) }
     let!(:amendment_draft) { create :amendment, :draft, amendable: proposal, emendation: emendation_draft }
 
     context "and visiting an amended proposal" do

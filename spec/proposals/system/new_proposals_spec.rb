@@ -7,7 +7,7 @@ describe "Proposals", type: :system do
   let(:manifest_name) { "proposals" }
   let!(:user) { create :user, :confirmed, organization: organization }
   let!(:component) do
-    create(:proposal_component,
+    create(:extended_proposal_component,
            :with_creation_enabled,
            manifest: manifest,
            participatory_space: participatory_process)
@@ -24,7 +24,7 @@ describe "Proposals", type: :system do
     end
 
     context "and draft proposal exists for current users" do
-      let!(:draft) { create(:proposal, :draft, component: component, users: [user]) }
+      let!(:draft) { create(:extended_proposal, :draft, component: component, users: [user]) }
 
       it "redirects to edit draft" do
         click_link "New proposal"

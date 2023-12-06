@@ -8,9 +8,9 @@ describe Decidim::Proposals::Metrics::ProposalParticipantsMetricMeasure do
   let(:not_valid_resource) { create(:dummy_resource) }
   let(:participatory_space) { create(:participatory_process, :with_steps, organization: organization) }
 
-  let(:proposals_component) { create(:proposal_component, :published, participatory_space: participatory_space) }
-  let!(:proposal) { create(:proposal, :with_endorsements, published_at: day, component: proposals_component) }
-  let!(:old_proposal) { create(:proposal, :with_endorsements, published_at: day - 1.week, component: proposals_component) }
+  let(:proposals_component) { create(:extended_proposal_component, :published, participatory_space: participatory_space) }
+  let!(:proposal) { create(:extended_proposal, :with_endorsements, published_at: day, component: proposals_component) }
+  let!(:old_proposal) { create(:extended_proposal, :with_endorsements, published_at: day - 1.week, component: proposals_component) }
   let!(:proposal_votes) { create_list(:proposal_vote, 10, created_at: day, proposal: proposal) }
   let!(:old_proposal_votes) { create_list(:proposal_vote, 5, created_at: day - 1.week, proposal: old_proposal) }
   let!(:proposal_endorsements) do

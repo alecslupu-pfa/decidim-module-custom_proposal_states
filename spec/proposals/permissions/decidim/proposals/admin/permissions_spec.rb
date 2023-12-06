@@ -6,7 +6,7 @@ describe Decidim::Proposals::Admin::Permissions do
   subject { described_class.new(user, permission_action, context).permissions.allowed? }
 
   let(:user) { build :user, :admin }
-  let(:current_component) { create(:proposal_component) }
+  let(:current_component) { create(:extended_proposal_component) }
   let(:proposal) { nil }
   let(:extra_context) { {} }
   let(:context) do

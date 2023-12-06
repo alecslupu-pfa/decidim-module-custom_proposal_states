@@ -9,12 +9,12 @@ module Decidim
         describe "call" do
           let(:current_component) do
             create(
-              :proposal_component,
+              :extended_proposal_component,
               participatory_space: create(:participatory_process)
             )
           end
           let(:proposals) do
-            proposals = create_list(:proposal, 3, :draft, component: current_component)
+            proposals = create_list(:extended_proposal, 3, :draft, component: current_component)
             proposals.each_with_index do |proposal, idx|
               level = Decidim::Proposals::ParticipatoryTextSection::LEVELS.keys[idx]
               proposal.update(participatory_text_level: level)
