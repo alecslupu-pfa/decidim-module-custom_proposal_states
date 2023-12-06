@@ -18,7 +18,7 @@ describe Decidim::Admin::Import::Importer do
     }
   end
   let(:participatory_process) { create :participatory_process, organization: organization }
-  let(:current_component) { create :component, manifest_name: :proposals, participatory_space: participatory_process }
+  let(:current_component) { create :extended_proposal_component, participatory_space: participatory_process }
 
   context "with CSV" do
     let(:file) { File.new Decidim::Dev.asset("import_proposals.csv") }

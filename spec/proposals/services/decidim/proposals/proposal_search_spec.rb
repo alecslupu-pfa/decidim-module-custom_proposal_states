@@ -7,7 +7,7 @@ module Decidim
     describe ProposalSearch do
       subject { described_class.new(params).results }
 
-      let(:component) { create(:component, manifest_name: "proposals") }
+      let(:component) { create(:extended_proposal_component) }
       let(:default_params) { { component: component, user: user } }
       let(:params) { default_params }
       let(:participatory_process) { component.participatory_space }

@@ -22,6 +22,12 @@ RSpec.configure do |config|
     /railties/,
     /omniauth/,
     /puma/,
-    /rack/
+    /rack/,
+    /cells/,
+    /bundler/,
+    /tilt/,
+    /warden/,
+    /rspec-expectations/,
+    /rspec-core/
   ]
 end

@@ -17,6 +17,8 @@ FactoryBot.define do
     transient do
       state { :not_answered }
     end
+    component { build(:extended_proposal_component) }
+
     after(:build) do |proposal, evaluator|
       if proposal.component
         existing_states = Decidim::CustomProposalStates::ProposalState.where(component: proposal.component)
@@ -24,7 +26,9 @@ FactoryBot.define do
         Decidim::CustomProposalStates.create_default_states!(proposal.component, nil, with_traceability: false) unless existing_states.any?
       end
 
-      proposal.assign_state(evaluator.state)
+
+      proposal_state = Decidim::CustomProposalStates::ProposalState.where(component: proposal.component, token: evaluator.state).first!
+      proposal.proposal_state = proposal_state
     end
 
     trait :evaluating do

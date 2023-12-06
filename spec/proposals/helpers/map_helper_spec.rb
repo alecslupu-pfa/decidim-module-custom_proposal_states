@@ -8,7 +8,7 @@ module Decidim
       include Decidim::LayoutHelper
 
       let!(:organization) { create(:organization) }
-      let!(:extended_proposal_component) { create(:extended_proposal_component, :with_geocoding_enabled, organization: organization) }
+      let!(:proposal_component) { create(:extended_proposal_component, :with_geocoding_enabled, organization: organization) }
       let!(:user) { create(:user, organization: organization) }
       let!(:proposals) { create_list(:extended_proposal, 5, address: address, latitude: latitude, longitude: longitude, component: proposal_component) }
       let!(:proposal) { proposals.first }
