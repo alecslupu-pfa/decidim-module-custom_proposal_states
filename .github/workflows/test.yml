@@ -39,7 +39,7 @@ jobs:
           - "spec/proposals/queries"
           - "spec/proposals/services"
           - "spec/proposals/system/admin"
-          - "spec/proposals/system/ammendable"
+          - "spec/proposals/system/amendable"
           - "spec/proposals/system/*.rb"
           - "spec/proposals/types"
           - "spec/sortitions"

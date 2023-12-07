@@ -13,10 +13,10 @@ module Decidim
       let(:participatory_process) { component.participatory_space }
       let(:user) { create(:user, organization: component.organization) }
 
-      it_behaves_like "a resource search", :proposal
-      it_behaves_like "a resource search with scopes", :proposal
-      it_behaves_like "a resource search with categories", :proposal
-      it_behaves_like "a resource search with origin", :proposal
+      it_behaves_like "a resource search", :extended_proposal
+      it_behaves_like "a resource search with scopes", :extended_proposal
+      it_behaves_like "a resource search with categories", :extended_proposal
+      it_behaves_like "a resource search with origin", :extended_proposal
 
       describe "results" do
         let!(:proposal) { create(:extended_proposal, component: component) }
