@@ -37,14 +37,9 @@ describe "Import proposal answers", type: :system do
   let(:amount) { rand(1..5) }
   let(:json_file) { Rails.root.join("tmp/import_proposal_answers.json") }
 
-  include_context "when managing a component as an admin"
+  include_context "when managing a component as an admin" do
+    let!(:component) { create(:extended_proposal_component, participatory_space: participatory_process) }
+  end
 
   it_behaves_like "admin manages proposal answer imports"
-
-  context "with the votings space" do
-    let(:participatory_space) { create(:voting, organization: organization) }
-    let(:component) { create(:extended_proposal_component, participatory_space: participatory_space, organization: organization) }
-
-    it_behaves_like "admin manages proposal answer imports"
-  end
 end

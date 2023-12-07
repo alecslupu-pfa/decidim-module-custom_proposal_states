@@ -6,7 +6,9 @@ describe "Participatory texts", type: :system do
   include Decidim::SanitizeHelper
   include ActionView::Helpers::TextHelper
 
-  include_context "with a component"
+  include_context "with a component" do
+    let!(:component) { create(:extended_proposal_component, participatory_space: participatory_process) }
+  end
   let(:manifest_name) { "proposals" }
 
   def update_step_settings(new_step_settings)

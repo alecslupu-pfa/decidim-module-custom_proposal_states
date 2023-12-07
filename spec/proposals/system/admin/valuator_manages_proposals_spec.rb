@@ -4,8 +4,8 @@ require "spec_helper"
 
 describe "Valuator manages proposals", type: :system do
   let(:manifest_name) { "proposals" }
-  let!(:assigned_proposal) { create :proposal, component: current_component }
-  let!(:unassigned_proposal) { create :proposal, component: current_component }
+  let!(:assigned_proposal) { create :extended_proposal, component: current_component }
+  let!(:unassigned_proposal) { create :extended_proposal, component: current_component }
   let(:participatory_process) { create(:participatory_process, :with_steps, organization: organization) }
   let(:participatory_space_path) do
     decidim_admin_participatory_processes.edit_participatory_process_path(participatory_process)
@@ -17,7 +17,9 @@ describe "Valuator manages proposals", type: :system do
 
   include Decidim::ComponentPathHelper
 
-  include_context "when managing a component as an admin"
+  include_context "when managing a component as an admin" do
+    let!(:component) { create(:extended_proposal_component, participatory_space: participatory_process) }
+  end
 
   before do
     user.update(admin: false)
@@ -114,6 +116,47 @@ describe "Valuator manages proposals", type: :system do
         click_button "Answer"
       end
       expect(page).to have_content("successfully")
+    end
+  end
+
+  context "when answering a proposal" do
+    shared_examples "can change state" do |state|
+      it "can answer proposals" do
+        within "form.edit_proposal_answer" do
+          choose state
+          fill_in_i18n_editor(
+            :proposal_answer_answer,
+            "#proposal_answer-answer-tabs",
+            en: "This is my answer"
+          )
+          click_button "Answer"
+        end
+        expect(page).to have_content("successfully")
+      end
+    end
+
+    include_examples "can change state", "Accepted"
+
+    context "when there are custom states involved" do
+      let(:state_params) do
+        {
+          title: { en: "Custom state" },
+          token: "custom_state",
+          css_class: "custom-state",
+          system: false
+        }
+      end
+      let!(:custom_state) { create(:proposal_state, **state_params, answerable: true, component: current_component) }
+
+      before do
+        visit current_path
+      end
+
+      it "successfully displays the new state" do
+        expect(page).to have_content("Custom state")
+      end
+
+      include_examples "can change state", "Custom state"
     end
   end
 end

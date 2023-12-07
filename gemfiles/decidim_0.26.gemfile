@@ -30,4 +30,5 @@ end
 
 group :test do
   gem "rubocop-faker"
+  gem "axe-core-api", "~> 4.7.0"
 end

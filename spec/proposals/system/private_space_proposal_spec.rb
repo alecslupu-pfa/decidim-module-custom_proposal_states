@@ -3,9 +3,6 @@
 require "spec_helper"
 
 describe "Private Space Proposal", type: :system do
-  let(:manifest_name) { "proposals" }
-  let(:manifest) { Decidim.find_component_manifest(manifest_name) }
-
   let!(:organization) { create(:organization) }
   let(:user) { create :user, :confirmed, organization: organization }
   let!(:other_user) { create(:user, :confirmed, organization: organization) }
@@ -14,7 +11,7 @@ describe "Private Space Proposal", type: :system do
 
   let!(:participatory_space) { participatory_space_private }
 
-  let!(:component) { create(:component, manifest: manifest, participatory_space: participatory_space) }
+  let!(:component) { create(:extended_proposal_component, participatory_space: participatory_space) }
 
   before do
     switch_to_host(organization.host)

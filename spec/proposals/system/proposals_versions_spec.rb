@@ -3,7 +3,9 @@
 require "spec_helper"
 
 describe "Explore versions", versioning: true, type: :system do
-  include_context "with a component"
+  include_context "with a component" do
+    let!(:component) { create(:extended_proposal_component, participatory_space: participatory_process) }
+  end
   let(:component) { create(:extended_proposal_component, organization: organization) }
   let!(:proposal) { create(:extended_proposal, body: { en: "One liner body" }, component: component, skip_injection: true) }
   let!(:emendation) { create(:extended_proposal, body: { en: "Amended One liner body" }, component: component, skip_injection: true) }

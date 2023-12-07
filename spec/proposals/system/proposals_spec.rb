@@ -4,7 +4,9 @@ require "spec_helper"
 
 describe "Proposals", type: :system do
   include ActionView::Helpers::TextHelper
-  include_context "with a component"
+  include_context "with a component" do
+    let!(:component) { create(:extended_proposal_component, participatory_space: participatory_process) }
+  end
   let(:manifest_name) { "proposals" }
 
   let!(:category) { create :category, participatory_space: participatory_process }
@@ -183,7 +185,7 @@ describe "Proposals", type: :system do
 
       let!(:proposal) do
         create(
-          :proposal,
+          :extended_proposal,
           :accepted,
           :official,
           :with_answer,
@@ -225,7 +227,7 @@ describe "Proposals", type: :system do
     context "when a proposal has costs" do
       let!(:proposal) do
         create(
-          :proposal,
+          :extended_proposal,
           :accepted,
           :with_answer,
           component: component,
@@ -648,7 +650,7 @@ describe "Proposals", type: :system do
     end
 
     context "when paginating" do
-      let!(:collection) { create_list :proposal, collection_size, component: component }
+      let!(:collection) { create_list :extended_proposal, collection_size, component: component }
       let!(:resource_selector) { ".card--proposal" }
 
       it_behaves_like "a paginated resource"

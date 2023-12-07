@@ -4,7 +4,7 @@ require "spec_helper"
 
 describe "Admin manages proposals valuators", type: :system do
   let(:manifest_name) { "proposals" }
-  let!(:proposal) { create :proposal, component: current_component }
+  let!(:proposal) { create :extended_proposal, component: current_component }
   let!(:reportables) { create_list(:extended_proposal, 3, component: current_component) }
   let(:participatory_process) { create(:participatory_process, :with_steps, organization: organization) }
   let(:participatory_space_path) do
@@ -15,7 +15,9 @@ describe "Admin manages proposals valuators", type: :system do
 
   include Decidim::ComponentPathHelper
 
-  include_context "when managing a component as an admin"
+  include_context "when managing a component as an admin" do
+    let!(:component) { create(:extended_proposal_component, participatory_space: participatory_process) }
+  end
 
   context "when assigning to a valuator" do
     before do

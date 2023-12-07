@@ -3,7 +3,9 @@
 require "spec_helper"
 
 describe "Search proposals", type: :system do
-  include_context "with a component"
+  include_context "with a component" do
+    let!(:component) { create(:extended_proposal_component, participatory_space: participatory_process) }
+  end
   let(:participatory_process) do
     create(:participatory_process, :published, :with_steps, organization: organization)
   end

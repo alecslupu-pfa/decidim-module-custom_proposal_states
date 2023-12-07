@@ -46,7 +46,7 @@ module Decidim
 
         context "when the proposal is rejected after being accepted" do
           let(:proposal) { create(:extended_proposal, :rejected) }
-          let(:initial_state) { Decidim::CustomProposalStates::ProposalState.where(token: "accepted", component: proposal.component).first }
+          let(:initial_state) { Decidim::CustomProposalStates::ProposalState.find_by(token: "accepted", component: proposal.component) }
 
           it "broadcasts ok" do
             expect { subject }.to broadcast(:ok)
@@ -73,7 +73,7 @@ module Decidim
 
         context "when the proposal is not answered after being accepted" do
           let(:proposal) { create(:extended_proposal, answered_at: Time.current, state_published_at: Time.current) }
-          let(:initial_state) { Decidim::CustomProposalStates::ProposalState.where(token: "accepted", component: proposal.component).first }
+          let(:initial_state) { Decidim::CustomProposalStates::ProposalState.find_by(token: "accepted", component: proposal.component) }
 
           it "broadcasts ok" do
             expect { subject }.to broadcast(:ok)
@@ -92,7 +92,7 @@ module Decidim
         end
 
         context "when the proposal published state has not changed" do
-          let(:initial_state) { Decidim::CustomProposalStates::ProposalState.where(token: "accepted", component: proposal.component).first }
+          let(:initial_state) { Decidim::CustomProposalStates::ProposalState.find_by(token: "accepted", component: proposal.component) }
 
           it "broadcasts ok" do
             expect { command.call }.to broadcast(:ok)

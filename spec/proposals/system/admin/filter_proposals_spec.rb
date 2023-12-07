@@ -4,46 +4,53 @@ require "spec_helper"
 
 describe "Admin filters proposals", type: :system do
   include_context "when admin manages proposals"
-  include_context "with filterable context"
+  include_context "with filterable context" do
+    let!(:factory_name) { :extended_proposal }
+  end
 
-  STATES = Decidim::Proposals::Proposal::POSSIBLE_STATES.map(&:to_sym)
+  STATES = {
+    not_answered: "Not answered",
+    evaluating: "Evaluating",
+    accepted: "Accepted",
+    rejected: "Rejected",
+    withdrawn: "Withdrawn",
+    custom_state: "Custom state"
+  }.freeze
 
   let(:model_name) { Decidim::Proposals::Proposal.model_name }
   let(:resource_controller) { Decidim::Proposals::Admin::ProposalsController }
+  let!(:component) { create(:extended_proposal_component, participatory_space: participatory_process) }
+  let!(:custom_state) { create(:proposal_state, component: component, token: :custom_state, title: { "en" => "Custom state" }) }
 
-  def create_proposal_with_trait(trait)
+  def create_extended_proposal_with_trait(trait)
     create(:extended_proposal, trait, component: component, skip_injection: true)
   end
 
-  def proposal_with_state(state)
-    Decidim::Proposals::Proposal.where(component: component).find_by(state: state)
+  def extended_proposal_with_state(state)
+    proposal_state = Decidim::CustomProposalStates::ProposalState.find_by(component: component, token: state)
+    Decidim::Proposals::Proposal.where(component: component).find_by(proposal_state: proposal_state)
   end
 
-  def proposal_without_state(state)
-    Decidim::Proposals::Proposal.where(component: component).where.not(state: state).sample
+  def extended_proposal_without_state(state)
+    proposal_state = Decidim::CustomProposalStates::ProposalState.find_by(component: component, token: state)
+    Decidim::Proposals::Proposal.where(component: component).where.not(proposal_state: proposal_state).sample
   end
 
   context "when filtering by state" do
     let!(:proposals) do
-      STATES.map { |state| create_proposal_with_trait(state) }
+      STATES.keys.map { |state| create_extended_proposal_with_trait(state) }
     end
 
     before { visit_component_admin }
 
-    STATES.without(:not_answered).each do |state|
-      i18n_state = I18n.t(state, scope: "decidim.admin.filters.proposals.state_eq.values")
-
-      context "filtering proposals by state: #{i18n_state}" do
-        it_behaves_like "a filtered collection", options: "State", filter: i18n_state do
-          let(:in_filter) { translated(proposal_with_state(state).title) }
-          let(:not_in_filter) { translated(proposal_without_state(state).title) }
+    STATES.each_pair do |state, value|
+      context "filtering proposals by state: #{value}" do
+        it_behaves_like "a filtered collection", options: "State", filter: value do
+          let!(:factory_name) { :extended_proposal }
+          let(:in_filter) { translated(extended_proposal_with_state(state).title) }
+          let(:not_in_filter) { translated(extended_proposal_without_state(state).title) }
         end
       end
-    end
-
-    it_behaves_like "a filtered collection", options: "State", filter: "Not answered" do
-      let(:in_filter) { translated(proposal_with_state(nil).title) }
-      let(:not_in_filter) { translated(proposal_without_state(nil).title) }
     end
   end
 

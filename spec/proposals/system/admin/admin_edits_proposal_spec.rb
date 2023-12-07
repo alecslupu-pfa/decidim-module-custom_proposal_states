@@ -6,10 +6,12 @@ describe "Admin edits proposals", type: :system do
   let(:manifest_name) { "proposals" }
   let(:organization) { participatory_process.organization }
   let!(:user) { create :user, :admin, :confirmed, organization: organization }
-  let!(:proposal) { create :proposal, :official, component: component }
+  let!(:proposal) { create :extended_proposal, :official, component: component }
   let(:creation_enabled?) { true }
 
-  include_context "when managing a component as an admin"
+  include_context "when managing a component as an admin" do
+    let!(:component) { create(:extended_proposal_component, participatory_space: participatory_process) }
+  end
 
   before do
     component.update!(

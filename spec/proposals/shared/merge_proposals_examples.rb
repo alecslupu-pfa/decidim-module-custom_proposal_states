@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 shared_examples "merge proposals" do
-  let!(:proposals) { create_list :proposal, 3, :official, component: current_component }
+  let!(:proposals) { create_list :extended_proposal, 3, :official, component: current_component }
   let!(:target_component) { create :extended_proposal_component, participatory_space: current_component.participatory_space }
   include Decidim::ComponentPathHelper
 

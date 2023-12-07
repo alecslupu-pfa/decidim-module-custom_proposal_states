@@ -26,7 +26,7 @@ describe "Admin views proposal details from admin", type: :system do
   describe "with authors" do
     context "when the proposal's author is other user" do
       let!(:other_user) { create(:user, organization: current_component.organization) }
-      let!(:proposal) { create :proposal, component: current_component, users: [other_user] }
+      let!(:proposal) { create :extended_proposal, component: current_component, users: [other_user] }
 
       it "has a link to each author profile" do
         go_to_admin_proposal_page(proposal)
@@ -61,7 +61,7 @@ describe "Admin views proposal details from admin", type: :system do
     end
 
     context "when it has an organization as an author" do
-      let!(:proposal) { create :proposal, :official, component: current_component }
+      let!(:proposal) { create :extended_proposal, :official, component: current_component }
 
       it "doesn't show a link to the organization" do
         go_to_admin_proposal_page(proposal)
@@ -102,7 +102,7 @@ describe "Admin views proposal details from admin", type: :system do
     end
 
     it "shows the ranking by supports" do
-      another_proposal = create :proposal, component: component
+      another_proposal = create :extended_proposal, component: component
       create :proposal_vote, proposal: another_proposal
       go_to_admin_proposal_page(proposal)
 
@@ -124,7 +124,7 @@ describe "Admin views proposal details from admin", type: :system do
     end
 
     it "shows the ranking by endorsements" do
-      another_proposal = create :proposal, component: component
+      another_proposal = create :extended_proposal, component: component
       create(:endorsement, resource: another_proposal, author: build(:user, organization: organization))
       go_to_admin_proposal_page(proposal)
 

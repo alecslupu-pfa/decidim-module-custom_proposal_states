@@ -8,6 +8,8 @@ end
 
 FactoryBot.define do
   factory :extended_proposal_component, parent: :proposal_component do
+    name { { "en" => "Foo bar" } }
+
     after :create do |proposal_component|
       Decidim::CustomProposalStates.create_default_states!(proposal_component, nil, with_traceability: false)
     end
@@ -30,24 +32,37 @@ FactoryBot.define do
       proposal.proposal_state = proposal_state
     end
 
+    trait :not_answered do
+      state { :not_answered }
+      answered_at { nil }
+    end
+
     trait :evaluating do
       state { :evaluating }
       answered_at { Time.current }
       state_published_at { Time.current }
     end
+
     trait :accepted do
       state { :accepted }
       answered_at { Time.current }
       state_published_at { Time.current }
     end
+
     trait :rejected do
       state { :rejected }
       answered_at { Time.current }
       state_published_at { Time.current }
     end
+
     trait :withdrawn do
       state { :withdrawn }
     end
+
+    trait :custom_state do
+      state { :custom_state }
+    end
+
     trait :with_answer do
       state { :accepted }
       answer { generate_localized_title }

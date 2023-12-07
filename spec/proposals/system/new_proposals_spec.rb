@@ -3,7 +3,9 @@
 require "spec_helper"
 
 describe "Proposals", type: :system do
-  include_context "with a component"
+  include_context "with a component" do
+    let!(:component) { create(:extended_proposal_component, participatory_space: participatory_process) }
+  end
   let(:manifest_name) { "proposals" }
   let!(:user) { create :user, :confirmed, organization: organization }
   let!(:component) do

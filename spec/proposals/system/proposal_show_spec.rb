@@ -3,9 +3,15 @@
 require "spec_helper"
 
 describe "Show a Proposal", type: :system do
-  include_context "with a component"
   let(:manifest_name) { "proposals" }
-  let(:proposal) { create :proposal, component: component }
+  let(:proposal) { create :extended_proposal, component: component }
+
+  include_context "with a component" do
+    let!(:component) do
+      create(:extended_proposal_component,
+             participatory_space: participatory_space)
+    end
+  end
 
   def visit_proposal
     visit resource_locator(proposal).path

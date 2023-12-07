@@ -1,6 +1,12 @@
 ---
 en:
+
   decidim:
+    admin:
+      filters:
+        proposals:
+          proposal_state_id_eq:
+            label: State
     components:
       custom_proposal_states:
         name: CustomProposalStates

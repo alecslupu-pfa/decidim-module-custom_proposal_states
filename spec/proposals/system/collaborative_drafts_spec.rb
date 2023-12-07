@@ -6,7 +6,9 @@ describe "Explore Collaborative Drafts", versioning: true, type: :system do
   include Decidim::Proposals::ApplicationHelper
   include ActionView::Helpers::TextHelper
 
-  include_context "with a component"
+  include_context "with a component" do
+    let!(:component) { create(:extended_proposal_component, participatory_space: participatory_process) }
+  end
 
   let(:manifest_name) { "proposals" }
   let!(:scope) { create :scope, organization: organization }

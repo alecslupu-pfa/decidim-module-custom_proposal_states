@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 shared_examples "proposals wizards" do |options|
-  include_context "with a component"
+  include_context "with a component" do
+    let!(:component) { create(:extended_proposal_component, participatory_space: participatory_process) }
+  end
   let(:manifest_name) { "proposals" }
   let(:organization) { create :organization }
 

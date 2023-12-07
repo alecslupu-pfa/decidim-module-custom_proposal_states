@@ -3,7 +3,9 @@
 require "spec_helper"
 
 describe "Edit collaborative_drafts", type: :system do
-  include_context "with a component"
+  include_context "with a component" do
+    let!(:component) { create(:extended_proposal_component, participatory_space: participatory_process) }
+  end
   let!(:component) { create(:extended_proposal_component, :with_collaborative_drafts_enabled, organization: organization) }
   let(:manifest_name) { "proposals" }
 
