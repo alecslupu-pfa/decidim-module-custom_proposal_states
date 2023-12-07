@@ -17,7 +17,9 @@ module Decidim
 
       include_examples "withdraw amendment" do
         it "changes the emendation state" do
-          expect { command.call }.to change { emendation.reload[:state] }.from(nil).to("withdrawn")
+          not_answered = Decidim::CustomProposalStates::ProposalState.where(component: component, token: "not_answered").pick(:id)
+          withdrawn = Decidim::CustomProposalStates::ProposalState.where(component: component, token: "withdrawn").pick(:id)
+          expect { command.call }.to change { emendation.reload[:decidim_proposals_proposal_state_id] }.from(not_answered).to(withdrawn)
         end
       end
     end

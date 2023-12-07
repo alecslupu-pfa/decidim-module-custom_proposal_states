@@ -7,7 +7,7 @@ module Decidim
     module Admin
       describe UpdateProposalScope do
         describe "call" do
-          let!(:proposal) { create :proposal }
+          let!(:proposal) { create :extended_proposal }
           let!(:proposals) { create_list(:extended_proposal, 3, component: proposal.component) }
           let!(:scope_one) { create :scope, organization: proposal.organization }
           let!(:scope) { create :scope, organization: proposal.organization }

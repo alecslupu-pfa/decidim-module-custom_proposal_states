@@ -8,7 +8,7 @@ module Decidim
       describe ImportParticipatoryTextForm do
         subject { form }
 
-        let(:component) { create :component, manifest_name: "proposals" }
+        let(:component) { create :extended_proposal_component }
         let(:title) do
           {
             ca: "Yes very good, patates amb suc",
