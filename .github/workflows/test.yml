@@ -23,6 +23,7 @@ jobs:
           - "spec/budgets"
           - "spec/commands"
           - "spec/elections"
+          - "spec/events"
           - "spec/forms"
           - "spec/models"
           - "spec/proposals/cells"

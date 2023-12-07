@@ -16,6 +16,7 @@ module Decidim
       autoload :ImportProposals, "decidim/custom_proposal_states/overrides/import_proposals"
       autoload :AnswerProposal, "decidim/custom_proposal_states/overrides/answer_proposal"
       autoload :NotifyProposalAnswer, "decidim/custom_proposal_states/overrides/notify_proposal_answer"
+      autoload :ProposalAnswerCreator, "decidim/custom_proposal_states/overrides/proposal_answer_creator"
     end
 
     def self.create_default_states!(component, admin_user, with_traceability: true)

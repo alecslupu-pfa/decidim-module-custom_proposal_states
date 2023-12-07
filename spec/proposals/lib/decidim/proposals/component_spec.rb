@@ -46,11 +46,11 @@ describe "Proposals component" do # rubocop:disable RSpec/DescribeClass
       raw_stats.select { |stat| stat[0] == :proposals }
     end
 
-    let!(:proposal) { create :proposal }
+    let!(:proposal) { create :extended_proposal }
     let(:component) { proposal.component }
-    let!(:hidden_proposal) { create :proposal, component: component }
-    let!(:draft_proposal) { create :proposal, :draft, component: component }
-    let!(:withdrawn_proposal) { create :proposal, :withdrawn, component: component }
+    let!(:hidden_proposal) { create :extended_proposal, component: component }
+    let!(:draft_proposal) { create :extended_proposal, :draft, component: component }
+    let!(:withdrawn_proposal) { create :extended_proposal, :withdrawn, component: component }
     let!(:moderation) { create :moderation, reportable: hidden_proposal, hidden_at: 1.day.ago }
 
     let(:current_stat) { stats.find { |stat| stat[1] == stats_name } }
@@ -65,8 +65,8 @@ describe "Proposals component" do # rubocop:disable RSpec/DescribeClass
     end
 
     describe "proposals_accepted" do
-      let!(:accepted_proposal) { create :proposal, :accepted, component: component }
-      let!(:accepted_hidden_proposal) { create :proposal, :accepted, component: component }
+      let!(:accepted_proposal) { create :extended_proposal, :accepted, component: component }
+      let!(:accepted_hidden_proposal) { create :extended_proposal, :accepted, component: component }
       let!(:moderation) { create :moderation, reportable: accepted_hidden_proposal, hidden_at: 1.day.ago }
       let(:stats_name) { :proposals_accepted }
 
@@ -259,9 +259,9 @@ describe "Proposals component" do # rubocop:disable RSpec/DescribeClass
         .call(component, user)
     end
 
-    let!(:assigned_proposal) { create :proposal }
+    let!(:assigned_proposal) { create :extended_proposal }
     let(:component) { assigned_proposal.component }
-    let!(:unassigned_proposal) { create :proposal, component: component }
+    let!(:unassigned_proposal) { create :extended_proposal, component: component }
     let(:participatory_process) { component.participatory_space }
     let(:organization) { participatory_process.organization }
 
@@ -287,7 +287,7 @@ describe "Proposals component" do # rubocop:disable RSpec/DescribeClass
     end
 
     context "when proposal is moderated" do
-      let(:hidden_proposal) { create :proposal, component: component }
+      let(:hidden_proposal) { create :extended_proposal, component: component }
       let!(:moderation) { create(:moderation, hidden_at: 6.hours.ago, reportable: hidden_proposal) }
       let!(:user) { create :user, admin: true, organization: organization }
 

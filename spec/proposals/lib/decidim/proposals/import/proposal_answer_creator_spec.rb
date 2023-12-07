@@ -25,7 +25,7 @@ describe Decidim::Proposals::Import::ProposalAnswerCreator do
     }
   end
   let(:participatory_process) { create :participatory_process, organization: organization }
-  let(:component) { create :component, manifest_name: :proposals, participatory_space: participatory_process }
+  let(:component) { create :extended_proposal_component, participatory_space: participatory_process }
   let(:state) { %w(evaluating accepted rejected).sample }
 
   describe "#resource_klass" do
@@ -51,7 +51,7 @@ describe Decidim::Proposals::Import::ProposalAnswerCreator do
       expect(record).to be_a(Decidim::Proposals::Proposal)
       expect(record.id).to eq(data[:id])
       expect(record.answer["en"]).to eq(data[:"answer/en"])
-      expect(record[:state]).to eq(data[:state])
+      expect(record.state).to eq(data[:state])
       expect(record.answered_at).to be >= (moment)
     end
 
@@ -93,7 +93,7 @@ describe Decidim::Proposals::Import::ProposalAnswerCreator do
 
       context "and notifies followers" do
         before do
-          allow(::Decidim::Proposals::Admin::NotifyProposalAnswer).to receive(:call).with(proposal, "evaluating")
+          allow(::Decidim::Proposals::Admin::NotifyProposalAnswer).to receive(:call).with(proposal, proposal.proposal_state)
         end
 
         it "notifies followers" do

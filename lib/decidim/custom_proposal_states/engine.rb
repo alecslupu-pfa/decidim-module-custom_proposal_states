@@ -62,6 +62,7 @@ module Decidim
           Decidim::Proposals::Admin::ImportProposals.prepend Decidim::CustomProposalStates::Overrides::ImportProposals
           Decidim::Proposals::Admin::AnswerProposal.prepend Decidim::CustomProposalStates::Overrides::AnswerProposal
           Decidim::Proposals::Admin::NotifyProposalAnswer.prepend Decidim::CustomProposalStates::Overrides::NotifyProposalAnswer
+          Decidim::Proposals::Import::ProposalAnswerCreator.prepend Decidim::CustomProposalStates::Overrides::ProposalAnswerCreator
         end
       end
     end

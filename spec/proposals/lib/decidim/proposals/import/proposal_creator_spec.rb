@@ -32,7 +32,7 @@ describe Decidim::Proposals::Import::ProposalCreator do
     }
   end
   let(:participatory_process) { create :participatory_process, organization: organization }
-  let(:component) { create :component, manifest_name: :proposals, participatory_space: participatory_process }
+  let(:component) { create :extended_proposal_component, participatory_space: participatory_process }
   let(:scope) { create :scope, organization: organization }
   let(:category) { create :category, participatory_space: participatory_process }
 
