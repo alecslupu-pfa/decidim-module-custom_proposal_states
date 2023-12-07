@@ -4,7 +4,7 @@ require "spec_helper"
 
 module Decidim
   module Proposals
-    describe MapHelper do
+    describe MapHelper, type: :helper do
       include Decidim::LayoutHelper
 
       let!(:organization) { create(:organization) }

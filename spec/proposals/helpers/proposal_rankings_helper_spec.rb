@@ -5,7 +5,7 @@ require "spec_helper"
 module Decidim
   module Proposals
     module Admin
-      describe ProposalRankingsHelper do
+      describe ProposalRankingsHelper, type: :helper do
         let(:component) { create(:extended_proposal_component) }
 
         let!(:proposal1) { create :extended_proposal, component: component, proposal_votes_count: 4 }

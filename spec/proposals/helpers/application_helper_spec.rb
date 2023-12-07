@@ -4,7 +4,7 @@ require "spec_helper"
 
 module Decidim
   module Proposals
-    describe ApplicationHelper do
+    describe ApplicationHelper, type: :helper do
       describe "#humanize_proposal_state" do
         subject { helper.humanize_proposal_state(state) }
 

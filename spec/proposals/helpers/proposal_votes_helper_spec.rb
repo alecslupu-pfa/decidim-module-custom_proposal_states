@@ -4,11 +4,11 @@ require "spec_helper"
 
 module Decidim
   module Proposals
-    describe ProposalVotesHelper do
+    describe ProposalVotesHelper, type: :helper do
       let(:organization) { create(:organization) }
       let(:limit) { 10 }
       let(:votes_enabled) { true }
-      let(:extended_proposal_component) { create(:extended_proposal_component, organization: organization) }
+      let(:proposal_component) { create(:extended_proposal_component, organization: organization) }
       let(:user) { create(:user, organization: organization) }
 
       before do
