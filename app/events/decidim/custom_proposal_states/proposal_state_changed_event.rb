@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-# i18n-tasks-use t('decidim.events.proposals.proposal_state_changed.affected_user.notification_title')
-# i18n-tasks-use t('decidim.events.proposals.proposal_state_changed.affected_user.email_subject')
-# i18n-tasks-use t('decidim.events.proposals.proposal_state_changed.affected_user.email_outro')
-# i18n-tasks-use t('decidim.events.proposals.proposal_state_changed.affected_user.email_intro')
+# i18n-tasks-use t('decidim.events.custom_proposal_states.proposal_state_changed.affected_user.notification_title')
+# i18n-tasks-use t('decidim.events.custom_proposal_states.proposal_state_changed.affected_user.email_subject')
+# i18n-tasks-use t('decidim.events.custom_proposal_states.proposal_state_changed.affected_user.email_outro')
+# i18n-tasks-use t('decidim.events.custom_proposal_states.proposal_state_changed.affected_user.email_intro')
 module Decidim
   module CustomProposalStates
     class ProposalStateChangedEvent < Decidim::Events::SimpleEvent
