@@ -78,6 +78,42 @@ module Decidim
           Decidim::Proposals::DiffRenderer.prepend Decidim::CustomProposalStates::Overrides::DiffRenderer
         end
       end
+
+      initializer "decidim_custom_proposal_states.patch_engine" do
+        Rails.application.reloader.to_prepare do
+          return unless Decidim.module_installed?("proposals")
+          return if Decidim::Gamification.find_badge(:accepted_proposals).blank?
+
+          Decidim::Gamification.find_badge(:accepted_proposals).reset = lambda { |model|
+            proposal_ids = case model
+                           when User
+                             Decidim::Coauthorship.where(
+                               coauthorable_type: "Decidim::Proposals::Proposal",
+                               author: model,
+                               user_group: nil
+                             ).select(:coauthorable_id)
+                           when UserGroup
+                             Decidim::Coauthorship.where(
+                               coauthorable_type: "Decidim::Proposals::Proposal",
+                               user_group: model
+                             ).select(:coauthorable_id)
+                           end
+
+            Decidim::Proposals::Proposal.where(id: proposal_ids).gamified.count
+          }
+        end
+      end
+
+      initializer "decidim_custom_proposal_states.patch_component" do
+        Rails.application.reloader.to_prepare do
+          return unless Decidim.module_installed?("proposals")
+
+          Decidim.find_component_manifest(:proposals).on(:create) do |instance|
+            admin_user = GlobalID::Locator.locate(instance.versions.first.whodunnit)
+            Decidim::Proposals.create_default_states!(instance, admin_user)
+          end
+        end
+      end
     end
   end
 end

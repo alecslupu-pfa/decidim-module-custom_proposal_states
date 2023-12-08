@@ -105,7 +105,7 @@ module Decidim
                   another_proposal.link_resources(meeting_as_author, "proposals_from_meeting")
                   command.call
                   proposal = Decidim::Proposals::Proposal.last
-                  linked_proposals = meeting_as_author.linked_resources(:extended_proposal, "proposals_from_meeting")
+                  linked_proposals = meeting_as_author.linked_resources(:proposal, "proposals_from_meeting")
 
                   expect(linked_proposals).to match_array([proposal, another_proposal])
                 end
