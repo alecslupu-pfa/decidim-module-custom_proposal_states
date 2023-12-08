@@ -54,6 +54,13 @@ module Decidim
           Decidim::Elections::Admin::ImportProposalsToElections.prepend Decidim::CustomProposalStates::Overrides::ImportProposalsToElections
         end
       end
+      initializer "decidim_custom_proposal_states.action_controller", after: "decidim.action_controller" do
+        config.to_prepare do
+          ActiveSupport.on_load :action_controller do
+            Decidim::Proposals::Admin::ProposalsController.prepend Decidim::CustomProposalStates::Overrides::AdminFilterable
+          end
+        end
+      end
 
       initializer "decidim_custom_proposal_states.overrides.proposal" do
         Rails.application.reloader.to_prepare do
@@ -65,9 +72,6 @@ module Decidim
           Decidim::Proposals::Admin::AnswerProposal.prepend Decidim::CustomProposalStates::Overrides::AnswerProposal
           Decidim::Proposals::Admin::NotifyProposalAnswer.prepend Decidim::CustomProposalStates::Overrides::NotifyProposalAnswer
           Decidim::Proposals::Import::ProposalAnswerCreator.prepend Decidim::CustomProposalStates::Overrides::ProposalAnswerCreator
-
-          Decidim::Proposals::Admin::ProposalsController.helper Decidim::LayoutHelper
-          Decidim::Proposals::Admin::ProposalsController.prepend Decidim::CustomProposalStates::Overrides::AdminFilterable
         end
       end
     end
