@@ -1102,10 +1102,8 @@ Metrics/ModuleLength:
 Metrics/CyclomaticComplexity:
   Max: 9
   Exclude:
+    - "lib/decidim/custom_proposal_states/overrides/proposal_presenter.rb"
     - "bin/bundle"
-    - "decidim-admin/app/queries/decidim/admin/newsletter_recipients.rb"
-    - "**/*/dummy_authorization_handler.rb"
-    - "**/*/permissions.rb"
 
 Metrics/MethodLength:
   CountComments: false  # count full line comments?
@@ -1121,9 +1119,7 @@ Metrics/ParameterLists:
 Metrics/PerceivedComplexity:
   Max: 10
   Exclude:
-    - "decidim-admin/app/queries/decidim/admin/newsletter_recipients.rb"
-    - "**/*/dummy_authorization_handler.rb"
-    - "**/*/permissions.rb"
+    - "lib/decidim/custom_proposal_states/overrides/proposal_presenter.rb"
 
 ##################### Lint ##################################
 

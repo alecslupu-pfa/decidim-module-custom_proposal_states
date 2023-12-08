@@ -2,7 +2,7 @@
 
 shared_examples "split proposals" do
   let!(:proposals) { create_list :extended_proposal, 3, component: current_component }
-  let!(:target_component) { create :extended_proposal_component, participatory_space: current_component.participatory_space }
+  let!(:target_component) { create :extended_proposal_component, name: { "en" => "Target Component" }, participatory_space: current_component.participatory_space }
   include Decidim::ComponentPathHelper
 
   context "when selecting proposals" do

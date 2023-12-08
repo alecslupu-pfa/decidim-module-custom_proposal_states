@@ -25,4 +25,50 @@ describe "Admin manages proposals", type: :system do
   it_behaves_like "merge proposals"
   it_behaves_like "split proposals"
   it_behaves_like "publish answers"
+
+  context "when answering a proposal" do
+    shared_examples "can change state" do |state|
+      it "can answer proposals" do
+        within "form.edit_proposal_answer" do
+          choose state
+          fill_in_i18n_editor(
+            :proposal_answer_answer,
+            "#proposal_answer-answer-tabs",
+            en: "This is my answer"
+          )
+          click_button "Answer"
+        end
+        expect(page).to have_content("successfully")
+      end
+    end
+
+    before do
+      visit current_path
+      within find("tr", text: translated(proposal.title)) do
+        click_link "Answer proposal"
+      end
+    end
+
+    include_examples "can change state", "Accepted"
+
+    context "when there are custom states involved" do
+      let(:state_params) do
+        {
+          title: { en: "Custom state" },
+          token: "custom_state",
+          css_class: "custom-state",
+          system: false
+        }
+      end
+      let!(:custom_state) { create(:proposal_state, **state_params, answerable: true, component: proposal.component) }
+
+      before { visit current_path }
+
+      it "successfully displays the new state" do
+        expect(page).to have_content("Custom state")
+      end
+
+      include_examples "can change state", "Custom state"
+    end
+  end
 end
