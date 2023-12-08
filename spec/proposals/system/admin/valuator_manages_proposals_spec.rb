@@ -135,6 +135,13 @@ describe "Valuator manages proposals", type: :system do
       end
     end
 
+    before do
+      visit current_path
+      within find("tr", text: translated(assigned_proposal.title)) do
+        click_link "Answer proposal"
+      end
+    end
+
     include_examples "can change state", "Accepted"
 
     context "when there are custom states involved" do
