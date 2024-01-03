@@ -125,7 +125,7 @@ module Decidim
         Rails.application.reloader.to_prepare do
           Decidim.find_component_manifest(:proposals).on(:create) do |instance|
             admin_user = GlobalID::Locator.locate(instance.versions.first.whodunnit)
-            Decidim::Proposals.create_default_states!(instance, admin_user)
+            Decidim::CustomProposalStates.create_default_states!(instance, admin_user)
           end
 
           Decidim.find_component_manifest(:proposals).seeds do |participatory_space|
