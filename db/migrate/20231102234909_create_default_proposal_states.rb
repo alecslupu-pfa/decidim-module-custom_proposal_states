@@ -15,7 +15,7 @@ class CreateDefaultProposalStates < ActiveRecord::Migration[6.0]
     return unless Decidim.version.to_s.include?("0.26")
 
     states = {
-      "0"  => :not_answered,
+      "0" => :not_answered,
       "10" => :evaluating,
       "20" => :accepted,
       "-10" => :rejected,
