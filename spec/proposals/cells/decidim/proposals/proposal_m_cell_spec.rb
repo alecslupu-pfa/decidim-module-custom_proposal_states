@@ -80,6 +80,7 @@ module Decidim::Proposals
         let!(:attachment_3_pdf) { create(:attachment, :with_pdf, attached_to: proposal) }
 
         it "renders the first image in the card whatever the order between attachments" do
+          attachment_2_img.reload
           expect(subject).to have_css(".card__image")
           expect(subject.find(".card__image")[:src]).to eq(attachment_2_img.thumbnail_url)
         end
