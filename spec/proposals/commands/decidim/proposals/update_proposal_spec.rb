@@ -178,12 +178,14 @@ module Decidim
             let(:component) { create(:extended_proposal_component, :with_attachments_allowed) }
             let(:uploaded_files) do
               [
-                Decidim::Dev.test_file("Exampledocument.pdf", "application/pdf")
+                file: upload_test_file(Decidim::Dev.asset("Exampledocument.pdf"), content_type: "application/pdf")
               ]
             end
             let(:uploaded_photos) do
               [
-                Decidim::Dev.test_file("city.jpeg", "image/jpeg")
+                {
+                  file: upload_test_file(Decidim::Dev.asset("city.jpeg"), content_type: "image/jpeg")
+                }
               ]
             end
 
@@ -215,7 +217,7 @@ module Decidim
             end
 
             it "does not create atachments for the proposal" do
-              expect { command.call }.to change(Decidim::Attachment, :count).by(0)
+              expect { command.call }.not_to change(Decidim::Attachment, :count)
             end
 
             it "broadcasts invalid" do
