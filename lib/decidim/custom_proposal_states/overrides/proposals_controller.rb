@@ -8,12 +8,12 @@ module Decidim
           base.class_eval do
             def default_filter_params
               {
-                search_text: "",
-                state: default_states,
-                origin: default_filter_origin_params,
+                search_text_cont: "",
+                with_any_state: default_states,
+                with_any_origin: default_filter_origin_params,
                 activity: "all",
-                category_id: default_filter_category_params,
-                scope_id: default_filter_scope_params,
+                with_any_category: default_filter_category_params,
+                with_any_scope: default_filter_scope_params,
                 related_to: "",
                 type: "all"
               }
