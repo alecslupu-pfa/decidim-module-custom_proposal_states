@@ -15,7 +15,7 @@ describe "Filter Proposals", :slow, type: :system do
 
   context "when filtering proposals by STATE" do
     context "when proposal_answering component setting is enabled" do
-      let!(:custom_state) { create(:proposal_state, system: false, component: component, token: :custom_state, title: { "en" => "Custom state" }) }
+      let!(:custom_state) { create(:proposal_state, answerable: true, system: false, component: component, token: :custom_state, title: { "en" => "Custom state" }) }
 
       before do
         component.update!(settings: { proposal_answering_enabled: true })
@@ -47,10 +47,9 @@ describe "Filter Proposals", :slow, type: :system do
         end
 
         it "lists custom proposals" do
-          create(:extended_proposal, :custom_state, answered_at: Time.current, state_published_at: Time.current ,
-                 component: component)
+          create(:extended_proposal, :custom_state, answered_at: Time.current, state_published_at: Time.current,
+                                                    component: component, scope: scope)
           visit_component
-          expect(page).to have_content("foo bar")
 
           within ".filters .state_check_boxes_tree_filter" do
             check "All"

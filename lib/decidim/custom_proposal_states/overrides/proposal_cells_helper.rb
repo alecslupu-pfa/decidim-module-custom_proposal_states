@@ -15,8 +15,20 @@ module Decidim
         def state_classes
           return ["muted"] if model.state.blank?
           return ["alert"] if model.withdrawn?
+          return [model.proposal_state.css_class] unless model.emendation?
 
-          [model.proposal_state&.css_class]
+          case state
+          when "accepted"
+            ["success"]
+          when "rejected"
+            ["alert"]
+          when "evaluating"
+            ["warning"]
+          when "withdrawn"
+            ["alert"]
+          else
+            ["muted"]
+          end
         end
       end
     end

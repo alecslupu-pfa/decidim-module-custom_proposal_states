@@ -28,7 +28,6 @@ jobs:
       DATABASE_USERNAME: postgres
       DATABASE_PASSWORD: postgres
       DATABASE_HOST: localhost
-      BUNDLE_GEMFILE: gemfiles/decidim_0.26.gemfile
       RUBY_VERSION: 2.7.5
 
     steps:

@@ -21,6 +21,15 @@ module Decidim
         attribute :include_in_stats, [String]
 
         validates :title, translatable_presence: true
+        validates :token, presence: true
+
+        validate :token_uniqueness
+
+        def token_uniqueness
+          token = Decidim::CustomProposalStates::ProposalState.where(component: current_component, token: attributes.fetch(:token)).where.not(id: id)
+
+          errors.add(:token, :taken) if token.exists?
+        end
       end
     end
   end

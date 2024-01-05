@@ -28,6 +28,22 @@ module Decidim
       autoload :ProposalSearch, "decidim/custom_proposal_states/overrides/proposal_search"
     end
 
+    def self.module_installed?(mod)
+      return Decidim.module_installed?(mod) if Decidim.respond_to?(:module_installed?)
+
+      # return false unless Decidim::DependencyResolver.instance.needed?("decidim-#{mod}")
+
+      # The dependency may not be automatically loaded through the Gemfile if the
+      # user lists e.g. "decidim-core" and "decidim-budgets" in it. In this
+      # situation, "decidim-comments" is also needed because it is a dependency
+      # for "decidim-budgets".
+      require "decidim/#{mod}"
+
+      true
+    rescue LoadError
+      false
+    end
+
     def self.create_default_states!(component, admin_user, with_traceability: true)
       locale = Decidim.default_locale
       default_states = {

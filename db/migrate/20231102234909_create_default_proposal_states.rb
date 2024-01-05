@@ -22,14 +22,14 @@ class CreateDefaultProposalStates < ActiveRecord::Migration[6.0]
       "-20" => :withdrawn
     }
 
-    Proposal.where(old_state: "").update_all(old_state: "not_answered")
-    Proposal.where(old_state: nil).update_all(old_state: "not_answered")
+    Proposal.where(state: "").update_all(state: "not_answered")
+    Proposal.where(state: nil).update_all(state: "not_answered")
 
     Decidim::Component.where(manifest_name: "proposals").find_each do |component|
       admin_user = component.organization.admins.first
       default_states = Decidim::CustomProposalStates.create_default_states!(component, admin_user).with_indifferent_access
       Proposal.where(decidim_component_id: component.id).find_each do |proposal|
-        proposal.proposal_state = default_states.dig(proposal.old_state.to_s, :object)
+        proposal.proposal_state = default_states.dig(proposal.state.to_s, :object)
         proposal.save!
       end
     end
