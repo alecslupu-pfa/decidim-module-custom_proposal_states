@@ -43,7 +43,7 @@ module Decidim
         end
 
         let(:body) { "<ul><li>First</li><li>Second</li><li>Third</li></ul><script>alert('OK');</script>" }
-        let(:proposal_trait) { :citizen_author }
+        let(:proposal_trait) { :participant_author }
         let(:proposal) { create(:extended_proposal, proposal_trait, body: { "en" => body }) }
 
         it "renders a sanitized body" do
@@ -85,7 +85,16 @@ module Decidim
             end
 
             it "renders the image and iframe embed" do
-              expect(subject).to eq(%(<div class="ql-editor-display">#{body}</div>))
+              expect(subject).to eq(
+                                   <<~HTML.strip
+                  <div class="ql-editor-display"><p><img src="/path/to/image.jpg" alt="Image"></p>
+                  <div class="editor-content-videoEmbed">
+                    <div>
+                      <div class="disabled-iframe"><!-- <iframe src="https://example.org/video/xyz" title="Video" frameborder="0" allowfullscreen="true"></iframe> --></div>
+                    </div>
+                  </div></div>
+                HTML
+                                 )
             end
           end
         end
