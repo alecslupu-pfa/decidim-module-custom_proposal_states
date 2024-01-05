@@ -6,7 +6,7 @@ The Custom Proposal States module is a plugin for Decidim, designed to enhance t
 
 ## Acknowledgments
 
-The module has been financed by the city of Lyon as well as the Civic Engagement Commission of New York, and developed by Alex Lupu for Open Source Politics. 
+The module has been financed by the city of Lyon as well as the Civic Engagement Commission of New York, and developed by Alexandru-Emil Lupu (@alecslupu) for Open Source Politics. 
 
 
 ## Installation
@@ -25,7 +25,13 @@ To add this module to your Decidim instance, follow these steps:
    bundle install
    ```
 
-3. Migrate your database to apply new changes:
+3. Install relevant migrations:
+
+   ```bash
+   rails decidim:upgrade
+   ```
+   
+4. Migrate your database to apply new changes:
 
    ```bash
    rails db:migrate
