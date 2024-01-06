@@ -54,7 +54,7 @@ module Decidim
 
           describe "when the form is not valid" do
             before do
-              expect(form).to receive(:invalid?).and_return(true)
+              allow(form).to receive(:invalid?).and_return(true)
             end
 
             it "broadcasts invalid" do
@@ -197,10 +197,17 @@ module Decidim
 
             context "when attachments are allowed" do
               let(:component) { create(:extended_proposal_component, :with_attachments_allowed) }
+              let(:blob) do
+                ActiveStorage::Blob.create_and_upload!(
+                  io: File.open(Decidim::Dev.test_file("city.jpeg", "image/jpeg"), "rb"),
+                  filename: "city.jpeg",
+                  content_type: "image/jpeg" # Or figure it out from `name` if you have non-JPEGs
+                )
+              end
               let(:attachment_params) do
                 {
                   title: "My attachment",
-                  file: Decidim::Dev.test_file("city.jpeg", "image/jpeg")
+                  file: blob.signed_id
                 }
               end
 
