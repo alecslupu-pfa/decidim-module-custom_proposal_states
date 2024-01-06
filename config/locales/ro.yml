@@ -5,7 +5,7 @@ ro:
       filters:
         proposals:
           proposal_state_id_eq:
-            label: State
+            label: Stare
     components:
       custom_proposal_states:
         name: CustomProposalStates
@@ -13,13 +13,13 @@ ro:
       admin:
         proposal_states:
           edit:
-            save: Save
+            save: Actualizați
             title: Edit state
           index:
-            title: States
+            title: Stări
           new:
-            create: Create
-            title: New state
+            create: Creați
+            title: Stare nouă
     events:
       custom_proposal_states:
         proposal_state_changed:
