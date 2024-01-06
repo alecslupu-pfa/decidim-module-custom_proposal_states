@@ -26,4 +26,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency "decidim-dev", "~> 0.27"
   s.add_development_dependency "decidim-elections", "~> 0.27"
   s.add_development_dependency "decidim-sortitions", "~> 0.27"
+  s.metadata["rubygems_mfa_required"] = "true"
 end

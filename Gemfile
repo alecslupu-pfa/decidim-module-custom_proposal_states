@@ -8,8 +8,8 @@ gem "decidim", "~> 0.27"
 gem "decidim-custom_proposal_states", path: "."
 gem "decidim-elections", "~> 0.27"
 
-gem "puma", ">= 4.3"
 gem "bootsnap", "~> 1.4"
+gem "puma", ">= 4.3"
 
 group :development, :test do
   gem "byebug", "~> 11.0", platform: :mri
