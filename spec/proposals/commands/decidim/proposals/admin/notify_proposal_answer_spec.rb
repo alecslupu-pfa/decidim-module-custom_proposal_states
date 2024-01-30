@@ -30,7 +30,7 @@ module Decidim
           expect(Decidim::EventsManager)
             .to receive(:publish)
             .with(
-              event: "decidim.events.proposals.proposal_state_changed",
+              event: "decidim.events.custom_proposal_states.proposal_state_changed",
               event_class: Decidim::CustomProposalStates::ProposalStateChangedEvent,
               resource: proposal,
               affected_users: match_array([proposal.creator_author]),
@@ -56,7 +56,7 @@ module Decidim
             expect(Decidim::EventsManager)
               .to receive(:publish)
               .with(
-                event: "decidim.events.proposals.proposal_state_changed",
+                event: "decidim.events.custom_proposal_states.proposal_state_changed",
                 event_class: Decidim::CustomProposalStates::ProposalStateChangedEvent,
                 resource: proposal,
                 affected_users: match_array([proposal.creator_author]),
