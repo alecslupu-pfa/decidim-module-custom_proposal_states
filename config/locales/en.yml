@@ -32,10 +32,13 @@ en:
             notification_title: Your proposal <a href="%{resource_path}">%{resource_title}</a>
               has changed its state to "%{state}".
           follower:
-            email_intro: 'The proposal "%{resource_title}" has changed its state to "%{state}". You can read the answer in this page:'
-            email_outro: You have received this notification because you are following "%{resource_title}". You can unfollow it from the previous link.
+            email_intro: 'The proposal "%{resource_title}" has changed its state to
+              "%{state}". You can read the answer in this page:'
+            email_outro: You have received this notification because you are following
+              "%{resource_title}". You can unfollow it from the previous link.
             email_subject: A proposal you are following has changed its state (%{state})
-            notification_title: The <a href="%{resource_path}">%{resource_title}</a> proposal has changed its state to "%{state}".
+            notification_title: The <a href="%{resource_path}">%{resource_title}</a>
+              proposal has changed its state to "%{state}".
     proposals:
       actions:
         delete_proposal_state_confirm: Are you sure you want to delete this state?
