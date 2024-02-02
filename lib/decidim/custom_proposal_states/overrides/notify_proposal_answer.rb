@@ -19,7 +19,7 @@ module Decidim
               return unless proposal.proposal_state.notifiable?
 
               Decidim::EventsManager.publish(
-                event: "decidim.events.proposals.proposal_state_changed",
+                event: "decidim.events.custom_proposal_states.proposal_state_changed",
                 event_class: Decidim::CustomProposalStates::ProposalStateChangedEvent,
                 resource: proposal,
                 affected_users: proposal.notifiable_identities,
