@@ -3,7 +3,7 @@
 require "decidim/custom_proposal_states/admin"
 require "decidim/custom_proposal_states/engine"
 require "decidim/custom_proposal_states/admin_engine"
-require "byebug"
+
 module Decidim
   # This namespace holds the logic of the `CustomProposalStates` component. This component
   # allows users to create custom_proposal_states in a participatory space.
