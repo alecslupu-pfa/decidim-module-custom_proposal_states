@@ -55,14 +55,14 @@ fr:
             statuses: États des réponses
       models:
         proposal_state:
-          announcement_title: Announcement title
-          answerable: Answerable
+          announcement_title: Phrase de réponse à la proposition 
+          answerable: État choisisable
           css_class: Classe CSS
           default: Assigné par défaut
           description: Description
-          gamified: Gamified
-          include_in_stats: Include in stats
-          notifiable: Notifiable
+          gamified: Gamifié
+          include_in_stats: Disponible dans les statistiques
+          notifiable: Envoie une notification
           system: État original Decidim
           title: État de réponse
           token: Jeton d'identification
