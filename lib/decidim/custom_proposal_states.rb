@@ -31,7 +31,7 @@ module Decidim
     end
 
     config_accessor :deface_enabled do
-      ENV.fetch("DEFACE_ENABLED", nil) == "true"
+      ENV.fetch("DEFACE_ENABLED", nil) == "true" || Rails.env.test?
     end
 
     def self.module_installed?(mod)
