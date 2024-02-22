@@ -5,21 +5,21 @@ fr:
       filters:
         proposals:
           proposal_state_id_eq:
-            label: État
+            label: État de réponse
     components:
       custom_proposal_states:
-        name: États de proposition personnalisés
+        name: États des réponses
     custom_proposal_states:
       admin:
         proposal_states:
           edit:
             save: Sauvegarder
-            title: Modifier l'état
+            title: Modifier l'état de réponse
           index:
-            title: États
+            title: États des réponses
           new:
-            create: Créer
-            title: Nouvel état
+            create: Créer un état de réponse
+            title: Nouvel état de réponse
     events:
       custom_proposal_states:
         proposal_state_changed:
@@ -36,27 +36,33 @@ fr:
     proposals:
       actions:
         delete_proposal_state_confirm: Etes-vous sur de vouloir supprimer cet état?
-        destroy: Détruire
-        edit_proposal_state: Modifier l'état
-        new_proposal_state: Nouvel état
+        destroy: Supprimer
+        edit_proposal_state: Modifier l'état de réponse
+        new_proposal_state: Nouvel état de réponse
         title: Actions
       admin:
         proposal_states:
           create:
-            error: Erreur lors de la création d'état
-            success: État créé avec succès
+            error: Erreur lors de la création d'état de réponse
+            success: État de réponse créé avec succès
           destroy:
-            success: État supprimé avec succès
+            success: État de réponse supprimé avec succès
           update:
-            error: Erreur lors de la mise à jour de l'état
-            success: Etat mis à jour avec succès
+            error: Erreur lors de la mise à jour de l'état de réponse
+            success: État de réponse mis à jour avec succès
         proposals:
           bulk-actions:
-            statuses: États
+            statuses: États des réponses
       models:
         proposal_state:
+          announcement_title: Phrase de réponse à la proposition 
+          answerable: État choisisable
           css_class: Classe CSS
-          default: Par défaut
-          system: Système
-          title: État
-          token: Jeton
+          default: Assigné par défaut
+          description: Description
+          gamified: Ludifié
+          include_in_stats: Disponible dans les statistiques
+          notifiable: Envoie une notification
+          system: État original Decidim
+          title: État de réponse
+          token: Jeton d'identification

@@ -55,8 +55,14 @@ ro:
             statuses: Stări
       models:
         proposal_state:
+          announcement_title: Announcement title
+          answerable: Answerable
           css_class: CSS class
           default: Default
+          description: Description
+          gamified: Gamified
+          include_in_stats: Include in stats
+          notifiable: Notifiable
           system: System
           title: Stare
           token: Token
