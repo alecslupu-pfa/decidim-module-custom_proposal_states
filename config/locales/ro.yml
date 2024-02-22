@@ -1,0 +1,62 @@
+---
+ro:
+  decidim:
+    admin:
+      filters:
+        proposals:
+          proposal_state_id_eq:
+            label: Stare
+    components:
+      custom_proposal_states:
+        name: CustomProposalStates
+    custom_proposal_states:
+      admin:
+        proposal_states:
+          edit:
+            save: Actualizați
+            title: Actualizați starea
+          index:
+            title: Stări
+          new:
+            create: Creați
+            title: Stare nouă
+    events:
+      custom_proposal_states:
+        proposal_state_changed:
+          affected_user:
+            email_intro: 'Propunerea "%{resource_title}" și-a modificat starea în "%{state}". Puteți citi răspunsul în această pagină:'
+            email_outro: Ați primit această notificare deoarece sunteți autor al "%{resource_title}".
+            email_subject: Propunerea dvs. și-a modificat starea (%{state})
+            notification_title: Propunerea dumneavoastră <a href="%{resource_path}">%{resource_title}</a> și-a schimbat starea în "%{state}".
+          follower:
+            email_intro: 'Propunerea "%{resource_title}" și-a modificat starea în "%{state}". Puteți citi răspunsul în această pagină:'
+            email_outro: You have received this notification because you are following "%{resource_title}". You can unfollow it from the previous link.
+            email_subject: A proposal you are following has changed its state (%{state})
+            notification_title: The <a href="%{resource_path}">%{resource_title}</a> proposal has changed its state to "%{state}".
+    proposals:
+      actions:
+        delete_proposal_state_confirm: Are you sure you want to delete this state?
+        destroy: Destroy
+        edit_proposal_state: Editați starea
+        new_proposal_state: Stare nouă
+        title: Acțiuni
+      admin:
+        proposal_states:
+          create:
+            error: Eroare la crearea stării
+            success: State created successfully
+          destroy:
+            success: State deleted successfully
+          update:
+            error: Eroare la actualizarea stării
+            success: State updated successfully
+        proposals:
+          bulk-actions:
+            statuses: Stări
+      models:
+        proposal_state:
+          css_class: CSS class
+          default: Default
+          system: System
+          title: Stare
+          token: Token
