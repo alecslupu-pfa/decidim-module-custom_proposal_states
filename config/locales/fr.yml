@@ -5,53 +5,64 @@ fr:
       filters:
         proposals:
           proposal_state_id_eq:
-            label: State
+            label: État de réponse
     components:
       custom_proposal_states:
-        name: CustomProposalStates
+        name: États des réponses
     custom_proposal_states:
       admin:
         proposal_states:
           edit:
-            save: Save
-            title: Edit state
+            save: Sauvegarder
+            title: Modifier l'état de réponse
           index:
-            title: States
+            title: États des réponses
           new:
-            create: Create
-            title: New state
+            create: Créer un état de réponse
+            title: Nouvel état de réponse
     events:
       custom_proposal_states:
         proposal_state_changed:
           affected_user:
-            email_intro: 'The proposal "%{resource_title}" has changed its state to "%{state}". You can read the answer in this page:'
-            email_outro: You have received this notification because you are an author of "%{resource_title}".
-            email_subject: Your proposal has changed its state (%{state})
-            notification_title: Your proposal <a href="%{resource_path}">%{resource_title}</a> has changed its state to "%{state}".
+            email_intro: 'La proposition "%{resource_title}" a une nouvelle réponse: "%{state}". Pour en savoir plus:'
+            email_outro: Vous avez reçu cette notification parce que vous êtes l'auteur de "%{resource_title}".
+            email_subject: 'L''état de votre proposition a changé. L''état est désormais: (%{state})'
+            notification_title: L'état de votre proposition <a href="%{resource_path}">%{resource_title}</a> a été changé à %{state}.
+          follower:
+            email_intro: 'La proposition "%{resource_title}" a une nouvelle réponse: "%{state}". Pour en savoir plus:'
+            email_outro: Cette notification vous a été envoyée parce que vous suivez "%{resource_title}". Vous pouvez vous désabonner en cliquant sur le lien précédent.
+            email_subject: Une proposition que vous suivez a changé de statut (%{state})
+            notification_title: L'état de la proposition <a href="%{resource_path}">%{resource_title}</a> est passé à "%{state}".
     proposals:
       actions:
-        delete_proposal_state_confirm: Are you sure you want to delete this state?
-        destroy: Destroy
-        edit_proposal_state: Edit state
-        new_proposal_state: New state
+        delete_proposal_state_confirm: Etes-vous sur de vouloir supprimer cet état?
+        destroy: Supprimer
+        edit_proposal_state: Modifier l'état de réponse
+        new_proposal_state: Nouvel état de réponse
         title: Actions
       admin:
         proposal_states:
           create:
-            error: Error creating state
-            success: State created successfully
+            error: Erreur lors de la création d'état de réponse
+            success: État de réponse créé avec succès
           destroy:
-            success: State deleted successfully
+            success: État de réponse supprimé avec succès
           update:
-            error: Error updating state
-            success: State updated successfully
+            error: Erreur lors de la mise à jour de l'état de réponse
+            success: État de réponse mis à jour avec succès
         proposals:
           bulk-actions:
-            statuses: States
+            statuses: États des réponses
       models:
         proposal_state:
-          css_class: CSS class
-          default: Default
-          system: System
-          title: State
-          token: Token
+          announcement_title: Phrase de réponse à la proposition 
+          answerable: État choisisable
+          css_class: Classe CSS
+          default: Assigné par défaut
+          description: Description
+          gamified: Ludifié
+          include_in_stats: Disponible dans les statistiques
+          notifiable: Envoie une notification
+          system: État original Decidim
+          title: État de réponse
+          token: Jeton d'identification
