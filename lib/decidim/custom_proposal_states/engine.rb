@@ -19,7 +19,7 @@ module Decidim
 
       initializer "decidim_custom_proposal_states.views" do
         Rails.application.configure do
-          config.deface.enabled = true
+          config.deface.enabled = Decidim::CustomProposalStates.deface_enabled
         end
       end
 

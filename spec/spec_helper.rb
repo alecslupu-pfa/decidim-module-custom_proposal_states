@@ -11,7 +11,7 @@ require "decidim/dev/test/base_spec_helper"
 require "decidim/comments/test"
 
 engine_spec_dir = File.join(Dir.pwd, "spec")
-Dir["#{engine_spec_dir}/proposals/shared/**/*.rb"].sort.each { |f| require f }
+Dir["#{engine_spec_dir}/proposals/shared/**/*.rb"].each { |f| require f }
 
 RSpec.configure do |config|
   config.backtrace_exclusion_patterns = [

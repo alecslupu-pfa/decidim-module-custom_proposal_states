@@ -8,6 +8,8 @@ module Decidim
   # This namespace holds the logic of the `CustomProposalStates` component. This component
   # allows users to create custom_proposal_states in a participatory space.
   module CustomProposalStates
+    include ActiveSupport::Configurable
+
     module Overrides
       autoload :Proposal, "decidim/custom_proposal_states/overrides/proposal"
       autoload :ImportProposalsToBudgets, "decidim/custom_proposal_states/overrides/import_proposals_to_budgets"
@@ -26,6 +28,10 @@ module Decidim
       autoload :ProposalCellsHelper, "decidim/custom_proposal_states/overrides/proposal_cells_helper"
       autoload :ProposalsController, "decidim/custom_proposal_states/overrides/proposals_controller"
       autoload :ProposalSearch, "decidim/custom_proposal_states/overrides/proposal_search"
+    end
+
+    config_accessor :deface_enabled do
+      ENV.fetch("DEFACE_ENABLED", nil) == "true" || Rails.env.test?
     end
 
     def self.module_installed?(mod)
