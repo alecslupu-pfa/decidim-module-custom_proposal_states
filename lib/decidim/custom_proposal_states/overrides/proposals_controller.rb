@@ -20,7 +20,10 @@ module Decidim
             end
 
             def default_states
-              Decidim::CustomProposalStates::ProposalState.where(component: current_component).pluck(:token).map(&:to_s)
+              [
+                Decidim::CustomProposalStates::ProposalState.where(component: current_component).where.not(token: :not_answered).pluck(:token).map(&:to_s),
+                %w(state_not_published)
+              ].flatten
             end
           end
         end
