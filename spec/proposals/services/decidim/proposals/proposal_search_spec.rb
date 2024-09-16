@@ -3,166 +3,178 @@
 require "spec_helper"
 
 module Decidim
-  module Proposals
-    describe ProposalSearch do
-      subject { described_class.new(params).results }
+  describe Search do
+    subject { described_class.new(params) }
 
-      let(:component) { create(:extended_proposal_component) }
-      let(:default_params) { { component: component, user: user } }
-      let(:params) { default_params }
-      let(:participatory_process) { component.participatory_space }
-      let(:user) { create(:user, organization: component.organization) }
+    include_context "when a resource is ready for global search"
 
-      it_behaves_like "a resource search", :extended_proposal
-      it_behaves_like "a resource search with scopes", :extended_proposal
-      it_behaves_like "a resource search with categories", :extended_proposal
-      it_behaves_like "a resource search with origin", :extended_proposal
+    let(:participatory_space) { create(:participatory_process, :published, :with_steps, organization: organization) }
+    let(:current_component) { create :extended_proposal_component, organization: organization, participatory_space: participatory_space }
+    let!(:proposal) do
+      create(
+        :proposal,
+        :draft,
+        skip_injection: true,
+        component: current_component,
+        scope: scope1,
+        body: description1,
+        users: [author]
+      )
+    end
 
-      describe "results" do
-        let!(:proposal) { create(:extended_proposal, component: component) }
+    describe "Indexing of proposals" do
+      context "when implementing Searchable" do
+        context "when on create" do
+          context "when proposals are NOT official" do
+            let(:proposal2) do
+              create(:proposal, skip_injection: true, component: current_component)
+            end
 
-        describe "search_text filter" do
-          let(:params) { default_params.merge(search_text: search_text) }
-          let(:search_text) { "dog" }
-
-          it "returns the proposals containing the search in the title or the body" do
-            create_list(:extended_proposal, 3, component: component)
-            create(:extended_proposal, title: "A dog", component: component)
-            create(:extended_proposal, body: "There is a dog in the office", component: component)
-
-            expect(subject.size).to eq(2)
-          end
-        end
-
-        describe "activity filter" do
-          let(:params) { default_params.merge(activity: activity) }
-
-          context "when filtering by supported" do
-            let(:activity) { "voted" }
-
-            it "returns the proposals voted by the user" do
-              create_list(:extended_proposal, 3, component: component)
-              create(:proposal_vote, proposal: Proposal.first, author: user)
-
-              expect(subject.size).to eq(1)
+            it "does not index a SearchableResource after Proposal creation when it is not official" do
+              searchables = SearchableResource.where(resource_type: proposal.class.name, resource_id: [proposal.id, proposal2.id])
+              expect(searchables).to be_empty
             end
           end
 
-          context "when filtering by my proposals" do
-            let(:activity) { "my_proposals" }
+          context "when proposals ARE official" do
+            let(:author) { organization }
 
-            it "returns the proposals created by the user" do
-              create_list(:extended_proposal, 3, component: component)
-              create(:extended_proposal, component: component, users: [user])
+            before do
+              proposal.update(published_at: Time.current)
+            end
 
-              expect(subject.size).to eq(1)
+            it "does indexes a SearchableResource after Proposal creation when it is official" do
+              organization.available_locales.each do |locale|
+                searchable = SearchableResource.find_by(resource_type: proposal.class.name, resource_id: proposal.id, locale: locale)
+                expect_searchable_resource_to_correspond_to_proposal(searchable, proposal, locale)
+              end
             end
           end
         end
 
-        describe "state filter" do
-          let(:params) { default_params.merge(state: states) }
-
-          context "when filtering for default states" do
-            let(:states) { [] }
-
-            it "returns all except withdrawn proposals" do
-              create_list(:extended_proposal, 3, :withdrawn, component: component)
-              other_proposals = create_list(:extended_proposal, 3, component: component)
-              other_proposals << proposal
-
-              expect(subject.size).to eq(4)
-              expect(subject).to match_array(other_proposals)
+        context "when on update" do
+          context "when it is NOT published" do
+            it "does not index a SearchableResource when Proposal changes but is not published" do
+              searchables = SearchableResource.where(resource_type: proposal.class.name, resource_id: proposal.id)
+              expect(searchables).to be_empty
             end
           end
 
-          context "when filtering :except_rejected proposals" do
-            let(:states) { %w(accepted evaluating state_not_published) }
-
-            it "hides withdrawn and rejected proposals" do
-              create(:extended_proposal, :withdrawn, component: component)
-              create(:extended_proposal, :rejected, component: component)
-              accepted_proposal = create(:extended_proposal, :accepted, component: component)
-
-              expect(subject.size).to eq(2)
-              expect(subject).to match_array([accepted_proposal, proposal])
+          context "when it IS published" do
+            before do
+              proposal.update published_at: Time.current
             end
-          end
 
-          context "when filtering accepted proposals" do
-            let(:states) { %w(accepted) }
-
-            it "returns only accepted proposals" do
-              accepted_proposals = create_list(:extended_proposal, 3, :accepted, component: component)
-              create_list(:extended_proposal, 3, component: component)
-
-              expect(subject.size).to eq(3)
-              expect(subject).to match_array(accepted_proposals)
+            it "inserts a SearchableResource after Proposal is published" do
+              organization.available_locales.each do |locale|
+                searchable = SearchableResource.find_by(resource_type: proposal.class.name, resource_id: proposal.id, locale: locale)
+                expect_searchable_resource_to_correspond_to_proposal(searchable, proposal, locale)
+              end
             end
-          end
 
-          context "when filtering rejected proposals" do
-            let(:states) { %w(rejected) }
+            it "updates the associated SearchableResource after published Proposal update" do
+              searchable = SearchableResource.find_by(resource_type: proposal.class.name, resource_id: proposal.id)
+              created_at = searchable.created_at
+              updated_title = { "en" => "Brand new title", "machine_translations" => {} }
+              proposal.update(title: updated_title)
 
-            it "returns only rejected proposals" do
-              create_list(:extended_proposal, 3, component: component)
-              rejected_proposals = create_list(:extended_proposal, 3, :rejected, component: component)
+              proposal.save!
+              searchable.reload
 
-              expect(subject.size).to eq(3)
-              expect(subject).to match_array(rejected_proposals)
+              organization.available_locales.each do |locale|
+                searchable = SearchableResource.find_by(resource_type: proposal.class.name, resource_id: proposal.id, locale: locale)
+                expect(searchable.content_a).to eq updated_title[locale.to_s].to_s
+                expect(searchable.updated_at).to be > created_at
+              end
             end
-          end
 
-          context "when filtering withdrawn proposals" do
-            let(:params) { default_params.merge(state_withdraw: state_withdraw) }
-            let(:state_withdraw) { "withdrawn" }
+            it "removes the associated SearchableResource after unpublishing a published Proposal on update" do
+              proposal.update(published_at: nil)
 
-            it "returns only withdrawn proposals" do
-              create_list(:extended_proposal, 3, component: component)
-              withdrawn_proposals = create_list(:extended_proposal, 3, :withdrawn, component: component)
-
-              expect(subject.size).to eq(3)
-              expect(subject).to match_array(withdrawn_proposals)
+              searchables = SearchableResource.where(resource_type: proposal.class.name, resource_id: proposal.id)
+              expect(searchables).to be_empty
             end
           end
         end
 
-        describe "related_to filter" do
-          let(:params) { default_params.merge(related_to: related_to) }
+        context "when on destroy" do
+          it "destroys the associated SearchableResource after Proposal destroy" do
+            proposal.destroy
 
-          context "when filtering by related to meetings" do
-            let(:related_to) { "Decidim::Meetings::Meeting".underscore }
-            let(:meetings_component) { create(:component, manifest_name: "meetings", participatory_space: participatory_process) }
-            let(:meeting) { create :meeting, component: meetings_component }
+            searchables = SearchableResource.where(resource_type: proposal.class.name, resource_id: proposal.id)
 
-            it "returns only proposals related to meetings" do
-              related_proposal = create(:extended_proposal, :accepted, component: component)
-              related_proposal2 = create(:extended_proposal, :accepted, component: component)
-              create_list(:extended_proposal, 3, component: component)
-              meeting.link_resources([related_proposal], "proposals_from_meeting")
-              related_proposal2.link_resources([meeting], "proposals_from_meeting")
-
-              expect(subject).to match_array([related_proposal, related_proposal2])
-            end
-          end
-
-          context "when filtering by related to resources" do
-            let(:related_to) { "Decidim::DummyResources::DummyResource".underscore }
-            let(:dummy_component) { create(:component, manifest_name: "dummy", participatory_space: participatory_process) }
-            let(:dummy_resource) { create :dummy_resource, component: dummy_component }
-
-            it "returns only proposals related to results" do
-              related_proposal = create(:extended_proposal, :accepted, component: component)
-              related_proposal2 = create(:extended_proposal, :accepted, component: component)
-              create_list(:extended_proposal, 3, component: component)
-              dummy_resource.link_resources([related_proposal], "included_proposals")
-              related_proposal2.link_resources([dummy_resource], "included_proposals")
-
-              expect(subject).to match_array([related_proposal, related_proposal2])
-            end
+            expect(searchables.any?).to be false
           end
         end
       end
+    end
+
+    describe "Search" do
+      context "when searching by Proposal resource_type" do
+        let!(:proposal2) do
+          create(
+            :proposal,
+            component: current_component,
+            scope: scope1,
+            title: Decidim::Faker.name,
+            body: "Chewie, I'll be waiting for your signal. Take care, you two. May the Force be with you. Ow!"
+          )
+        end
+
+        before do
+          proposal.update(published_at: Time.current)
+          proposal2.update(published_at: Time.current)
+        end
+
+        it "returns Proposal results" do
+          Decidim::Search.call("Ow", organization, resource_type: proposal.class.name) do
+            on(:ok) do |results_by_type|
+              results = results_by_type[proposal.class.name]
+              expect(results[:count]).to eq 2
+              expect(results[:results]).to match_array [proposal, proposal2]
+            end
+            on(:invalid) { raise("Should not happen") }
+          end
+        end
+
+        it "allows searching by prefix characters" do
+          Decidim::Search.call("wait", organization, resource_type: proposal.class.name) do
+            on(:ok) do |results_by_type|
+              results = results_by_type[proposal.class.name]
+              expect(results[:count]).to eq 1
+              expect(results[:results]).to eq [proposal2]
+            end
+            on(:invalid) { raise("Should not happen") }
+          end
+        end
+      end
+    end
+
+    private
+
+    def expect_searchable_resource_to_correspond_to_proposal(searchable, proposal, locale)
+      attrs = searchable.attributes.clone
+      attrs.delete("id")
+      attrs.delete("created_at")
+      attrs.delete("updated_at")
+      expect(attrs.delete("datetime").to_s(:short)).to eq(proposal.published_at.to_s(:short))
+      expect(attrs).to eq(expected_searchable_resource_attrs(proposal, locale))
+    end
+
+    def expected_searchable_resource_attrs(proposal, locale)
+      {
+        "content_a" => I18n.transliterate(translated(proposal.title, locale: locale)),
+        "content_b" => "",
+        "content_c" => "",
+        "content_d" => I18n.transliterate(translated(proposal.body, locale: locale)),
+        "locale" => locale,
+        "decidim_organization_id" => proposal.component.organization.id,
+        "decidim_participatory_space_id" => current_component.participatory_space_id,
+        "decidim_participatory_space_type" => current_component.participatory_space_type,
+        "decidim_scope_id" => proposal.decidim_scope_id,
+        "resource_id" => proposal.id,
+        "resource_type" => "Decidim::Proposals::Proposal"
+      }
     end
   end
 end

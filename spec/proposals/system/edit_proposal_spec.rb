@@ -50,8 +50,8 @@ describe "Edit proposals", type: :system do
 
     context "with attachments allowed" do
       let(:component) { create(:extended_proposal_component, :with_attachments_allowed, participatory_space: participatory_process) }
-      let!(:file) { create(:attachment, :with_pdf, attached_to: proposal) }
-      let!(:photo) { create(:attachment, :with_image, attached_to: proposal) }
+      let!(:file) { create(:attachment, :with_pdf, weight: 1, attached_to: proposal) }
+      let!(:photo) { create(:attachment, :with_image, weight: 0, attached_to: proposal) }
 
       it "can delete attachments" do
         visit_component
@@ -60,12 +60,16 @@ describe "Edit proposals", type: :system do
         expect(page).to have_content("RELATED IMAGES")
         click_link "Edit proposal"
 
-        within "#attachment_#{file.id}" do
-          click_button "Delete Document"
+        click_button "Edit documents"
+        within ".upload-modal" do
+          find("button.remove-upload-item").click
+          click_button "Save"
         end
 
-        within "#attachment_#{photo.id}" do
-          click_button "Delete Image"
+        click_button "Edit image"
+        within ".upload-modal" do
+          find("button.remove-upload-item").click
+          click_button "Save"
         end
 
         click_button "Send"
@@ -156,7 +160,7 @@ describe "Edit proposals", type: :system do
           click_button "Send"
         end
 
-        expect(page).to have_content("At least 15 characters", count: 2)
+        expect(page).to have_content("At least 15 characters", count: 4)
 
         within "form.edit_proposal" do
           fill_in :proposal_body, with: "WE DO NOT WANT TO SHOUT IN THE PROPOSAL BODY TEXT!"

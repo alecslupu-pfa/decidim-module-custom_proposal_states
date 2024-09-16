@@ -3,7 +3,7 @@
 module Decidim
   module CustomProposalStates
     module Admin
-      class DestroyProposalState < Rectify::Command
+      class DestroyProposalState < Decidim::Command
         # Initializes an UpdateResult Command.
         #
         # result - The current instance of the result to be destroyed.

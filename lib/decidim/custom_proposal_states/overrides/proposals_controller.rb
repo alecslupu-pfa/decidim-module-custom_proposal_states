@@ -8,12 +8,12 @@ module Decidim
           base.class_eval do
             def default_filter_params
               {
-                search_text: "",
-                state: default_states,
-                origin: default_filter_origin_params,
+                search_text_cont: "",
+                with_any_state: default_states,
+                with_any_origin: default_filter_origin_params,
                 activity: "all",
-                category_id: default_filter_category_params,
-                scope_id: default_filter_scope_params,
+                with_any_category: default_filter_category_params,
+                with_any_scope: default_filter_scope_params,
                 related_to: "",
                 type: "all"
               }
@@ -21,8 +21,8 @@ module Decidim
 
             def default_states
               [
-                Decidim::CustomProposalStates::ProposalState.not_system.where(component: current_component).pluck(:token).map(&:to_s),
-                %w(accepted evaluating state_not_published)
+                Decidim::CustomProposalStates::ProposalState.where(component: current_component).where.not(token: :not_answered).pluck(:token).map(&:to_s),
+                %w(state_not_published)
               ].flatten
             end
           end

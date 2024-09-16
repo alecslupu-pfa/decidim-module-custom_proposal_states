@@ -17,7 +17,7 @@ module Decidim
         true
       end
 
-      def default_i18n_options
+      def i18n_options
         super.merge({ state: state })
       end
 

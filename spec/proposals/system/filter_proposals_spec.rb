@@ -51,7 +51,7 @@ describe "Filter Proposals", :slow, type: :system do
                                                     component: component, scope: scope)
           visit_component
 
-          within ".filters .state_check_boxes_tree_filter" do
+          within ".filters .with_any_state_check_boxes_tree_filter" do
             check "All"
             uncheck "All"
             check "Custom state"
@@ -69,7 +69,7 @@ describe "Filter Proposals", :slow, type: :system do
           create(:extended_proposal, :accepted, component: component, scope: scope)
           visit_component
 
-          within ".filters .state_check_boxes_tree_filter" do
+          within ".filters .with_any_state_check_boxes_tree_filter" do
             check "All"
             uncheck "All"
             check "Accepted"
@@ -87,7 +87,7 @@ describe "Filter Proposals", :slow, type: :system do
           create(:extended_proposal, :rejected, component: component, scope: scope)
           visit_component
 
-          within ".filters .state_check_boxes_tree_filter" do
+          within ".filters .with_any_state_check_boxes_tree_filter" do
             check "All"
             uncheck "All"
             check "Rejected"
@@ -111,7 +111,7 @@ describe "Filter Proposals", :slow, type: :system do
           end
 
           it "shows only accepted proposals with published answers" do
-            within ".filters .state_check_boxes_tree_filter" do
+            within ".filters .with_any_state_check_boxes_tree_filter" do
               check "All"
               uncheck "All"
               check "Accepted"
@@ -126,7 +126,7 @@ describe "Filter Proposals", :slow, type: :system do
           end
 
           it "shows accepted proposals with not published answers as not answered" do
-            within ".filters .state_check_boxes_tree_filter" do
+            within ".filters .with_any_state_check_boxes_tree_filter" do
               check "All"
               uncheck "All"
               check "Not answered"

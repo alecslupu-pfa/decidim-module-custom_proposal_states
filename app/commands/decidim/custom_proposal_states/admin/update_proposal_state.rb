@@ -3,7 +3,7 @@
 module Decidim
   module CustomProposalStates
     module Admin
-      class UpdateProposalState < Rectify::Command
+      class UpdateProposalState < Decidim::Command
         include TranslatableAttributes
 
         def initialize(form, state)

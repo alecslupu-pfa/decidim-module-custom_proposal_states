@@ -4,6 +4,8 @@ module Decidim
   module CustomProposalStates
     module Overrides
       module Proposal
+        # rubocop:disable Metrics/CyclomaticComplexity
+        # rubocop:disable Metrics/PerceivedComplexity
         def self.prepended(base)
           base.class_eval do
             before_create :set_default_state
@@ -41,6 +43,29 @@ module Decidim
             scope :withdrawn, -> { joins(:proposal_state).where(decidim_proposals_proposal_states: { token: :withdrawn }) }
             scope :except_withdrawn, -> { joins(:proposal_state).where.not(decidim_proposals_proposal_states: { token: :withdrawn }) }
 
+            scope :with_any_state, lambda { |*value_keys|
+              possible_scopes = [:state_not_published, :state_published]
+              custom_states = Decidim::CustomProposalStates::ProposalState.distinct.pluck(:token)
+
+              search_values = value_keys.compact.compact_blank
+
+              conditions = possible_scopes.map do |scope|
+                search_values.member?(scope.to_s) ? try(scope) : nil
+              end.compact
+
+              additional_conditions = search_values & custom_states
+              conditions.push(state_published.only_status(additional_conditions)) if additional_conditions.any?
+
+              return self unless conditions.any?
+
+              scoped_query = where(id: conditions.shift)
+              conditions.each do |condition|
+                scoped_query = scoped_query.or(where(id: condition))
+              end
+
+              scoped_query
+            }
+
             def set_default_state
               return if proposal_state.present?
 
@@ -75,6 +100,8 @@ module Decidim
             end
           end
         end
+        # rubocop:enable Metrics/CyclomaticComplexity
+        # rubocop:enable Metrics/PerceivedComplexity
       end
     end
   end
