@@ -1,5 +1,18 @@
 ---
 en:
+  activemodel:
+    attributes:
+      proposal_state:
+        announcement_title: Announcement title
+        answerable: Answerable
+        css_class: CSS Classes
+        default: Default
+        description: Description
+        gamified: Gamified
+        notifiable: Notifiable
+        system: System
+        title: Title
+        token: Token
   decidim:
     admin:
       filters:
