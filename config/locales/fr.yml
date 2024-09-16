@@ -1,5 +1,18 @@
 ---
 fr:
+  activemodel:
+    attributes:
+      proposal_state:
+        announcement_title: Phrase de réponse à la proposition
+        answerable: État choisisable
+        css_class: CSS Classes
+        default: Assigné par défaut
+        description: Description
+        gamified: Ludifié
+        notifiable: Envoie une notification
+        system: État original Decidim
+        title: Title
+        token: Jeton d'identification
   decidim:
     admin:
       filters:
@@ -55,7 +68,7 @@ fr:
             statuses: États des réponses
       models:
         proposal_state:
-          announcement_title: Phrase de réponse à la proposition 
+          announcement_title: Phrase de réponse à la proposition
           answerable: État choisisable
           css_class: Classe CSS
           default: Assigné par défaut
