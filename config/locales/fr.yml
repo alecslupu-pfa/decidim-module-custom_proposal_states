@@ -3,7 +3,7 @@ fr:
   activemodel:
     attributes:
       proposal_state:
-        announcement_title: Phrase de réponse à la proposition 
+        announcement_title: Phrase de réponse à la proposition
         answerable: État choisisable
         css_class: CSS Classes
         default: Assigné par défaut
@@ -68,7 +68,7 @@ fr:
             statuses: États des réponses
       models:
         proposal_state:
-          announcement_title: Phrase de réponse à la proposition 
+          announcement_title: Phrase de réponse à la proposition
           answerable: État choisisable
           css_class: Classe CSS
           default: Assigné par défaut
