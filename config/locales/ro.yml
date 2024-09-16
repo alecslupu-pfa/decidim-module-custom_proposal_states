@@ -1,5 +1,18 @@
 ---
 ro:
+  activemodel:
+    attributes:
+      proposal_state:
+        announcement_title: Titlul anunțului
+        answerable: Stare la care se poate răspunde
+        css_class: Clase CSS
+        default: Implicit
+        description: Descriere
+        gamified: Gamificat
+        notifiable: Notificabilă
+        system: Sistem
+        title: Titlu
+        token: Token
   decidim:
     admin:
       filters:
@@ -8,7 +21,7 @@ ro:
             label: Stare
     components:
       custom_proposal_states:
-        name: CustomProposalStates
+        name: Stări personalizate pentru propuneri
     custom_proposal_states:
       admin:
         proposal_states:
@@ -30,13 +43,13 @@ ro:
             notification_title: Propunerea dumneavoastră <a href="%{resource_path}">%{resource_title}</a> și-a schimbat starea în "%{state}".
           follower:
             email_intro: 'Propunerea "%{resource_title}" și-a modificat starea în "%{state}". Puteți citi răspunsul în această pagină:'
-            email_outro: You have received this notification because you are following "%{resource_title}". You can unfollow it from the previous link.
-            email_subject: A proposal you are following has changed its state (%{state})
-            notification_title: The <a href="%{resource_path}">%{resource_title}</a> proposal has changed its state to "%{state}".
+            email_outro: Ați primit această notificare deoarece urmăriți "%{resource_title}". Puteți opri urmărirea de la linkul anterior.
+            email_subject: O propunere pe care o urmăriți și-a modificat starea (%{state})
+            notification_title: Propunerea <a href="%{resource_path}">%{resource_title}</a> și-a modificat starea în "%{state}".
     proposals:
       actions:
-        delete_proposal_state_confirm: Are you sure you want to delete this state?
-        destroy: Destroy
+        delete_proposal_state_confirm: Sunteți sigur că doriți să ștergeți această stare?
+        destroy: Ștergeți
         edit_proposal_state: Editați starea
         new_proposal_state: Stare nouă
         title: Acțiuni
@@ -44,25 +57,25 @@ ro:
         proposal_states:
           create:
             error: Eroare la crearea stării
-            success: State created successfully
+            success: Stare creată cu succes
           destroy:
-            success: State deleted successfully
+            success: Stare ștearsă cu succes
           update:
             error: Eroare la actualizarea stării
-            success: State updated successfully
+            success: Stare actualizată cu succes
         proposals:
           bulk-actions:
             statuses: Stări
       models:
         proposal_state:
-          announcement_title: Announcement title
-          answerable: Answerable
-          css_class: CSS class
-          default: Default
-          description: Description
-          gamified: Gamified
-          include_in_stats: Include in stats
-          notifiable: Notifiable
-          system: System
+          announcement_title: Titlul anunțului
+          answerable: Stare la care se poate răspunde
+          css_class: Clase CSS
+          default: Implicit
+          description: Descriere
+          gamified: Gamificat
+          include_in_stats: Includeți în statistici
+          notifiable: Notificabilă
+          system: Sistem
           title: Stare
           token: Token
