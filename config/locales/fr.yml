@@ -5,13 +5,13 @@ fr:
       proposal_state:
         announcement_title: Phrase de réponse à la proposition
         answerable: État choisisable
-        css_class: CSS Classes
+        css_class: Les classes CSS
         default: Assigné par défaut
         description: Description
         gamified: Ludifié
         notifiable: Envoie une notification
         system: État original Decidim
-        title: Title
+        title: Titre
         token: Jeton d'identification
   decidim:
     admin:
