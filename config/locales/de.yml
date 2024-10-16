@@ -5,20 +5,20 @@ de:
       proposal_state:
         announcement_title: Announcement title
         answerable: Answerable
-        css_class: CSS Classes
+        css_class: CSS-Klassen
         default: Default
         description: Description
         gamified: Gamified
         notifiable: Notifiable
         system: System
-        title: Title
+        title: Titel
         token: Token
   decidim:
     admin:
       filters:
         proposals:
           proposal_state_id_eq:
-            label: State
+            label: Stand
     components:
       custom_proposal_states:
         name: CustomProposalStates
@@ -77,5 +77,5 @@ de:
           include_in_stats: Include in stats
           notifiable: Notifiable
           system: System
-          title: State
+          title: Stand
           token: Token
