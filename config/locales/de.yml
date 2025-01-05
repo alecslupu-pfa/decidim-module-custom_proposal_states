@@ -3,13 +3,13 @@ de:
   activemodel:
     attributes:
       proposal_state:
-        announcement_title: Announcement title
-        answerable: Answerable
+        announcement_title: Ankündigungstitel
+        answerable: Beantwortbar
         css_class: CSS-Klassen
-        default: Default
-        description: Description
-        gamified: Gamified
-        notifiable: Notifiable
+        default: Standard
+        description: Beschreibung
+        gamified: Gamifiziert
+        notifiable: Benachrichtigbar
         system: System
         title: Titel
         token: Token
@@ -21,61 +21,61 @@ de:
             label: Stand
     components:
       custom_proposal_states:
-        name: CustomProposalStates
+        name: Benutzerdefinierte Vorschlag Status
     custom_proposal_states:
       admin:
         proposal_states:
           edit:
-            save: Save
-            title: Edit state
+            save: Speichern
+            title: Status bearbeiten
           index:
-            title: States
+            title: Status
           new:
-            create: Create
-            title: New state
+            create: Erstellen
+            title: Neuer Status
     events:
       custom_proposal_states:
         proposal_state_changed:
           affected_user:
-            email_intro: 'The proposal "%{resource_title}" has changed its state to "%{state}". You can read the answer in this page:'
-            email_outro: You have received this notification because you are an author of "%{resource_title}".
-            email_subject: Your proposal has changed its state (%{state})
-            notification_title: Your proposal <a href="%{resource_path}">%{resource_title}</a> has changed its state to "%{state}".
+            email_intro: 'Der Status des Vorschlags "%{resource_title}" wurde zu "%{state}" geändert. Sie können die Antwort auf dieser Seite lesen:'
+            email_outro: Sie haben diese Benachrichtigung erhalten, weil Sie Autor von „%{resource_title}“ sind.
+            email_subject: Der Status Ihres Vorschlags hat sich geändert (%{state})
+            notification_title: Der Status Ihres Vorschlags <a href="%{resource_path}">%{resource_title}</a> hat sich zu "%{state}" geändert.
           follower:
-            email_intro: 'The proposal "%{resource_title}" has changed its state to "%{state}". You can read the answer in this page:'
-            email_outro: You have received this notification because you are following "%{resource_title}". You can unfollow it from the previous link.
-            email_subject: A proposal you are following has changed its state (%{state})
-            notification_title: The <a href="%{resource_path}">%{resource_title}</a> proposal has changed its state to "%{state}".
+            email_intro: 'Der Status des Vorschlags "%{resource_title}" wurde zu "%{state}" geändert. Sie können die Antwort auf dieser Seite lesen:'
+            email_outro: Sie haben diese Benachrichtigung erhalten, weil Sie „%{resource_title}“ folgen. Sie können dies über den vorherigen Link abbestellen.
+            email_subject: Der Status eines Vorschlags, dem Sie folgen, hat sich geändert (%{state})
+            notification_title: Der Status des Vorschlags <a href="%{resource_path}">%{resource_title}</a> hat sich zu "%{state}" geändert.
     proposals:
       actions:
-        delete_proposal_state_confirm: Are you sure you want to delete this state?
-        destroy: Destroy
-        edit_proposal_state: Edit state
-        new_proposal_state: New state
-        title: Actions
+        delete_proposal_state_confirm: Möchten Sie diesen Status wirklich löschen?
+        destroy: Löschen
+        edit_proposal_state: Status bearbeiten
+        new_proposal_state: Neuer Status
+        title: Aktionen
       admin:
         proposal_states:
           create:
-            error: Error creating state
-            success: State created successfully
+            error: Fehler beim Erstellen des Status
+            success: Status erfolgreich erstellt
           destroy:
-            success: State deleted successfully
+            success: Status erfolgreich gelöscht
           update:
-            error: Error updating state
-            success: State updated successfully
+            error: Fehler beim Aktualisieren des Status
+            success: Status erfolgreich aktualisiert
         proposals:
           bulk-actions:
-            statuses: States
+            statuses: Status
       models:
         proposal_state:
-          announcement_title: Announcement title
-          answerable: Answerable
-          css_class: CSS class
-          default: Default
-          description: Description
-          gamified: Gamified
-          include_in_stats: Include in stats
-          notifiable: Notifiable
+          announcement_title: Ankündigungstitel
+          answerable: Beantwortbar
+          css_class: CSS-Klasse
+          default: Standard
+          description: Beschreibung
+          gamified: Gamifiziert
+          include_in_stats: In Statistiken einbeziehen
+          notifiable: Benachrichtigbar
           system: System
           title: Stand
           token: Token
